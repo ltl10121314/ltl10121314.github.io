@@ -1,37 +1,299 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>Git | 云起迎风燕</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Git</h1><a id="logo" href="/.">云起迎风燕</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/archives/"><i class="fa fa-archive"> Archive</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Git</h1><div class="post-meta">2021-08-11<span> | </span><span class="category"><a href="/categories/Git/">Git</a></span></div><div class="post-content"><h1 id="1-Git概述"><a href="#1-Git概述" class="headerlink" title="1.Git概述"></a>1.Git概述</h1><p>官方网站：<a target="_blank" rel="noopener" href="https://git-scm.com/">https://git-scm.com</a></p>
+<p><strong>什么是版本控制</strong></p>
+<p>版本控制是一种记录一个或若干文件内容变化，以便将来查阅特定版本修订情况的系统。 </p>
+<p>有了它你就可以将某个文件回溯到之前的状态，甚至将整个项目都回退到过去某个时间点的状态，你可以比较文件的变化细节，查出最后是谁修改了哪个地方，从而找出导致怪异问题出现的原因，又是谁在何时报告了某个功能缺陷等等。 使用版本控制系统通常还意味着，就算你乱来一气把整个项目中的文件改的改删的删，你也照样可以轻松恢复到原先的样子。 但额外增加的工作量却微乎其微。</p>
+<img src="http://ww3.sinaimg.cn/large/006tNc79gy1g4strc9h4ej30xi0su75g.jpg" width=500 />
+
+<p><strong>集中化版本控制</strong></p>
+<img src="http://ww3.sinaimg.cn/large/006tNc79gy1g4sts9fhhpj310y0pwmys.jpg" width=500 />
+
+<p><strong>分布式版本控制</strong></p>
+<img src="http://ww2.sinaimg.cn/large/006tNc79gy1g4sttag31gj30qy0wk75t.jpg" width=500 />
+
+<p>Git系统是一个分布式的系统，是用来保存工程源代码历史状态的命令行工具</p>
+<p><strong>Git、GitHub与GitLab</strong></p>
+<ul>
+<li>Git是一个版本管理软件</li>
+<li>GitHub与GitLab都是用于管理版本的服务端软件</li>
+<li>GitHub提供免费服务(代码需公开)</li>
+<li>GitLab用于在企业内部管理Git版本库，功能上类似于GitHub</li>
+</ul>
+<p><strong>Git设计目标</strong></p>
+<ul>
+<li>快速</li>
+<li>简单</li>
+<li>完全分布</li>
+<li>高效存储</li>
+<li>满足大规模项目需要</li>
+</ul>
+<p><strong>为什么要是用Git</strong></p>
+<ul>
+<li>本地建立版本库</li>
+<li>本地版本控制</li>
+<li>多机异地协同工作</li>
+<li>更好用的提交列表</li>
+<li>更好的差异比较</li>
+<li>更完善的分支系统</li>
+<li>速度极快</li>
+</ul>
+<p><strong>Git工作模式</strong></p>
+<img src="http://ww2.sinaimg.cn/large/006tNc79gy1g4stnipuwqj30fw0bfabb.jpg" width=500 />
+
+<p><strong>Git文件存储</strong></p>
+<img src="http://ww2.sinaimg.cn/large/006tNc79gy1g4stwszqlbj31160f2tc3.jpg" width=600 />
+
+<p>​                                                                                    <strong>集中式</strong></p>
+<img src="http://ww2.sinaimg.cn/large/006tNc79gy1g4stv8mpl6j311c0eijsm.jpg" width=600 />
+
+<p>​                                                                                    <strong>分布式</strong></p>
+<p><strong>Git与其他版本控制工具不同的地方</strong></p>
+<ul>
+<li>直接记录快照，而非差异比较</li>
+<li>近乎所有操作都在本地执行</li>
+<li>时刻保持数据完整性</li>
+<li>多数操作仅添加数据</li>
+</ul>
+<h1 id="2-Git基础"><a href="#2-Git基础" class="headerlink" title="2.Git基础"></a>2.Git基础</h1><h2 id="2-1-初次运行Git前的配置"><a href="#2-1-初次运行Git前的配置" class="headerlink" title="2.1 初次运行Git前的配置"></a>2.1 初次运行Git前的配置</h2><p>Git 自带一个 <code>git config</code> 的工具来帮助设置控制 Git 外观和行为的配置变量。 这些变量存储在三个不同的位置：</p>
+<ol>
+<li><code>/etc/gitconfig</code> 文件: 包含系统上每一个用户及他们仓库的通用配置。 如果使用带有 <code>--system</code>选项的 <code>git config</code> 时，它会从此文件读写配置变量</li>
+<li><code>~/.gitconfig</code> 或 <code>~/.config/git/config</code> 文件：只针对当前用户。 可以传递 <code>--global</code> 选项让 Git 读写此文件</li>
+<li>当前使用仓库的 Git 目录中的 <code>config</code> 文件(就是 <code>.git/config</code>): 针对该仓库</li>
+</ol>
+<p><strong>配置用户名称和邮件地址</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;John Doe&quot;</span><br><span class="line">git config --global user.email johndoe@example.com</span><br></pre></td></tr></table></figure>
+
+<p><strong>检查配置信息</strong></p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --list</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-文件状态"><a href="#2-2-文件状态" class="headerlink" title="2.2 文件状态"></a>2.2 文件状态</h2><p><strong><font color=red>文件的三种状态</font></strong></p>
+<ul>
+<li>已修改(modified)</li>
+<li>已暂存(staged)</li>
+<li>已提交(committed)</li>
+</ul>
+<img src="http://ww2.sinaimg.cn/large/006tNc79gy1g4su3goiflj30ii0hggmc.jpg" width=300 />
+
+<p><strong>Git文件</strong></p>
+<ul>
+<li>已被版本库管理的文件</li>
+</ul>
+<p><strong>已修改</strong></p>
+<ul>
+<li>在工作目录修改的Git文件</li>
+</ul>
+<p><strong>已暂存</strong></p>
+<ul>
+<li>对已修改的文件执行Git暂存操作，将文件存入暂存区</li>
+</ul>
+<p><strong>已提交</strong></p>
+<ul>
+<li>将已暂存的文件执行Git提交操作，将文件存入版本库</li>
+</ul>
+<img src="http://ww1.sinaimg.cn/large/006tNc79gy1g4su7iohvsj31540l0dht.jpg" width=600 />
+
+<h2 id="2-3-本地版本库与服务器版本库"><a href="#2-3-本地版本库与服务器版本库" class="headerlink" title="2.3 本地版本库与服务器版本库"></a>2.3 本地版本库与服务器版本库</h2><img src="http://ww2.sinaimg.cn/large/006tNc79gy1g4suap20lhj30zc0s8jv1.jpg" width=600 />
+
+<h2 id="2-4-Git安装"><a href="#2-4-Git安装" class="headerlink" title="2.4 Git安装"></a>2.4 Git安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y git</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-5-Git常用指令"><a href="#2-5-Git常用指令" class="headerlink" title="2.5 Git常用指令"></a>2.5 Git常用指令</h2><p><strong>创建本地仓库</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir mygit</span><br><span class="line">cd mygit</span><br><span class="line">git init</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Initialized empty Git repository in /xxx/xxx/xxxx/mygit/.git/</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看隐藏目录</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al .git</span><br></pre></td></tr></table></figure>
+
+<p><strong>在当前工作目录创建文件</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch test.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看当前工作目录状态</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<p><strong>输出</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">On branch master</span><br><span class="line"></span><br><span class="line">No commits yet</span><br><span class="line"></span><br><span class="line">Untracked files:</span><br><span class="line">  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)</span><br><span class="line"></span><br><span class="line">	test.txt</span><br><span class="line"></span><br><span class="line">nothing added to commit but untracked files present (use &quot;git add&quot; to track)</span><br></pre></td></tr></table></figure>
+
+<p><strong>将已修改的文件纳入到暂存区当中</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add test.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看当前工作目录状态</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<p><strong>输出</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">On branch master</span><br><span class="line"></span><br><span class="line">No commits yet</span><br><span class="line"></span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use &quot;git rm --cached &lt;file&gt;...&quot; to unstage)</span><br><span class="line"></span><br><span class="line">	new file:   test.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>从暂存区回退到已修改状态</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached test.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>将暂存文件提交到本地版本库</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">git commit -m <span class="string">&#x27;comment info&#x27;</span></span></span><br><span class="line">git commit</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看提交历史</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log</span><br></pre></td></tr></table></figure>
+
+<p><strong>修改文件内容</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim test.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看当前工作目录状态</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<p><strong>输出</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">On branch master</span><br><span class="line">Changes not staged for commit:</span><br><span class="line">  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)</span><br><span class="line">  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)</span><br><span class="line"></span><br><span class="line">	modified:   test.txt</span><br><span class="line"></span><br><span class="line">no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>丢弃工作目录文件的修改</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -- test.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>删除误提交文件</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm test.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看当前工作目录状态</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<p><strong>输出</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)</span><br><span class="line"></span><br><span class="line">	deleted:    test.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>将删除文件移动到暂存区</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD test.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>输出</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Unstaged changes after reset:</span><br><span class="line">D	test.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看当前工作目录状态</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line"></span><br><span class="line">On branch master</span><br><span class="line">Changes not staged for commit:</span><br><span class="line">  (use &quot;git add/rm &lt;file&gt;...&quot; to update what will be committed)</span><br><span class="line">  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)</span><br><span class="line"></span><br><span class="line">	deleted:    test.txt</span><br><span class="line"></span><br><span class="line">no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>恢复误删除文件</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -- test.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>文件重命名</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git mv test.txt test2.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>重写上一次commit log</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend -m &#x27;test2 file&#x27;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-6-查看提交历史"><a href="#2-6-查看提交历史" class="headerlink" title="2.6 查看提交历史"></a>2.6 查看提交历史</h2><ul>
+<li><p>查看提交历史</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log</span><br></pre></td></tr></table></figure></li>
+<li><p>显示每次提交的内容差异</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log -p</span><br></pre></td></tr></table></figure></li>
+<li><p>仅显示最近的n条log</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log -n</span><br></pre></td></tr></table></figure></li>
+<li><p>显示简要的增删改行数统计</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --stat</span><br></pre></td></tr></table></figure></li>
+<li><p>简要单行显示</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --pretty=oneline</span><br></pre></td></tr></table></figure></li>
+<li><p>自定义显示格式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --pretty=format:&#x27;#h -%an, %ar : %s&#x27;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="3-Git文件忽略"><a href="#3-Git文件忽略" class="headerlink" title="3.Git文件忽略"></a>3.Git文件忽略</h1><p>有些时候，你必须把某些文件放到Git工作目录中，但又不能提交它们</p>
+<p>在Git工作区的根目录下创建一个特殊的<code>.gitignore</code>文件，然后把要忽略的文件名填进去，</p>
+<p>Git就会自动忽略这些文件</p>
+<p>创建并编辑.gitignore，加入要忽略的文件名</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vi .gitignore</span><br><span class="line"></span><br><span class="line">test.txt</span><br><span class="line">*.b #忽略.b结尾的文件</span><br><span class="line">!a.b #除了a.b文件</span><br><span class="line">build/ #忽略build/下所有文件</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>提交.gitignore</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .gitignore</span><br><span class="line">git commit .gitignore -m &#x27;add .gitignore&#x27;</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-Git分支"><a href="#4-Git分支" class="headerlink" title="4.Git分支"></a>4.Git分支</h1><h2 id="2-1-分支的简单操作"><a href="#2-1-分支的简单操作" class="headerlink" title="2.1 分支的简单操作"></a>2.1 分支的简单操作</h2><p>几乎所有的版本控制系统都以某种形式支持分支。 使用分支意味着你可以把你的工作从开发主线上分离开来，以免影响开发主线。</p>
+<p>在使用<code>git init</code>创建本地仓库时，git就为我们创建了一个默认的分支<strong>master</strong>，这个master分支是git的主分支，也是通常用于发布项目的分支</p>
+<p><strong>查看当前版本分支</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch</span><br></pre></td></tr></table></figure>
+
+<p><strong>创建新的分支</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch new_branch</span><br></pre></td></tr></table></figure>
+
+<p><strong>切换分支</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout new_branch</span><br></pre></td></tr></table></figure>
+
+<p><strong>在当前分支创建文件并提交</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">touch test4.txt</span><br><span class="line">git add .</span><br><span class="line">git commit -m &#x27;commit test4.txt to new_branch&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><strong>切换分支到master</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch master</span><br></pre></td></tr></table></figure>
+
+<p><strong>删除分支</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -d new_branch</span><br></pre></td></tr></table></figure>
+
+<p><strong>创建并切换到新分支</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b new_branch</span><br></pre></td></tr></table></figure>
+
+<p><strong>分支合并</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge new_branch</span><br></pre></td></tr></table></figure>
+
+<p><strong>遇到冲突时的分支合并</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:index.html</span><br><span class="line">&lt;div id=&quot;footer&quot;&gt;contact : email.support@github.com&lt;/div&gt;</span><br><span class="line">=======</span><br><span class="line">&lt;div id=&quot;footer&quot;&gt;</span><br><span class="line"> please contact us at support@github.com</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; new_branch:index.html</span><br></pre></td></tr></table></figure>
+
+<p>上述冲突的解决方案是仅保留了其中一个分支的修改，并且 <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> , <code>=======</code> , 和 <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> 这些行被完全删除了在你解决了所有文件里的冲突之后，对每个文件使用 <code>git add</code> 命令来将其标记为冲突已解决。 一旦暂存这些原本有冲突的文件，Git 就会将它们标记为冲突已解决</p>
+<h2 id="2-2-分支的本质"><a href="#2-2-分支的本质" class="headerlink" title="2.2 分支的本质"></a>2.2 分支的本质</h2><p>当使用 <code>git commit</code> 进行提交操作时，Git 会先计算每一个子目录（本例中只有项目根目录）的校验和，然后在 Git 仓库中这些校验和保存为树对象。 随后，Git 便会创建一个提交对象，它除了包含上面提到的那些信息外，还包含指向这个树对象（项目根目录）的指针。如此一来，Git 就可以在需要的时候重现此次保存的快照。</p>
+<img src="http://ww1.sinaimg.cn/large/006tNc79gy1g4tmexobipj31180lita6.jpg" width=800 />
+
+<p>做些修改后再次提交，那么这次产生的提交对象会包含一个指向上次提交对象（父对象）的指针</p>
+<img src="http://ww1.sinaimg.cn/large/006tNc79gy1g4tmg2d5e3j310q0ccwfh.jpg" width=800 />
+
+<p>Git 的分支，其实本质上仅仅是指向提交对象的可变指针。 Git 的默认分支名字是 <code>master</code>。 在多次提交操作之后，你其实已经有一个指向最后那个提交对象的 <code>master</code> 分支。 它会在每次的提交操作中自动向前移动</p>
+<p><font color=red>Git 的 “master” 分支并不是一个特殊分支。 它就跟其它分支完全没有区别。 之所以几乎每一个仓库都有 master 分支，是因为 <code>git init</code> 命令默认创建它，并且大多数人都懒得去改动它</font></p>
+<img src="http://ww2.sinaimg.cn/large/006tNc79gy1g4tmifztn5j310e0i60va.jpg" width=700 />
+
+<p>那么，Git又是怎么知道当前在哪一个分支上呢？也很简单，它有一个名为 <code>HEAD</code> 的特殊指针，用于指向当前</p>
+<p>所在的本地分支</p>
+<img src="http://ww3.sinaimg.cn/large/006tNc79gy1g4tmlraah3j31140m2ac9.jpg" width=600 />
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+<h2 id="2-3-版本回退"><a href="#2-3-版本回退" class="headerlink" title="2.3 版本回退"></a>2.3 版本回退</h2><ul>
+<li><p>回到上一版本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD^</span><br><span class="line">git reset --hard HEAD~1</span><br><span class="line">git reset --hard commit_id</span><br></pre></td></tr></table></figure></li>
+<li><p>返回到某一版本</p>
+</li>
+<li><p>```<br>git reflog</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 5.Git打标签</span><br><span class="line"></span><br><span class="line">像其他版本控制系统（VCS）一样，Git可以给历史中的某一个提交打上标签，以示重要</span><br><span class="line"></span><br><span class="line">比较有代表性的是人们会使用这个功能来标记发布结点(v1.0 等等)</span><br><span class="line"></span><br><span class="line">- 列出标签</span><br><span class="line"></span><br><span class="line">- ```</span><br><span class="line">  git tag</span><br></pre></td></tr></table></figure></li>
+<li><p>创建标签</p>
+<p>Git使用两种主要类型的标签：轻量标签(lightweight)与附注标签(annotated)</p>
+<p><strong>创建轻量标签</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag v1.0</span><br></pre></td></tr></table></figure>
 
+<p><strong>创建附注标签</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag -a v1.4 -m &#x27;my version 1.4&#x27;</span><br></pre></td></tr></table></figure></li>
+<li><p>删除标签</p>
+</li>
+<li><p>```<br>git tag -d v1.0</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  &lt;font color=red&gt;注：tag与分支无关，tag在所有分支都会显示&lt;/font&gt;</span><br><span class="line"></span><br><span class="line"># 6.GitLab</span><br><span class="line"></span><br><span class="line">## 6.1 GitLab安装</span><br><span class="line"></span><br><span class="line">官方网站：http://about.gitlab.com/downloads</span><br><span class="line"></span><br><span class="line">新建 `/etc/yum.repos.d/gitlab-ce.repo`，内容为</span><br><span class="line"></span><br><span class="line">```shell</span><br><span class="line">[gitlab-ce]</span><br><span class="line">name=Gitlab CE Repository</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el$releasever/</span><br><span class="line">gpgcheck=0</span><br><span class="line">enabled=1</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>再执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum makecache</span><br><span class="line">sudo yum install -y gitlab-ce</span><br></pre></td></tr></table></figure>
 
-{% block content %}
+<p>启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ctl start</span><br></pre></td></tr></table></figure>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+<p>停止</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ctl stop</span><br></pre></td></tr></table></figure>
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
-    </div>
-  </div>
+<p>重启</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ctl restart</span><br></pre></td></tr></table></figure>
 
-{% endblock %}
+<p>编辑/etc/gitlab/gitlab.rb</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/gitlab/gitlab.rb</span><br></pre></td></tr></table></figure>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+<p>重新配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+<h2 id="6-2-开启邮件服务"><a href="#6-2-开启邮件服务" class="headerlink" title="6.2 开启邮件服务"></a>6.2 开启邮件服务</h2><p>vi /etc/gitlab/gitlab.rb</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">gitlab_rails[&#x27;smtp_enable&#x27;] = true</span><br><span class="line">gitlab_rails[&#x27;smtp_address&#x27;] = &quot;smtp.qq.com&quot;</span><br><span class="line">gitlab_rails[&#x27;smtp_port&#x27;] = 465</span><br><span class="line">gitlab_rails[&#x27;smtp_user_name&#x27;] = &quot;281894787@qq.com&quot;</span><br><span class="line">gitlab_rails[&#x27;smtp_password&#x27;] = &quot;gabclqguaunhbifg&quot;</span><br><span class="line">gitlab_rails[&#x27;smtp_authentication&#x27;] = &quot;login&quot;</span><br><span class="line">gitlab_rails[&#x27;smtp_enable_starttls_auto&#x27;] = true</span><br><span class="line">gitlab_rails[&#x27;smtp_tls&#x27;] = true</span><br><span class="line">gitlab_rails[&#x27;gitlab_email_from&#x27;] = &#x27;281894787@qq.com&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>重新配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
+
+<p>测试</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab-rails console</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Notify.test_email(&#x27;xxxx@qq.com&#x27;, &#x27;gitlab&#x27;, &#x27;gitlab&#x27;).deliver_now</span><br></pre></td></tr></table></figure>
+
+<p><strong>关闭用户注册功能</strong></p>
+<p>Admin Area/Settings/General/Sign-up restrictions 取消勾选<strong>Sign-up enabled</strong></p>
+<p>点击save change</p>
+<h2 id="6-3-创建用户对应SSH-Key"><a href="#6-3-创建用户对应SSH-Key" class="headerlink" title="6.3 创建用户对应SSH Key"></a>6.3 创建用户对应SSH Key</h2><p>打开Git Bash,输入如下内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;xxxx@xxxx.com&quot;</span><br></pre></td></tr></table></figure>
+
+<p>连续三次回车</p>
+<p>进行.ssh目录，并复制xxx.pub中的内容</p>
+<p>登录Git Lab，选择settings/SSH Keys，将xxx.pub中内容粘贴到Key中，并保存</p>
+</div><div class="tags"><a href="/tags/Git/"><i class="fa fa-tag"></i>Git</a></div><div class="post-nav"><a class="pre" href="/2021/08/12/CUP%E5%8D%A0%E7%94%A8%E7%8E%87%E8%BF%87%E9%AB%98%E5%AE%9A%E4%BD%8D%E8%BF%87%E7%A8%8B/">定位cup占用过高</a><a class="next" href="/2021/08/11/Docker/">Docker</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/FastDFS/">FastDFS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-%E9%A1%B9%E7%9B%AE/">JAVA-项目</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM/">JVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kafaka/">Kafaka</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Maven/">Maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spark/">Spark</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Boot/">Spring Boot</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringMVC/">SpringMVC</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/kafuka/">kafuka</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E5%B7%A5%E5%85%B7/">版本控制工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/JAVA/" style="font-size: 15px;">JAVA</a> <a href="/tags/FastDFS/" style="font-size: 15px;">FastDFS</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/JAVA-WEB/" style="font-size: 15px;">JAVA-WEB</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/SVN/" style="font-size: 15px;">SVN</a> <a href="/tags/Redis/" style="font-size: 15px;">Redis</a> <a href="/tags/kafuka/" style="font-size: 15px;">kafuka</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 15px;">linux命令</a> <a href="/tags/Maven/" style="font-size: 15px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/yum%E5%91%BD%E4%BB%A4/" style="font-size: 15px;">yum命令</a> <a href="/tags/SSL/" style="font-size: 15px;">SSL</a> <a href="/tags/Docker/" style="font-size: 15px;">Docker</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/Scala/" style="font-size: 15px;">Scala</a> <a href="/tags/Spark/" style="font-size: 15px;">Spark</a> <a href="/tags/Spring-Boot/" style="font-size: 15px;">Spring Boot</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 15px;">项目</a> <a href="/tags/SpringMVC/" style="font-size: 15px;">SpringMVC</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/%E5%BF%83%E6%83%85/" style="font-size: 15px;">心情</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2050/08/09/%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8F%90%E4%BA%A4/">👋 Hi!</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/09/30/maven%E7%9A%84pom%E9%85%8D%E7%BD%AE/">Maven的pom配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/12/kafuka%E6%93%8D%E4%BD%9C/">kafuka操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/12/CUP%E5%8D%A0%E7%94%A8%E7%8E%87%E8%BF%87%E9%AB%98%E5%AE%9A%E4%BD%8D%E8%BF%87%E7%A8%8B/">定位cup占用过高</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/11/Git/">Git</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/11/Docker/">Docker</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/11/Kafka/">Kafaka搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/11/Spring/">Spring</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/09/%E6%B7%BB%E5%8A%A0CA%E8%AF%81%E4%B9%A6/">添加CA证书执行步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/08/10/linux%E6%9F%A5%E7%9C%8B%E5%B7%B2%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E4%B8%8E%E5%8D%B8%E8%BD%BD/">linux查看已安装软件与卸载</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a href="/." rel="nofollow">云起迎风燕.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>

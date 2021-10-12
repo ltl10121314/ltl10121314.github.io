@@ -1,37 +1,600 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>Redis基础(二) | 云起迎风燕</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Redis基础(二)</h1><a id="logo" href="/.">云起迎风燕</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/archives/"><i class="fa fa-archive"> Archive</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Redis基础(二)</h1><div class="post-meta">2020-03-20<span> | </span><span class="category"><a href="/categories/Redis/">Redis</a></span></div><div class="post-content"><h1 id="6-redis客户端"><a href="#6-redis客户端" class="headerlink" title="6.redis客户端"></a>6.redis客户端</h1><h2 id="6-1-Java客户端"><a href="#6-1-Java客户端" class="headerlink" title="6.1 Java客户端"></a>6.1 Java客户端</h2><p>添加依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>redis.clients<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jedis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">type</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">scope</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Jedis jedis = <span class="keyword">new</span> Jedis(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">6379</span>);</span><br><span class="line">        <span class="comment">//PING测试</span></span><br><span class="line">        System.out.println(jedis.ping());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PONG</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-2-常用API"><a href="#6-2-常用API" class="headerlink" title="6.2 常用API"></a>6.2 常用API</h2><p>set keys</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestRedisAPI</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Jedis jedis = <span class="keyword">new</span> Jedis(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">6379</span>);</span><br><span class="line">        <span class="comment">//set keys</span></span><br><span class="line">        jedis.set(<span class="string">&quot;k1&quot;</span>, <span class="string">&quot;v1&quot;</span>);</span><br><span class="line">        jedis.set(<span class="string">&quot;k2&quot;</span>, <span class="string">&quot;v2&quot;</span>);</span><br><span class="line">        jedis.set(<span class="string">&quot;k3&quot;</span>, <span class="string">&quot;v3&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>get key</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestRedisAPI</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Jedis jedis = <span class="keyword">new</span> Jedis(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">6379</span>);</span><br><span class="line">        <span class="comment">//get key</span></span><br><span class="line">        System.out.println(jedis.get(<span class="string">&quot;k1&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>keys *</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestRedisAPI</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Jedis jedis = <span class="keyword">new</span> Jedis(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">6379</span>);</span><br><span class="line">        <span class="comment">//keys *</span></span><br><span class="line">        Set&lt;String&gt; keys = jedis.keys(<span class="string">&quot;*&quot;</span>);</span><br><span class="line">        <span class="comment">//for keys</span></span><br><span class="line">        <span class="keyword">for</span> (String key : keys) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;key: &quot;</span> + key);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//key size</span></span><br><span class="line">        System.out.println(<span class="string">&quot;key size: &quot;</span> + keys.size());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="7-redis常用配置"><a href="#7-redis常用配置" class="headerlink" title="7.redis常用配置"></a>7.redis常用配置</h1><h2 id="7-1-INCLUDES"><a href="#7-1-INCLUDES" class="headerlink" title="7.1 INCLUDES"></a>7.1 INCLUDES</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Include one or more other config files here.  This is useful if you</span><br><span class="line"># have a standard template that goes to all Redis servers but also need</span><br><span class="line"># to customize a few per-server settings.  Include files can include</span><br><span class="line"># other files, so use this wisely.</span><br></pre></td></tr></table></figure>
+
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在此处包含一个或多个其他配置文件。如果您有一个用于所有Redis服务器的标准模板，但还需要为每个服务器自定义一些设置，则此模板非常有用。include文件可以包括其他文件，因此请明智地使用它。</span><br></pre></td></tr></table></figure>
+
+<p>配置方式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># include /path/to/local.conf</span><br><span class="line"># include /path/to/other.conf</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-NETWORK"><a href="#1-2-NETWORK" class="headerlink" title="1.2 NETWORK"></a>1.2 NETWORK</h2><p>主机配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># By default, if no &quot;bind&quot; configuration directive is specified, Redis listens</span><br><span class="line"># for connections from all the network interfaces available on the server.</span><br><span class="line"># It is possible to listen to just one or multiple selected interfaces using</span><br><span class="line"># the &quot;bind&quot; configuration directive, followed by one or more IP addresses.</span><br><span class="line">#</span><br><span class="line"># Examples:</span><br><span class="line"># bind 192.168.1.100 10.0.0.1</span><br><span class="line"># bind 127.0.0.1 ::1</span><br></pre></td></tr></table></figure>
+
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">默认情况下，如果未指定“bind”配置指令，Redis将侦听服务器上所有可用网络接口的连接。可以使用“bind”配置指令，后跟一个或多个IP地址，只侦听一个或多个选定接口。</span><br></pre></td></tr></table></figure>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+<p>端口配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Accept connections on the specified port, default is 6379 (IANA #815344).</span><br><span class="line"># If port 0 is specified Redis will not listen on a TCP socket.</span><br><span class="line">port 6379</span><br></pre></td></tr></table></figure>
+
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">接受指定端口上的连接，默认值为6379。如果指定端口0，Redis将不在TCP套接字上侦听。</span><br></pre></td></tr></table></figure>
+
+<p>客户端超时关闭</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Close the connection after a client is idle for N seconds (0 to disable)</span><br><span class="line">timeout 0</span><br></pre></td></tr></table></figure>
+
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">客户端空闲n秒后关闭连接(0表示永不关闭)</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-3-GENERAL"><a href="#1-3-GENERAL" class="headerlink" title="1.3 GENERAL"></a>1.3 GENERAL</h2><p>pid文件路径配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># If a pid file is specified, Redis writes it where specified at startup</span><br><span class="line"># and removes it at exit.</span><br><span class="line">#</span><br><span class="line"># When the server runs non daemonized, no pid file is created if none is</span><br><span class="line"># specified in the configuration. When the server is daemonized, the pid file</span><br><span class="line"># is used even if not specified, defaulting to &quot;/var/run/redis.pid&quot;.</span><br><span class="line">#</span><br><span class="line"># Creating a pid file is best effort: if Redis is not able to create it</span><br><span class="line"># nothing bad happens, the server will start and run normally.</span><br><span class="line">pidfile /var/run/redis_6379.pid</span><br></pre></td></tr></table></figure>
+
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">如果指定了PID文件，redis会将其写入启动时指定的位置，并在退出时将其删除。</span><br><span class="line">当服务器以非守护进程运行时，如果配置中未指定任何PID文件，则不会创建任何PID文件。</span><br><span class="line">当服务器以守护进程运行时，如果pid文件未被指定，默认会在&quot;/var/run/redis.pid&quot;创建。</span><br><span class="line">redis会尽最大努力创建pid文件，如果没有创建，什么事情也不会发生，服务会正常启动和运行。</span><br></pre></td></tr></table></figure>
+
+<p>指定服务器日志级别</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Specify the server verbosity level.</span><br><span class="line"># This can be one of:</span><br><span class="line"># debug (a lot of information, useful for development/testing)</span><br><span class="line"># verbose (many rarely useful info, but not a mess like the debug level)</span><br><span class="line"># notice (moderately verbose, what you want in production probably)</span><br><span class="line"># warning (only very important / critical messages are logged)</span><br><span class="line">loglevel notice</span><br></pre></td></tr></table></figure>
+
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">指定服务器显示级别</span><br><span class="line">debug(显示尽量多的信息，常用于开发/测试阶段)</span><br><span class="line">verbose(显示少量有用的信息，但不会像debug级别那么多)</span><br><span class="line">notice(适当显示服务器信息，推荐用于生产环境)</span><br><span class="line">warning(只记录非常重要的关键信息)</span><br></pre></td></tr></table></figure>
+
+<p>设置日志文件名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Specify the log file name. Also the empty string can be used to force</span><br><span class="line"># Redis to log on the standard output. Note that if you use standard</span><br><span class="line"># output for logging but daemonize, logs will be sent to /dev/null</span><br><span class="line">logfile &quot;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">指定redis生成日志的文件名，如果为空字符串则强制输出到控制台。</span><br><span class="line">如果redis以守护进行方式运行，字符串又为空，日志将会发送到/dev/null</span><br></pre></td></tr></table></figure>
+
+<p>指定redis数据库数量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Set the number of databases. The default database is DB 0, you can select</span><br><span class="line"># a different one on a per-connection basis using SELECT &lt;dbid&gt; where</span><br><span class="line"># dbid is a number between 0 and &#x27;databases&#x27;-1</span><br><span class="line">databases 16</span><br></pre></td></tr></table></figure>
+
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">设置数据数量，默认数据库为0号库，可以通过SELECT &lt;dbid&gt;指令选择不同的数据库</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-4-SNAPSHOTTING"><a href="#1-4-SNAPSHOTTING" class="headerlink" title="1.4 SNAPSHOTTING"></a>1.4 SNAPSHOTTING</h2><p>redis数据持久化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Save the DB on disk:</span><br><span class="line">#</span><br><span class="line">#   save &lt;seconds&gt; &lt;changes&gt;</span><br><span class="line">#</span><br><span class="line">#   Will save the DB if both the given number of seconds and the given</span><br><span class="line">#   number of write operations against the DB occurred.</span><br></pre></td></tr></table></figure>
+
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">如果给定的秒数和给定的对数据库的写入操作数都发生，则将数据持久化到磁盘上。</span><br></pre></td></tr></table></figure>
 
 
-{% block content %}
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+<p>指定数据库文件名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># The filename where to dump the DB</span><br><span class="line">dbfilename dump.rdb</span><br></pre></td></tr></table></figure>
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
-    </div>
-  </div>
+<p>指定数据库文件目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># The working directory.</span><br><span class="line">#</span><br><span class="line"># The DB will be written inside this directory, with the filename specified</span><br><span class="line"># above using the &#x27;dbfilename&#x27; configuration directive.</span><br><span class="line">#</span><br><span class="line"># The Append Only File will also be created inside this directory.</span><br><span class="line">#</span><br><span class="line"># Note that you must specify a directory here, not a file name.</span><br><span class="line">dir ./</span><br></pre></td></tr></table></figure>
 
-{% endblock %}
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">数据文件就写入到指定的工作目录，文件名由dbfilename配置项指定。</span><br></pre></td></tr></table></figure>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+<h2 id="1-5-MEMORY-MANAGEMENT"><a href="#1-5-MEMORY-MANAGEMENT" class="headerlink" title="1.5 MEMORY MANAGEMENT"></a>1.5 MEMORY MANAGEMENT</h2><p>设置最大内存限制</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Set a memory usage limit to the specified amount of bytes.</span><br><span class="line"># When the memory limit is reached Redis will try to remove keys</span><br><span class="line"># according to the eviction policy selected (see maxmemory-policy).</span><br><span class="line">maxmemory &lt;bytes&gt;</span><br></pre></td></tr></table></figure>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">将内存使用限制设置为指定的字节数。</span><br><span class="line">当内存使用达到限制，redis会根据所选的最大内存策略对内存中的keys进行移除</span><br></pre></td></tr></table></figure>
+
+<p>最大内存策略</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># MAXMEMORY POLICY: how Redis will select what to remove when maxmemory</span><br><span class="line"># is reached. You can select among five behaviors:</span><br><span class="line">#</span><br><span class="line"># volatile-lru -&gt; Evict using approximated LRU among the keys with an expire set.</span><br><span class="line"># allkeys-lru -&gt; Evict any key using approximated LRU.</span><br><span class="line"># volatile-lfu -&gt; Evict using approximated LFU among the keys with an expire set.</span><br><span class="line"># allkeys-lfu -&gt; Evict any key using approximated LFU.</span><br><span class="line"># volatile-random -&gt; Remove a random key among the ones with an expire set.</span><br><span class="line"># allkeys-random -&gt; Remove a random key, any key.</span><br><span class="line"># volatile-ttl -&gt; Remove the key with the nearest expire time (minor TTL)</span><br><span class="line"># noeviction -&gt; Don&#x27;t evict anything, just return an error on write operations.</span><br><span class="line">#</span><br><span class="line"># LRU means Least Recently Used</span><br><span class="line"># LFU means Least Frequently Used</span><br><span class="line">#</span><br><span class="line"># Both LRU, LFU and volatile-ttl are implemented using approximated</span><br><span class="line"># randomized algorithms.</span><br><span class="line"># The default is:</span><br><span class="line">#</span><br><span class="line"># maxmemory-policy noeviction</span><br></pre></td></tr></table></figure>
+
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">最大内存策略：当使用内存达到限制，redis将会选择要删除的数据。</span><br><span class="line">redis提供了以下五种数据移除策略:</span><br><span class="line">volatile-lru -&gt; 对设置超时时间的key采用LRU算法进行删除</span><br><span class="line">allkeys-lru -&gt; 对所有的key采用LRU算法进行删除</span><br><span class="line">volatile-lfu -&gt; 对设置超时时间的key采用LFU算法进行删除</span><br><span class="line">allkeys-lfu -&gt; 对所有的key采用LFU算法进行删除</span><br><span class="line">volatile-random -&gt; 对设置超时时间的key进行随机删除</span><br><span class="line">allkeys-random -&gt; 对所有的key进行随机删除</span><br><span class="line">volatile-ttl -&gt; 对设置超时时间的key，根据ttl机制排序，将最近要过期的key删除</span><br><span class="line">noeviction -&gt; 如果采用该机制，那么内存数据不会删除，将报错消息返回给用户</span><br><span class="line"></span><br><span class="line">LRU：最近最少使用的</span><br><span class="line">LFU：最不长使用的</span><br></pre></td></tr></table></figure>
+
+<p>最大淘汰样本数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># LRU, LFU and minimal TTL algorithms are not precise algorithms but approximated</span><br><span class="line"># algorithms (in order to save memory), so you can tune it for speed or</span><br><span class="line"># accuracy. For default Redis will check five keys and pick the one that was</span><br><span class="line"># used less recently, you can change the sample size using the following</span><br><span class="line"># configuration directive.</span><br><span class="line">#</span><br><span class="line"># The default of 5 produces good enough results. 10 Approximates very closely</span><br><span class="line"># true LRU but costs more CPU. 3 is faster but not very accurate.</span><br><span class="line">maxmemory-samples 5</span><br></pre></td></tr></table></figure>
+
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LRU、LFU和最小TTL算法不是精确的算法，而是近似的算法（为了节省内存），因此您可以根据速度或精度对其进行调整。</span><br><span class="line">对于默认的redis，将选中五个键并选择最近较少使用的键。</span><br><span class="line">默认值5会产生足够好的结果。10非常接近真实的LRU，但需要更多的CPU。3速度更快，但不太准确。</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="8-redis其他功能"><a href="#8-redis其他功能" class="headerlink" title="8.redis其他功能"></a>8.redis其他功能</h1><h2 id="8-1-慢查询"><a href="#8-1-慢查询" class="headerlink" title="8.1 慢查询"></a>8.1 慢查询</h2><p>redis请求影响的声明周期</p>
+<img src="http://ww4.sinaimg.cn/large/006tNc79gy1g4uoxqw28pj30qi0fp74x.jpg" width=600 />
+
+<p><strong>说明</strong></p>
+<ul>
+<li>慢查询发生在第3阶段</li>
+<li>客户端超时不一定是慢查询，慢查询是客户端超时的一个可能因素</li>
+</ul>
+<p><strong>慢查询相关配置</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># The Redis Slow Log is a system to log queries that exceeded a specified</span><br><span class="line"># execution time. The execution time does not include the I/O operations</span><br><span class="line"># like talking with the client, sending the reply and so forth,</span><br><span class="line"># but just the time needed to actually execute the command (this is the only</span><br><span class="line"># stage of command execution where the thread is blocked and can not serve</span><br><span class="line"># other requests in the meantime).</span><br><span class="line">#</span><br><span class="line"># You can configure the slow log with two parameters: one tells Redis</span><br><span class="line"># what is the execution time, in microseconds, to exceed in order for the</span><br><span class="line"># command to get logged, and the other parameter is the length of the</span><br><span class="line"># slow log. When a new command is logged the oldest one is removed from the</span><br><span class="line"># queue of logged commands.</span><br><span class="line"></span><br><span class="line"># The following time is expressed in microseconds, so 1000000 is equivalent</span><br><span class="line"># to one second. Note that a negative number disables the slow log, while</span><br><span class="line"># a value of zero forces the logging of every command.</span><br><span class="line">slowlog-log-slower-than 10000</span><br><span class="line"></span><br><span class="line"># There is no limit to this length. Just be aware that it will consume memory.</span><br><span class="line"># You can reclaim memory used by the slow log with SLOWLOG RESET.</span><br><span class="line">slowlog-max-len 128</span><br></pre></td></tr></table></figure>
+
+<p>慢查询是一个固定长度，先进先出的队列，具有两个常用的配置参数</p>
+<ul>
+<li><p>slowlog-log-slower-than</p>
+<p>设定慢查询的执行时间，默认是10ms，负数表示不记录慢查询，0表示记录每一条指令</p>
+</li>
+<li><p>slowlog-max-len 128</p>
+<p>设置慢查询存储的条数，默认是128</p>
+</li>
+</ul>
+<p>相关指令</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SLOWLOG GET number</td>
+<td>查看 slow log</td>
+</tr>
+<tr>
+<td>SLOWLOG LEN</td>
+<td>查看当前日志的数量</td>
+</tr>
+<tr>
+<td>SLOWLOG RESET</td>
+<td>清空日志</td>
+</tr>
+</tbody></table>
+<p>配置建议</p>
+<ul>
+<li>slowlog-log-slower-than不要设置过大，默认10ms，通常设置为1ms</li>
+<li>slowlog-max-len不要设置过小，通常设置1000左右</li>
+<li>定期持久化慢查询</li>
+</ul>
+<h2 id="8-2-pipline"><a href="#8-2-pipline" class="headerlink" title="8.2 pipline"></a>8.2 pipline</h2><img src="http://ww2.sinaimg.cn/large/006tNc79gy1g4uoym8k3zj30j80es3z5.jpg" width=500 />
+
+<img src="http://ww2.sinaimg.cn/large/006tNc79gy1g4uoyus9t5j30ir0epmy3.jpg" width=500 />
+
+<p>​                                <strong><font color=red>1次pipline=1次网络时间+n次命令时间</font></strong></p>
+<p><strong>pipline的作用</strong>        </p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>N个命令操作</th>
+<th>1次pipline操作(n个命令)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>时间</strong></td>
+<td>n次网络+n次命令</td>
+<td>1次命令+n次指令</td>
+</tr>
+<tr>
+<td><strong>数据量</strong></td>
+<td>1次命令</td>
+<td>n次命令</td>
+</tr>
+</tbody></table>
+<p><strong>注意</strong></p>
+<ul>
+<li>redis的命令时间是微秒级别</li>
+<li>pipline每次条数要控制(网络带宽)</li>
+</ul>
+<p><strong>代码演示说明</strong></p>
+<p>普通操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	Jedis jedis = <span class="keyword">new</span> Jedis(<span class="string">&quot;192.168.0.110&quot;</span>, <span class="number">6379</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">long</span> startTime =  System.currentTimeMillis();</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</span><br><span class="line">		jedis.set(<span class="string">&quot;k&quot;</span> + i,i + <span class="string">&quot;&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">long</span> endTime =  System.currentTimeMillis();</span><br><span class="line">	<span class="keyword">long</span> usedTime = (endTime-startTime)/<span class="number">1000</span>;</span><br><span class="line">	System.out.println(usedTime + <span class="string">&quot;s&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用pipline</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	Jedis jedis = <span class="keyword">new</span> Jedis(<span class="string">&quot;192.168.0.110&quot;</span>, <span class="number">6379</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">long</span> startTime =  System.currentTimeMillis();</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">		Pipeline pipelined = jedis.pipelined();</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j = i * <span class="number">100</span>; j &lt; (i + <span class="number">1</span>) * <span class="number">100</span>; j++) &#123;</span><br><span class="line">			pipelined.set(<span class="string">&quot;k&quot;</span> + i,i + <span class="string">&quot;&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">        pipelined.sync();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">long</span> endTime =  System.currentTimeMillis();</span><br><span class="line">	<span class="keyword">long</span> usedTime = (endTime-startTime)/<span class="number">1000</span>;</span><br><span class="line">	System.out.println(usedTime + <span class="string">&quot;s&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>pipline与原生m操作的区别</strong></p>
+<ul>
+<li>m操作是原子性的</li>
+<li>pipline是非原子性，但会有序返回</li>
+</ul>
+<p><strong>使用建议</strong></p>
+<ul>
+<li>注意每次pipline携带数据量</li>
+</ul>
+<h2 id="8-3-发布订阅与消息队列"><a href="#8-3-发布订阅与消息队列" class="headerlink" title="8.3 发布订阅与消息队列"></a>8.3 发布订阅与消息队列</h2><p>redis作为内存数据库，除了能够缓存访问高频数据之外，还可以充当发布订阅与消息队列的角色</p>
+<p><strong>发布订阅</strong></p>
+<p><img src="http://ww1.sinaimg.cn/large/006tNc79gy1g4uoz7gx1sj30r909ejsg.jpg" alt="发布订阅"></p>
+<p><strong>订阅</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">subscribe cctv:1</span><br></pre></td></tr></table></figure>
+
+<p><strong>发布</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">publish cctv:1 &quot;helloworld&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>消息队列</strong></p>
+<img src="http://ww1.sinaimg.cn/large/006tNc79gy1g4uozgrmt7j30r7095q3z.jpg" width=700 />
+
+<h2 id="8-4-Bitmap"><a href="#8-4-Bitmap" class="headerlink" title="8.4 Bitmap"></a>8.4 Bitmap</h2><p>Bitmap是一串连续的2进制数字（0或1），每一位所在的位置为偏移(offset)，bitmap就是通过最小的单位bit来进行0或者1的设置，表示某个元素对应的值或者状态</p>
+<img src="http://ww1.sinaimg.cn/large/006tNc79gy1g4uozp77vpj30s305mmxf.jpg" width=620 />
+
+<p><strong>get bit</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set k1 big</span><br><span class="line">getbit k1 0</span><br></pre></td></tr></table></figure>
+
+<p><strong>set bit</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setbit k1 7 1</span><br></pre></td></tr></table></figure>
+
+<p><strong>bitcount key [start end]</strong></p>
+<p>获取位图指定范围(start到end，单位为字节，如果不指定就获取全部)位值为1的个数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcount k1</span><br></pre></td></tr></table></figure>
+
+<p><strong>独立用户统计</strong></p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>每个userid占用空间</th>
+<th>需要存储的用户量</th>
+<th>全部内存量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>set</td>
+<td>32位</td>
+<td>50,000,000</td>
+<td>32位 * 50,000,000 = 200MB</td>
+</tr>
+<tr>
+<td>Bitmap</td>
+<td>1位</td>
+<td>100,000,000</td>
+<td>1位 * 100,000,000 = 12.5MB</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>一天</th>
+<th>一个月</th>
+<th>一年</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>set</strong></td>
+<td>200M</td>
+<td>6G</td>
+<td>72G</td>
+</tr>
+<tr>
+<td><strong>Bitmap</strong></td>
+<td>12.5M</td>
+<td>375M</td>
+<td>4.5G</td>
+</tr>
+</tbody></table>
+<h2 id="8-5-HyperLogLog"><a href="#8-5-HyperLogLog" class="headerlink" title="8.5 HyperLogLog"></a>8.5 HyperLogLog</h2><p>HyperLogLog 是用来做基数统计的算法，HyperLogLog 的优点是，在输入元素的数量或者体积非常非常大时，计算基数所需的空间总是固定的、并且是很小的</p>
+<p>基数就是指一个集合中不同值的数目，基数也可以称之为Distinct Value，简称DV</p>
+<p><font color=red>HyperLogLog 的本质还是字符串</font></p>
+<p><strong>三个指令</strong></p>
+<p>向hyperloglog添加元素 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pfadd key element [element ...]</span><br></pre></td></tr></table></figure>
+
+<p>计算hyperloglog的独立总数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pfcount key [key ...]</span><br></pre></td></tr></table></figure>
+
+<p>合并多个hyperloglog</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pfmerge destkey sourcekey [sourcekey ...]</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-6-geo"><a href="#8-6-geo" class="headerlink" title="8.6 geo"></a>8.6 geo</h2><p>geo(地理信息定位): 存储经纬度，计算两地距离，范围计算等</p>
+<p>应用场景</p>
+<ul>
+<li>微信摇一摇</li>
+<li>搜索特定范围内的人或建筑</li>
+</ul>
+<p><strong>添加经纬度信息</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">geoadd cityGeo 116.405285 39.904989 &quot;北京&quot;</span><br><span class="line">geoadd cityGeo 121.472644 31.231706 &quot;上海&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>查找指定key的经纬度信息，可以指定多个key，批量返回</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; geopos cityGeo 北京</span><br><span class="line">1) &quot;116.40528291463851929&quot;</span><br><span class="line">2) &quot;39.9049884229125027&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>返回两个地方的距离，可以指定单位，比如米m，千米km，英里mi，英尺ft</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; geodist cityGeo 北京 上海</span><br><span class="line">&quot;1067597.9668&quot;</span><br><span class="line">127.0.0.1:6379&gt; geodist cityGeo 北京 上海 km</span><br><span class="line">&quot;1067.5980&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>根据给定的经纬度，返回半径不超过指定距离的元素</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">georadius cityGeo 116.405285 39.904989 100 km WITHDIST WITHCOORD ASC COUNT 5</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>可以指定WITHDIST返回距离，WITHCOORD返回经纬度，WITHHASH返回geohash值</li>
+<li>可以指定ASC或DESC，根据距离来排序</li>
+<li>可以指定COUNT限定返回的记录数</li>
+</ul>
+<p><strong>根据指定的地点查询半径在指定范围内的位置</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">georadiusbymember cityGeo 北京 100 km WITHDIST WITHCOORD ASC COUNT 5</span><br></pre></td></tr></table></figure>
+
+<h1 id="9-redis持久化"><a href="#9-redis持久化" class="headerlink" title="9.redis持久化"></a>9.redis持久化</h1><p>由于Redis的数据都存放在内存中，如果没有配置持久化，redis重启后数据就全丢失了，于是需要开启redis的持久化功能，将数据保存到磁盘上，当redis重启后，可以从磁盘中恢复数据。</p>
+<p>redis提供两种方式进行持久化</p>
+<ul>
+<li>RDB(Redis DataBase)持久化</li>
+<li>AOF(Append Only File)持久化</li>
+</ul>
+<p><strong>Fork</strong></p>
+<p>一个进程，包括代码、数据和分配给进程的资源。</p>
+<p>fork()函数通过系统调用创建一个与原来进程几乎完全相同的进程，也就是两个进程可以做完全相同的事，但如果初始参数或者传入的变量不同，两个进程也可以做不同的事。</p>
+<p>一个进程调用fork()函数后，系统先给新的进程分配资源，例如存储数据和代码的空间。然后把原来的进程的所有值都复制到新的新进程中，只有少数值与原来的进程的值不同，相当于克隆了一个自己。</p>
+<img src="https://ws4.sinaimg.cn/large/006tNc79gy1g2uuv03mg8j30cw0bv3yo.jpg" width=400 />
+
+<h2 id="9-1-RDB持久化"><a href="#9-1-RDB持久化" class="headerlink" title="9.1 RDB持久化"></a>9.1 RDB持久化</h2><p>RDB持久化，其实就是类似系统快照的功能</p>
+<img src="http://ww4.sinaimg.cn/large/006tNc79gy1g4up07xvnyj30mp08kwf0.jpg" width=600 />
+
+<p><strong>触发机制</strong></p>
+<ul>
+<li>save(同步)</li>
+<li>bgsave(异步)</li>
+<li>自动</li>
+</ul>
+<p><strong>save指令</strong></p>
+<img src="http://ww4.sinaimg.cn/large/006tNc79gy1g4up0kguqxj30l105gweo.jpg" width=630 />
+
+<p><strong>bgsave指令</strong></p>
+<img src="http://ww2.sinaimg.cn/large/006tNc79gy1g4up19bdmuj30k508taam.jpg" width=600 />
+
+<p><strong>save vs bgsave</strong></p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>save</th>
+<th>bgsave</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IO类型</td>
+<td>同步</td>
+<td>异步</td>
+</tr>
+<tr>
+<td>阻塞</td>
+<td>是</td>
+<td>是(阻塞发生在fork)</td>
+</tr>
+<tr>
+<td>复杂度</td>
+<td>O(n)</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>优点</td>
+<td>不会消耗额外内存</td>
+<td>不阻塞客户端命令</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>阻塞客户端命令</td>
+<td>需要fork，消耗内存</td>
+</tr>
+</tbody></table>
+<p><strong>自动</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">################################ SNAPSHOTTING  ################################</span><br><span class="line">#</span><br><span class="line"># Save the DB on disk:</span><br><span class="line">#</span><br><span class="line">#   save &lt;seconds&gt; &lt;changes&gt;</span><br><span class="line">#</span><br><span class="line">#   Will save the DB if both the given number of seconds and the given</span><br><span class="line">#   number of write operations against the DB occurred.</span><br><span class="line">#</span><br><span class="line">#   In the example below the behaviour will be to save:</span><br><span class="line">#   after 900 sec (15 min) if at least 1 key changed</span><br><span class="line">#   after 300 sec (5 min) if at least 10 keys changed</span><br><span class="line">#   after 60 sec if at least 10000 keys changed</span><br><span class="line">#</span><br><span class="line">#   Note: you can disable saving completely by commenting out all &quot;save&quot; lines.</span><br><span class="line">#</span><br><span class="line">#   It is also possible to remove all the previously configured save</span><br><span class="line">#   points by adding a save directive with a single empty string argument</span><br><span class="line">#   like in the following example:</span><br><span class="line">#</span><br><span class="line">#   save &quot;&quot;</span><br><span class="line"></span><br><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br><span class="line"></span><br><span class="line"># By default Redis will stop accepting writes if RDB snapshots are enabled</span><br><span class="line"># (at least one save point) and the latest background save failed.</span><br><span class="line"># This will make the user aware (in a hard way) that data is not persisting</span><br><span class="line"># on disk properly, otherwise chances are that no one will notice and some</span><br><span class="line"># disaster will happen.</span><br><span class="line">#</span><br><span class="line"># If the background saving process will start working again Redis will</span><br><span class="line"># automatically allow writes again.</span><br><span class="line">#</span><br><span class="line"># However if you have setup your proper monitoring of the Redis server</span><br><span class="line"># and persistence, you may want to disable this feature so that Redis will</span><br><span class="line"># continue to work as usual even if there are problems with disk,</span><br><span class="line"># permissions, and so forth.</span><br><span class="line">stop-writes-on-bgsave-error yes</span><br><span class="line"></span><br><span class="line"># Compress string objects using LZF when dump .rdb databases?</span><br><span class="line"># For default that&#x27;s set to &#x27;yes&#x27; as it&#x27;s almost always a win.</span><br><span class="line"># If you want to save some CPU in the saving child set it to &#x27;no&#x27; but</span><br><span class="line"># the dataset will likely be bigger if you have compressible values or keys.</span><br><span class="line">rdbcompression yes</span><br><span class="line"></span><br><span class="line"># Since version 5 of RDB a CRC64 checksum is placed at the end of the file.</span><br><span class="line"># This makes the format more resistant to corruption but there is a performance</span><br><span class="line"># hit to pay (around 10%) when saving and loading RDB files, so you can disable it</span><br><span class="line"># for maximum performances.</span><br><span class="line">#</span><br><span class="line"># RDB files created with checksum disabled have a checksum of zero that will</span><br><span class="line"># tell the loading code to skip the check.</span><br><span class="line">rdbchecksum yes</span><br><span class="line"></span><br><span class="line"># The filename where to dump the DB</span><br><span class="line">dbfilename dump.rdb</span><br><span class="line"></span><br><span class="line"># The working directory.</span><br><span class="line">#</span><br><span class="line"># The DB will be written inside this directory, with the filename specified</span><br><span class="line"># above using the &#x27;dbfilename&#x27; configuration directive.</span><br><span class="line">#</span><br><span class="line"># The Append Only File will also be created inside this directory.</span><br><span class="line">#</span><br><span class="line"># Note that you must specify a directory here, not a file name.</span><br><span class="line">dir ./</span><br></pre></td></tr></table></figure>
+
+<p><strong>推荐配置</strong></p>
+<ul>
+<li>dbfilename dump-${port}.rdb</li>
+<li>dir /bigdiskpath</li>
+<li>stop-writes-on-bgsave-error yes</li>
+<li>rdbcompression yes</li>
+<li>rdbchecksum yes</li>
+</ul>
+<p>其他触发机制</p>
+<ul>
+<li>全量复制(主从模式)</li>
+<li>debug reload(提供debug级别的重启，不清空内存的一种重启，这种方式也会触发RDB文件的生成)</li>
+<li>shutdown</li>
+</ul>
+<h2 id="9-2-AOF持久化"><a href="#9-2-AOF持久化" class="headerlink" title="9.2 AOF持久化"></a>9.2 AOF持久化</h2><p>Redis 默认不开启。它的出现是为了弥补RDB的不足（数据的不一致性），所以它采用日志的形式来记录每个<strong>写操作</strong>，并<strong>追加</strong>到文件中。Redis 重启会根据日志文件的内容将写指令从前到后执行一次以完成数据的恢复工作。</p>
+<p><strong>aof运行原理</strong></p>
+<img src="http://ww1.sinaimg.cn/large/006tNc79gy1g4up4ovew0j30ng09tmxl.jpg" width=600 />
+
+<p><strong>aof恢复原理</strong></p>
+<img src="http://ww1.sinaimg.cn/large/006tNc79gy1g4up5cd5yzj30f107at93.jpg" width=450 />
+
+<p><strong>aof配置</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">############################## APPEND ONLY MODE ###############################</span><br><span class="line"></span><br><span class="line"># By default Redis asynchronously dumps the dataset on disk. This mode is</span><br><span class="line"># good enough in many applications, but an issue with the Redis process or</span><br><span class="line"># a power outage may result into a few minutes of writes lost (depending on</span><br><span class="line"># the configured save points).</span><br><span class="line">#</span><br><span class="line"># The Append Only File is an alternative persistence mode that provides</span><br><span class="line"># much better durability. For instance using the default data fsync policy</span><br><span class="line"># (see later in the config file) Redis can lose just one second of writes in a</span><br><span class="line"># dramatic event like a server power outage, or a single write if something</span><br><span class="line"># wrong with the Redis process itself happens, but the operating system is</span><br><span class="line"># still running correctly.</span><br><span class="line">#</span><br><span class="line"># AOF and RDB persistence can be enabled at the same time without problems.</span><br><span class="line"># If the AOF is enabled on startup Redis will load the AOF, that is the file</span><br><span class="line"># with the better durability guarantees.</span><br><span class="line">#</span><br><span class="line"># Please check http://redis.io/topics/persistence for more information.</span><br><span class="line"></span><br><span class="line">appendonly no</span><br><span class="line"></span><br><span class="line"># The name of the append only file (default: &quot;appendonly.aof&quot;)</span><br><span class="line"></span><br><span class="line">appendfilename &quot;appendonly.aof&quot;</span><br><span class="line"></span><br><span class="line"># The fsync() call tells the Operating System to actually write data on disk</span><br><span class="line"># instead of waiting for more data in the output buffer. Some OS will really flush</span><br><span class="line"># data on disk, some other OS will just try to do it ASAP.</span><br><span class="line">#</span><br><span class="line"># Redis supports three different modes:</span><br><span class="line">#</span><br><span class="line"># no: don&#x27;t fsync, just let the OS flush the data when it wants. Faster.</span><br><span class="line"># always: fsync after every write to the append only log. Slow, Safest.</span><br><span class="line"># everysec: fsync only one time every second. Compromise.</span><br><span class="line">#</span><br><span class="line"># The default is &quot;everysec&quot;, as that&#x27;s usually the right compromise between</span><br><span class="line"># speed and data safety. It&#x27;s up to you to understand if you can relax this to</span><br><span class="line"># &quot;no&quot; that will let the operating system flush the output buffer when</span><br><span class="line"># it wants, for better performances (but if you can live with the idea of</span><br><span class="line"># some data loss consider the default persistence mode that&#x27;s snapshotting),</span><br><span class="line"># or on the contrary, use &quot;always&quot; that&#x27;s very slow but a bit safer than</span><br><span class="line"># everysec.</span><br><span class="line">#</span><br><span class="line"># More details please check the following article:</span><br><span class="line"># http://antirez.com/post/redis-persistence-demystified.html</span><br><span class="line">#</span><br><span class="line"># If unsure, use &quot;everysec&quot;.</span><br><span class="line"></span><br><span class="line"># appendfsync always</span><br><span class="line">appendfsync everysec</span><br><span class="line"># appendfsync no</span><br></pre></td></tr></table></figure>
+
+<p><strong>aof的三种策略</strong></p>
+<p><img src="http://ww3.sinaimg.cn/large/006tNc79gy1g4up5mm8gdj30ru07ymy0.jpg" alt="aof3"></p>
+<p><strong>三种策略对比</strong></p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>always</th>
+<th>everysec</th>
+<th>no</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>优点</td>
+<td>不丢失数据</td>
+<td>每秒一次fsync</td>
+<td>不可控</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>IO开销大</td>
+<td>丢1秒数据</td>
+<td>不可控</td>
+</tr>
+</tbody></table>
+<p><strong>aof重写</strong></p>
+<img src="http://ww2.sinaimg.cn/large/006tNc79gy1g4up5svsb7j30g90c33zl.jpg" width=450 />
+
+<p><strong>aof重写的作用</strong></p>
+<ul>
+<li>减少磁盘用量</li>
+<li>加速恢复速度</li>
+</ul>
+<p><strong>aof实现重写的两种方式</strong></p>
+<ul>
+<li>bgrewriteaof命令</li>
+<li>aof重写配置</li>
+</ul>
+<p><strong>bgrewriteaof运行原理</strong></p>
+<img src="http://ww1.sinaimg.cn/large/006tNc79gy1g4up5zrnkmj30jm0cmq3j.jpg" width=550 />
+
+<p><strong>aof重写配置</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>auto-aof-rewrite-min-size</td>
+<td>AOF文件重写需要的尺寸</td>
+</tr>
+<tr>
+<td>auto-aof-rewrite-percentage</td>
+<td>AOF文件增长率</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>文件统计</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>aof_current_size</td>
+<td>AOF当前尺寸(单位: 字节)</td>
+</tr>
+<tr>
+<td>aof_base_size</td>
+<td>AOF上次启动和重写的尺寸(单位: 字节)</td>
+</tr>
+</tbody></table>
+<p><font color=red>自动配置触发时机(同时满足)</font></p>
+<ul>
+<li>aof_current_size &gt; auto-aof-rewrite-min-size</li>
+<li>aof_current_size - aof_base_size / aof_base_size &gt; auto-aof-rewrite-percentage</li>
+</ul>
+<p><strong>推荐配置</strong></p>
+<ul>
+<li>appendonly yes</li>
+<li>appendfilename “appendonly-${port}.aof”</li>
+<li>dir /bigdiskpath</li>
+<li>no-appendfsync-on-rewrite yes</li>
+<li>auto-aof-rewrite-percentage 100</li>
+<li>auto-aof-rewrite-min-size 64mb</li>
+</ul>
+<h2 id="9-3-RDB-vs-AOF"><a href="#9-3-RDB-vs-AOF" class="headerlink" title="9.3 RDB vs AOF"></a>9.3 RDB vs AOF</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>RDB</th>
+<th>AOF</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>启动优先级</td>
+<td>低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>体积</td>
+<td>小</td>
+<td>快</td>
+</tr>
+<tr>
+<td>恢复速度</td>
+<td>快</td>
+<td>慢</td>
+</tr>
+<tr>
+<td>数据安全性</td>
+<td>丢数据</td>
+<td>根据策略决定</td>
+</tr>
+<tr>
+<td>轻重</td>
+<td>重</td>
+<td>轻</td>
+</tr>
+</tbody></table>
+<p><strong>RDB最佳策略</strong></p>
+<ul>
+<li>“关”</li>
+<li>集中管理</li>
+<li>主从，从开</li>
+</ul>
+<p><strong>AOF最佳策略</strong></p>
+<ul>
+<li>开</li>
+<li>AOF重写集中管理</li>
+<li>everysec</li>
+</ul>
+<h1 id="10-事务"><a href="#10-事务" class="headerlink" title="10.事务"></a>10.事务</h1><p>redis事务：可以一次执行多条指令，本质是一组指令的集合。一个事务中的所有指令都会序列化，按顺序的串行化的执行，该操作时原子性的，要么全部成功，要么全部失败</p>
+<h2 id="10-1-事务指令"><a href="#10-1-事务指令" class="headerlink" title="10.1 事务指令"></a>10.1 事务指令</h2><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g2vwsi0sumj31de0psaid.jpg" width=750  />
+
+<img src="http://ww3.sinaimg.cn/large/006tNc79gy1g4vnkkry22j31do0qqwhj.jpg" width=750  />
+
+<ul>
+<li><p>redis事务指令</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MULTI</td>
+<td>标记事务的开始</td>
+</tr>
+<tr>
+<td>EXEC</td>
+<td>执行事务中的所有的指令</td>
+</tr>
+<tr>
+<td>DISCARD</td>
+<td>取消事务，放弃执行事务中的所有指令</td>
+</tr>
+<tr>
+<td>WATCH key [key …]</td>
+<td>监控一个(或多个)key，如果在事务执行之前这个(或这些)key被其他命令所改动，事务将被打断</td>
+</tr>
+<tr>
+<td>UNWATCH</td>
+<td>取消WATCH指令对所有key的监控</td>
+</tr>
+</tbody></table>
+<p>指令式错误</p>
+<img src="https://ws4.sinaimg.cn/large/006tNc79gy1g2vxlbwpb5j30v00asjsv.jpg" width=600 align=left />
+
+<p>运行时错误</p>
+<img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2w0klh3rrj30oy0cw3zi.jpg" width=500 align=left /></li>
+</ul>
+<h2 id="10-2-WATCH监控"><a href="#10-2-WATCH监控" class="headerlink" title="10.2 WATCH监控"></a>10.2 WATCH监控</h2><p>  <strong>悲观锁</strong></p>
+<p>总是假设最坏的情况，每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁，这样别人想拿这个数据就会阻塞直到它拿到锁。(共享资源每次只给一个线程使用，其它线程阻塞，用完后再把资源转让给其它线程)。传统的数据库就用到了很多这种机制，比如表锁、行锁、读锁、写锁等，都是在操作之前先上锁。</p>
+<p><strong>乐观锁</strong></p>
+<p>总是假设最好的情况，每次去拿数据的时候都认为别人不会修改，<font color=red>所以不会上锁</font>，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号等机制。乐观锁适用于多读的应用类型，这样可以提高吞吐量。</p>
+<p><font color=red>乐观锁策略：提交版本必须大于记录当前版本才执行更新</font></p>
+<p><strong>CAS(Compare and Swap 比较并交换)</strong></p>
+<p>CAS是乐观锁技术，当多个线程尝试使用CAS同时更新同一个变量时，只有其中一个线程能更新变量的值，而其它线程都失败，失败的线程并不会被挂起，而是被告知这次竞争中失败，并可以再次尝试。</p>
+<p><strong>WATCH监控</strong></p>
+<p>在监控一个(或多个key)时，在key的操作的过程中，其他客户端对监控的key进行了篡改，那么WATCH的key的操作将失败。</p>
+<p>监控key</p>
+<img src="https://ws3.sinaimg.cn/large/006tNc79gy1g2w280p3n4j30hm05gt8v.jpg" width=500 align=left />
+
+<p>提前篡改balance</p>
+<img src="https://ws4.sinaimg.cn/large/006tNc79gy1g2w2927pgxj30f803g3yj.jpg" width=400 align=left />
+
+<p>对watch的key进行修改</p>
+<img src="https://ws4.sinaimg.cn/large/006tNc79gy1g2w2bepa4fj30hg05cmxd.jpg" width=400 align=left />
+
+<p>如果结果返回(nil)，则说明key值修改失败</p>
+<p>总结：</p>
+<ol>
+<li>watch指令类似乐观锁，事务提交时，如果key值已被其他客户端修改，则整个事务队列都不会被执行</li>
+<li>在watch对key进行监控之后，有任何key的变化都会导致exec指令执行的事务失效，并返回(nil)</li>
+</ol>
+<h2 id="10-3-jedis事务"><a href="#10-3-jedis事务" class="headerlink" title="10.3 jedis事务"></a>10.3 jedis事务</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">	Jedis jedis = <span class="keyword">new</span> Jedis(<span class="string">&quot;192.168.123.128&quot;</span>, <span class="number">6379</span>);</span><br><span class="line">	List&lt;Object&gt; exec = <span class="keyword">null</span>;</span><br><span class="line">	<span class="keyword">while</span> (exec == <span class="keyword">null</span>) &#123;</span><br><span class="line">		System.out.println(jedis.watch(<span class="string">&quot;k1&quot;</span>));</span><br><span class="line">		Transaction transaction = jedis.multi();</span><br><span class="line">		Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">		transaction.set(<span class="string">&quot;k1&quot;</span>, <span class="string">&quot;v2&quot;</span>);</span><br><span class="line">		exec = transaction.exec();</span><br><span class="line">		System.out.println(exec);</span><br><span class="line">		Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</div><div class="tags"><a href="/tags/Redis/"><i class="fa fa-tag"></i>Redis</a></div><div class="post-nav"><a class="pre" href="/2020/04/05/Redis%E9%AB%98%E7%BA%A7/">Redis高级</a><a class="next" href="/2020/03/10/Redis%E5%9F%BA%E7%A1%80(%E4%B8%80)/">Redis基础(一)</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/FastDFS/">FastDFS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-%E9%A1%B9%E7%9B%AE/">JAVA-项目</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM/">JVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kafaka/">Kafaka</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Maven/">Maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spark/">Spark</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Boot/">Spring Boot</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringMVC/">SpringMVC</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/kafuka/">kafuka</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E5%B7%A5%E5%85%B7/">版本控制工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/JAVA/" style="font-size: 15px;">JAVA</a> <a href="/tags/FastDFS/" style="font-size: 15px;">FastDFS</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/JAVA-WEB/" style="font-size: 15px;">JAVA-WEB</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/SVN/" style="font-size: 15px;">SVN</a> <a href="/tags/Redis/" style="font-size: 15px;">Redis</a> <a href="/tags/kafuka/" style="font-size: 15px;">kafuka</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 15px;">linux命令</a> <a href="/tags/Maven/" style="font-size: 15px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/yum%E5%91%BD%E4%BB%A4/" style="font-size: 15px;">yum命令</a> <a href="/tags/SSL/" style="font-size: 15px;">SSL</a> <a href="/tags/Docker/" style="font-size: 15px;">Docker</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/Scala/" style="font-size: 15px;">Scala</a> <a href="/tags/Spark/" style="font-size: 15px;">Spark</a> <a href="/tags/Spring-Boot/" style="font-size: 15px;">Spring Boot</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 15px;">项目</a> <a href="/tags/SpringMVC/" style="font-size: 15px;">SpringMVC</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/%E5%BF%83%E6%83%85/" style="font-size: 15px;">心情</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2050/08/09/%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8F%90%E4%BA%A4/">👋 Hi!</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/09/30/maven%E7%9A%84pom%E9%85%8D%E7%BD%AE/">Maven的pom配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/12/kafuka%E6%93%8D%E4%BD%9C/">kafuka操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/12/CUP%E5%8D%A0%E7%94%A8%E7%8E%87%E8%BF%87%E9%AB%98%E5%AE%9A%E4%BD%8D%E8%BF%87%E7%A8%8B/">定位cup占用过高</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/11/Git/">Git</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/11/Docker/">Docker</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/11/Kafka/">Kafaka搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/11/Spring/">Spring</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/09/%E6%B7%BB%E5%8A%A0CA%E8%AF%81%E4%B9%A6/">添加CA证书执行步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/08/10/linux%E6%9F%A5%E7%9C%8B%E5%B7%B2%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E4%B8%8E%E5%8D%B8%E8%BD%BD/">linux查看已安装软件与卸载</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a href="/." rel="nofollow">云起迎风燕.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>

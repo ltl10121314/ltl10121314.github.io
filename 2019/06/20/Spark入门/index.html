@@ -1,37 +1,569 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>Spark | 云起迎风燕</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Spark</h1><a id="logo" href="/.">云起迎风燕</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/archives/"><i class="fa fa-archive"> Archive</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Spark</h1><div class="post-meta">2019-06-20<span> | </span><span class="category"><a href="/categories/Spark/">Spark</a></span></div><div class="post-content"><h1 id="1-Spark概述"><a href="#1-Spark概述" class="headerlink" title="1.Spark概述"></a>1.Spark概述</h1><p>官方网站：<a target="_blank" rel="noopener" href="http://spark.apache.org/">http://spark.apache.org</a></p>
+<p>Apache Spark 是专为大规模数据处理而设计的快速通用的计算引擎。Spark是UC Berkeley AMP lab (加州大学伯克利分校的AMP实验室)所开源的类Hadoop MapReduce的通用并行框架，Spark，拥有Hadoop MapReduce所具有的优点；<font color=red>但不同于MapReduce的是——Job中间输出结果可以保存在内存中，从而不再需要读写HDFS，因此Spark能更好地适用于数据挖掘与机器学习等需要迭代的MapReduce的算法</font></p>
+<p>Spark 是在Scala语言中实现的，它将Scala用作其应用程序框架。与Hadoop不同，Spark和Scala能够紧密集成，其中的Scala可以像操作本地集合对象一样轻松地操作分布式数据集</p>
+<p>尽管创建 Spark 是为了支持分布式数据集上的迭代作业，但是实际上它是对Hadoop的补充，可以在Hadoop文件系统中并行运行。可用来构建大型的、低延迟的数据分析应用程序</p>
+<p>spark的特点</p>
+<ul>
+<li><p>更快的速度</p>
+<p>内存计算下，Spark比Hadoop快100倍</p>
+</li>
+<li><p>易用性</p>
+<p>支持Java、Python、Scala、R多种实现</p>
+<p>Spark 提供了80多个高级运算符</p>
+</li>
+<li><p>通用性</p>
+<p>Spark 提供了大量的库，包括Spark Core、Spark SQL、Spark Streaming、MLlib、GraphX。 开发者可以在同一个应用程序中无缝组合使用这些库</p>
+</li>
+<li><p>支持多种资源管理器</p>
+<p>Spark 支持 Hadoop YARN，Apache Mesos，及其自带的独立集群管理器</p>
+</li>
+</ul>
+<p><strong>Spark生态系统</strong></p>
+<img src="http://ww1.sinaimg.cn/large/006tNc79gy1g556pl8s0oj30gw084wf5.jpg" width=400 />
 
+<p><strong>Spark集成</strong></p>
+<img src="http://ww2.sinaimg.cn/large/006tNc79gy1g556qmc4hfj30gs0fmgmf.jpg" width=350 />
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<h1 id="2-Spark入门"><a href="#2-Spark入门" class="headerlink" title="2.Spark入门"></a>2.Spark入门</h1><h2 id="2-1-Spark安装"><a href="#2-1-Spark安装" class="headerlink" title="2.1 Spark安装"></a>2.1 Spark安装</h2><ul>
+<li><p>预备环境</p>
+<ul>
+<li>jdk</li>
+<li>scala</li>
+<li>hadoop</li>
+</ul>
+</li>
+<li><p>部署模式</p>
+<img src="http://ww4.sinaimg.cn/large/006tNc79gy1g556tp9e04j3136076gnm.jpg" width=750 /></li>
+<li><p>环境搭建</p>
+<p>文件解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxf spark-1.6.3-bin-hadoop2.6.tgz –C /opt/modules</span><br></pre></td></tr></table></figure>
 
-{% block page_class %}page-post-detail{% endblock %}
+<p>配置SPARK_HOME</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vi ~/.bash_profile</span><br><span class="line">export SPARK_HOME=/opt/modules/spark-1.6.3-bin-hadoop2.6</span><br><span class="line">export PATH=$SPARK_HOME/bin:$PATH</span><br></pre></td></tr></table></figure>
 
+<p>spark环境配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vi spark-env.sh</span><br><span class="line">JAVA_HOME=/opt/modules/jdk1.8.0_191</span><br><span class="line">SCALA_HOME=/opt/modules/scala-2.10.7</span><br><span class="line">SPARK_MASTER_IP=master</span><br><span class="line">SPARK_WORKER_MEMORY=1g</span><br><span class="line">HADOOP_CONF_DIR=/opt/modules/hadoop-2.6.5/etc/hadoop</span><br></pre></td></tr></table></figure>
 
-{% block content %}
+<p>slave修改</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> A Spark Worker will be started on each of the machines listed below.</span></span><br><span class="line">localhost</span><br></pre></td></tr></table></figure>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+<p>将spark拷贝到slave节点</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp –r /opt/modules/spark-1.6.3-bin-hadoop2.6 root@slave1:/opt/modules</span><br></pre></td></tr></table></figure>
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
-    </div>
-  </div>
+<p>启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sbin/start-all.sh</span><br></pre></td></tr></table></figure>
 
-{% endblock %}
+<p>访问spark webui</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://ip:8080</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="2-2-基础概念"><a href="#2-2-基础概念" class="headerlink" title="2.2 基础概念"></a>2.2 基础概念</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">At a high level, every Spark application consists of a driver program that runs the user’s main function and executes various parallel operations on a cluster. The main abstraction Spark provides is a resilient distributed dataset (RDD), which is a collection of elements partitioned across the nodes of the cluster that can be operated on in parallel. RDDs are created by starting with a file in the Hadoop file system (or any other Hadoop-supported file system), or an existing Scala collection in the driver program, and transforming it. Users may also ask Spark to persist an RDD in memory, allowing it to be reused efficiently across parallel operations. Finally, RDDs automatically recover from node failures.</span><br></pre></td></tr></table></figure>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">从宏观的角度来看，每个spark应用程序都由一个驱动程序组成，该驱动程序运行用户的主要功能，并在集群上执行各种并行操作。Spark提供的主要抽象是一个弹性分布式数据集（RDD），它是跨集群节点分区的元素集合，可以并行操作。RDD是从Hadoop文件系统（或任何其他支持Hadoop的文件系统）中的文件或驱动程序中现有的scala集合开始创建的，并对其进行转换。用户还可能要求spark在内存中持久化RDD，从而允许在并行操作之间高效地重用RDD。最后，RDD可以自动从节点故障中恢复</span><br></pre></td></tr></table></figure>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+<h2 id="2-3-快速入门"><a href="#2-3-快速入门" class="headerlink" title="2.3 快速入门"></a>2.3 快速入门</h2><ul>
+<li><p>spark-shell实现wordCount</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> textFile = sc.textFile(<span class="string">&quot;README.md&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> wordCounts = textFile.flatMap(line =&gt; line.split(<span class="string">&quot; &quot;</span>)).map(word =&gt; (word, <span class="number">1</span>)).reduceByKey((a, b) =&gt; a + b)</span><br></pre></td></tr></table></figure></li>
+<li><p>手动实现wordCount</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">WorldCount</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">    <span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">              .setAppName(<span class="string">&quot;wordcount&quot;</span>)</span><br><span class="line">              .setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line">    <span class="keyword">val</span> textFile = sc.textFile(<span class="string">&quot;hdfs://master:9000/user/root/README.md&quot;</span>)</span><br><span class="line">    <span class="keyword">val</span> wordsRDD = textFile.flatMap(_.split(<span class="string">&quot; &quot;</span>))</span><br><span class="line">    <span class="keyword">val</span> wordCountRDD = wordsRDD.map((_, <span class="number">1</span>))</span><br><span class="line">    wordCountRDD.collect.foreach(println)</span><br><span class="line"></span><br><span class="line">    sc.stop</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>打包提交</p>
+<img src="http://ww1.sinaimg.cn/large/006tNc79gy1g557llabxej31010u0go5.jpg" width=800 /></li>
+<li><p>spark-submit脚本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">./bin/spark-submit \</span><br><span class="line"> --class WordCount \</span><br><span class="line"> --executor-memory 2G \</span><br><span class="line"> --total-executor-cores 2 \</span><br><span class="line"> /opt/modules/spark-1.6.3-bin-hadoop2.6/scala/spark-wordcount.jar</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="3-Spark架构设计"><a href="#3-Spark架构设计" class="headerlink" title="3.Spark架构设计"></a>3.Spark架构设计</h1><ul>
+<li><p>Spark组件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Spark applications run as independent sets of processes on a cluster, coordinated by the SparkContext object in your main program (called the driver program).</span><br><span class="line"></span><br><span class="line">Specifically, to run on a cluster, the SparkContext can connect to several types of cluster managers (either Spark’s own standalone cluster manager, Mesos or YARN), which allocate resources across applications. Once connected, Spark acquires executors on nodes in the cluster, which are processes that run computations and store data for your application. Next, it sends your application code (defined by JAR or Python files passed to SparkContext) to the executors. Finally, SparkContext sends tasks to the executors to run.</span><br></pre></td></tr></table></figure>
+
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Spark应用程序在集群上作为独立的进程集合运行，由主程序(称为驱动程序)中的sparkContext对象与Spark集群进行交互协调</span><br><span class="line"></span><br><span class="line">具体来说，要在集群上运行，可以通过SparkContext连接到几种类型的集群管理器(spark自己的独立集群管理器、meos或yarn)，它们会为要应用程序分配资源。连接后，Spark会在集群中的节点上获取执行器，这些执行器是运行计算并为应用程序存储数据的进程。随后，会将应用程序代码发送给执行器。最后，SparkContext将任务发送给执行器以运行</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://ww2.sinaimg.cn/large/006tNc79gy1g5585zdfguj30gk07yt94.jpg" alt="cluster-overview"></p>
+<p>关于这个体系结构，有几个有用的东西需要注意</p>
+<ul>
+<li>每个应用程序都有自己的执行器进程，这些进程在整个应用程序期间保持运行，并在多个线程中运行任务。这样做的好处是在调度端(每个驱动程序调度自己的任务)和执行端(来自不同应用程序的任务在不同的JVM中运行)将应用程序彼此隔离。但是，它还意味着，如果不将数据写入外部存储系统，就无法在不同的Spark应用程序(SparkContext实例)之间共享数据</li>
+<li>Spark对底层集群管理器不可知。要它能够获取执行器进程，并且这些进程彼此通信即可</li>
+<li>驱动程序必须在其整个生命周期内监听并接收来自其执行器的传入连接</li>
+<li>因为驱动程序在集群上调度任务，所以它应该在工作节点附近运行，最好在同一局域网上运行。如果您想远程向集群发送请求，最好打开驱动程序的RPC并让它从附近提交操作，而不是运行远离工作节点的驱动程序</li>
+</ul>
+</li>
+<li><p>集群相关术语说明</p>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Driver program</td>
+<td>运行应用程序的main函数并创建SparkContext的进程</td>
+</tr>
+<tr>
+<td>Cluster manager</td>
+<td>用于获取集群资源的外部服务</td>
+</tr>
+<tr>
+<td>Master</td>
+<td>进程，负责整个集群资源的调度、分配、监控等职责</td>
+</tr>
+<tr>
+<td>Worker node</td>
+<td>进程，负责存储RDD的某个或某些partition，启动其他进程或线程，对RDD的partition处理和计算</td>
+</tr>
+<tr>
+<td>Executor</td>
+<td>进程，运行任务，并将数据保存在内存或磁盘存储器中</td>
+</tr>
+<tr>
+<td>Task</td>
+<td>线程，对RDD的partition进行并行计算</td>
+</tr>
+<tr>
+<td>Stage</td>
+<td>每个作业被划分为更小的任务集，称为相互依赖的阶段(类似于map reduce中的map和reduce阶段)</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h1 id="4-RDD"><a href="#4-RDD" class="headerlink" title="4.RDD"></a>4.RDD</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">A Resilient Distributed Dataset (RDD), the basic abstraction in Spark. Represents an immutable, partitioned collection of elements that can be operated on in parallel. This class contains the basic operations available on all RDDs, such as map, filter, and persist. In addition, org.apache.spark.rdd.PairRDDFunctions contains operations available only on RDDs of key-value pairs, such as groupByKey and join; org.apache.spark.rdd.DoubleRDDFunctions contains operations available only on RDDs of Doubles; and org.apache.spark.rdd.SequenceFileRDDFunctions contains operations available on RDDs that can be saved as SequenceFiles. All operations are automatically available on any RDD of the right type (e.g. RDD[(Int, Int)] through implicit.</span><br><span class="line"></span><br><span class="line">Internally, each RDD is characterized by five main properties:</span><br><span class="line"></span><br><span class="line">A list of partitions</span><br><span class="line">A function for computing each split</span><br><span class="line">A list of dependencies on other RDDs</span><br><span class="line">Optionally, a Partitioner for key-value RDDs (e.g. to say that the RDD is hash-partitioned)</span><br><span class="line">Optionally, a list of preferred locations to compute each split on (e.g. block locations for an HDFS file)</span><br><span class="line">All of the scheduling and execution in Spark is done based on these methods, allowing each RDD to implement its own way of computing itself. Indeed, users can implement custom RDDs (e.g. for reading data from a new storage system) by overriding these functions. Please refer to the Spark paper for more details on RDD internals.</span><br></pre></td></tr></table></figure>
+
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">弹性分布式数据集(RDD)，Spark中的基本抽象。表示可以并行操作的元素的不可变分区集合。此类包含所有RDD上可用的基本操作，如map、filter和persist。此外，org.apache.spark.rdd.PairRDDFunctions包含仅在键值对的RDD上可用的操作，如GroupByKey和Join。org.apache.spark.rdd.DoubleRDDFunctions包含仅在Double的RDD上可用的操作。org.apache.spark.rdd.SequenceFileRDDFunctions包含对Sequencewen文件的操作。通过隐式转换，所有操作在任何正确类型的RDD上自动可用</span><br><span class="line"></span><br><span class="line">在内部，每个RDD具有五个主要特性</span><br><span class="line"></span><br><span class="line">分区列表</span><br><span class="line">用于计算每个拆分的函数</span><br><span class="line">依赖于其他RDD的列表</span><br><span class="line">可选，键值RDD的分区程序（例如说RDD是哈希分区的）</span><br><span class="line">可选，计算每个拆分的首选位置列表(例如，HDFS文件的块位置)</span><br><span class="line">spark中的所有调度和执行都是基于这些方法完成的，允许每个RDD实现自己的计算方式。</span><br><span class="line">实际上，用户可以通过覆盖这些功能来实现自定义RDD</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-1-RDD创建"><a href="#4-1-RDD创建" class="headerlink" title="4.1 RDD创建"></a>4.1 RDD创建</h2><p>Spark围绕弹性分布式数据集(RDD)的概念展开，RDD是一个可以并行操作的容错元素集合</p>
+<p>创建RDD有两种方法</p>
+<ul>
+<li>并行化已有集合</li>
+<li>引用外部存储系统中的数据集</li>
+</ul>
+<p><strong>并行化已有集合</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> data = <span class="type">Array</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line"><span class="keyword">val</span> distData = sc.parallelize(data)</span><br></pre></td></tr></table></figure>
+
+<p>并行集合的一个重要参数是要将数据集拆分后的分区数。spark将为集群的每个分区运行一个任务。通常，您需要为集群中的每个CPU分配2-4个分区。通常，spark会根据集群自动设置分区数。但是，您也可以通过将其作为第二个参数传递给<code>parallelize</code>函数</p>
+<p><strong>外部数据集</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> distFile = sc.textFile(<span class="string">&quot;data.txt&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>使用spark读取文件的一些注意事项</p>
+<ul>
+<li><p>如果在本地文件系统上使用路径，则该文件也必须可以在工作节点上的同一路径上访问</p>
+</li>
+<li><p>Spark所有基于文件的输入方法，包括textfile、支持在目录上运行、压缩文件和通配符。</p>
+<p>例如，可以使用textfile(“/my/directory”)、textfile(“/my/directory/<em>.txt”)和textfile(“/my/directory/</em>.gz”)</p>
+</li>
+<li><p>textfile方法还采用可选的第二个参数来控制文件的分区数。默认情况下，spark为文件的每个块创建一个分区(HDFS中的块默认为64MB)，但您也可以通过传递较大的值来请求更多的分区。请注意，分区数不能少于块的数量</p>
+</li>
+</ul>
+<h2 id="4-2-RDD操作"><a href="#4-2-RDD操作" class="headerlink" title="4.2 RDD操作"></a>4.2 RDD操作</h2><p>RDD支持两种类型的操作</p>
+<ul>
+<li><p>transformations</p>
+<p>从现有的数据集创建新的数据集</p>
+</li>
+<li><p>actions</p>
+<p>在对数据集运行计算后将值返回给Driver program</p>
+</li>
+</ul>
+<p><font color=red>Spark中所有的transformation操作都是懒惰的，因此它们并不会立即计算结果。相反，它们只是记住应用于某些基本数据集的转换。只有在执行action操作将结果返回到Driver program时，才会开始对transformation操作进行计算。</font>这种设计使Spark能够更高效的运行</p>
+<p>默认情况下，每次对每个已转换的RDD重新运行操作时，都会重新计算它。但是，您也可以使用persist(或cache)方法在内存中持久化RDD，在这种情况下，spark将保留集群中的元素，以便下次查询时更快地访问它。还支持在磁盘上持久化RDD，或跨多个节点复制RDD</p>
+<p><strong>考虑如下程序</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> lines = sc.textFile(<span class="string">&quot;data.txt&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> lineLengths = lines.map(s =&gt; s.length)</span><br><span class="line"><span class="keyword">val</span> totalLength = lineLengths.reduce((a, b) =&gt; a + b)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第一行定义了来自外部文件的基本RDD，此数据集未加载到内存中</li>
+<li>第二行将内容的长度定义为RDD转换的结果，由于懒惰，不会立即计算行长度</li>
+<li>最后，我们运行reduce，这是一个action操作。在这一点上，spark将计算分解为在不同的机器上运行的任务，并且每台机器同时运行其映射部分，并返回运行结果到driver program</li>
+</ul>
+<p>如果你想再次使用<code>lineLengths</code>，可将其进行持久化，避免重新计算</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lineLengths.persist()</span><br></pre></td></tr></table></figure>
+
+<p>在进行reduce之前，这将导致在第一次计算之后将行<code>lineLengths</code>保存到内存中</p>
+<p><strong>生命周期</strong></p>
+<p>Spark的难点之一是在集群中执行代码时了解变量和方法的范围和生命周期</p>
+<p>代码如下</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> counter = <span class="number">0</span></span><br><span class="line"><span class="keyword">var</span> rdd = sc.parallelize(data)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Wrong: Don&#x27;t do this!!</span></span><br><span class="line">rdd.foreach(x =&gt; counter += x)</span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;Counter value: &quot;</span> + counter)</span><br></pre></td></tr></table></figure>
+
+<p><strong>local vs cluster mode</strong></p>
+<p>上述代码可能无法达到预期的效果，为了执行任务，spark会将RDD的操作分解成任务，每个任务由对应的<code>executor</code>来执行。在任务执行前，spark会计算任务任务的闭包，所谓闭包就是就是RDD在执行时需要使用到的变量与方法的集合，这些闭包内容会被序列化发送给每一个<code>executor</code></p>
+<p>发送给<code>executor</code>的变量是driver program上的变量副本，当foreach函数引用counter时，它实际只用引用的是counter的变量副本，因此counter最终的值为0</p>
+<p>为了确保在这些场景中定义良好的行为，应该使用累加器。Spark中的累加器专门用于提供一种机制，在集群中跨工作节点拆分执行时安全地更新变量</p>
+<p>通常，闭包——类似于循环或本地定义的方法的构造，不应该用于改变某些全局状态</p>
+<p>另一个常见的习惯用法是使用<code>rdd.foreach(println)</code>或<code>rdd.map(println)</code>打印出RDD的元素</p>
+<p>在一台机器上，这将生成预期的输出并打印所有RDD元素。但在集群模式下，元素的打印会输出到<code>executor</code>的stdout上，而不是driver program端的stdout</p>
+<p>要打印驱动程序上的所有元素，可以使用<code>collect()</code>方法先将RDD的数据带回到driver program，再进行打印</p>
+<p>即<code>rdd.collect().foreach(println)</code></p>
+<p>但这将导致driver program内存耗尽，因为<code>collect()</code>将整个RDD提取到一台机器上</p>
+<p>通常建议使用<code>rdd.take(100).foreach(println)</code>数据前几条数据</p>
+<p><strong>Transformations</strong></p>
+<table>
+<thead>
+<tr>
+<th>转换</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>map</strong>(<em>func</em>)</td>
+<td>返回一个新的RDD，该RDD由每一个输入元素经过func函数转换后组成</td>
+</tr>
+<tr>
+<td><strong>filter</strong>(<em>func</em>)</td>
+<td>返回一个新的RDD，该RDD经过func函数计算后返回值为true的输入元素组成</td>
+</tr>
+<tr>
+<td><strong>flatMap</strong>(<em>func</em>)</td>
+<td>类似于map，但每个输入元素可以被映射为0或多个输出元素(所以func应该返回一个序列，而不是单一元素)</td>
+</tr>
+<tr>
+<td><strong>mapPartitions</strong>(<em>func</em>)</td>
+<td>类似于map，但独立的在RDD的每个分区上运行，因此在类型为T的RDD上运行时，func函数的类型必须是Iterator<T> =&gt; Iterator<U></td>
+</tr>
+<tr>
+<td><strong>mapPartitionsWithIndex</strong>(<em>func</em>)</td>
+<td>类似于mapPartitions，但func带有一个整形参数表示分片的索引值，因此在类型为T的RDD上运行时，func函数的类型必须(Int, Iterator<T>) =&gt; Iterator<U></td>
+</tr>
+<tr>
+<td><strong>sample</strong>(<em>withReplacement</em>, <em>fraction</em>, <em>seed</em>)</td>
+<td>根据fraction指定的比例对数据进行采样，可以选择是否使用随机数进行替换，seed用于指定随机数生成器种子</td>
+</tr>
+<tr>
+<td><strong>union</strong>(<em>otherDataset</em>)</td>
+<td>对源RDD和参数RDD求并集后并返回一个新的RDD</td>
+</tr>
+<tr>
+<td><strong>intersection</strong>(<em>otherDataset</em>)</td>
+<td>对源RDD和参数RDD求交集后并返回一个新的RDD</td>
+</tr>
+<tr>
+<td><strong>distinct</strong>([<em>numTasks</em>]))</td>
+<td>对源RDD进行去重后，返回一个新的RDD</td>
+</tr>
+<tr>
+<td><strong>groupByKey</strong>([<em>numTasks</em>])</td>
+<td>在一个(K,V)形式的RDD上调用，返回一个(K,Iterator[V])的RDD</td>
+</tr>
+<tr>
+<td><strong>reduceByKey</strong>(<em>func</em>, [<em>numTasks</em>])</td>
+<td>在一个(K,V)形式的RDD上调用，返回一个(K,V)的RDD，使用指定的reduce函数，将相同key的值聚合到一起，与groupBy类似，reduce任务的个数可以通过第二个参数来设置</td>
+</tr>
+<tr>
+<td><strong>aggregateByKey</strong>(<em>zeroValue</em>)(<em>seqOp</em>, <em>combOp</em>, [<em>numTasks</em>])</td>
+<td>当调用(K,V)对的数据集时，返回(K,U)数据集，其中每个key的值使用给定的聚合函数和中性”零”值进行聚合。与groupbykey类似，reduce任务的数量可以通过可选的第二个参数进行配置</td>
+</tr>
+<tr>
+<td><strong>sortByKey</strong>([<em>ascending</em>], [<em>numTasks</em>])</td>
+<td>在一个(K,V)形式的RDD上调用，K必须实现Ordered接口，返回一个按照key进行排序的(K,V)的RDD</td>
+</tr>
+<tr>
+<td><strong>join</strong>(<em>otherDataset</em>, [<em>numTasks</em>])</td>
+<td>当调用(K,V)和(K,W)类型的数据集时，返回一个(K,(V,W))形式的数据集，支持leftouterjoin、rightouterjoin和fulloterjoin</td>
+</tr>
+<tr>
+<td><strong>cogroup</strong>(<em>otherDataset</em>, [<em>numTasks</em>])</td>
+<td>当调用(K,V)和(K,W)类型的数据集时，返回(K,(iterable<V>，iterable<V>）元组的数据集</td>
+</tr>
+<tr>
+<td><strong>cartesian</strong>(<em>otherDataset</em>)</td>
+<td>当调用T和U类型的数据集时，返回一个(T,U)类型的数据集</td>
+</tr>
+<tr>
+<td><strong>pipe</strong>(<em>command</em>, <em>[envVars]</em>)</td>
+<td>通过shell命令(例如perl或bash脚本)对RDD的每个分区进行管道连接。RDD元素写入进程的stdin，输出到其stdout的行作为字符串的RDD返回</td>
+</tr>
+<tr>
+<td><strong>coalesce</strong>(<em>numPartitions</em>)</td>
+<td>将RDD中的分区数减少到numPartitions。在过滤大型数据集后，可以更高效地运行操作</td>
+</tr>
+<tr>
+<td><strong>repartition</strong>(<em>numPartitions</em>)</td>
+<td>随机重组RDD中的数据，以创建更多或更少的分区，并在分区之间进行平衡，总是会产生shuffle操作</td>
+</tr>
+<tr>
+<td><strong>repartitionAndSortWithinPartitions</strong>(<em>partitioner</em>)</td>
+<td>根据给定的分区器对RDD重新分区，并在每个生成的分区内，按键对记录进行排序。这比调用重新分区然后在每个分区内进行排序更有效，因为它可以将排序向下推送到无序处理机器中</td>
+</tr>
+</tbody></table>
+<p><strong>map</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">      .setAppName(<span class="string">&quot;map function&quot;</span>)</span><br><span class="line">      .setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"><span class="comment">//初始化数组</span></span><br><span class="line"><span class="keyword">val</span> arr = <span class="type">Array</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>)</span><br><span class="line"><span class="keyword">val</span> numRDD = sc.parallelize(arr)</span><br><span class="line"><span class="keyword">val</span> resultRDD = numRDD.map(x =&gt; x * x)</span><br><span class="line">resultRDD.collect.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<p><strong>filter</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">      .setAppName(<span class="string">&quot;filter function&quot;</span>)</span><br><span class="line">      .setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"><span class="comment">//初始化数组</span></span><br><span class="line"><span class="keyword">val</span> arr = <span class="type">Array</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>)</span><br><span class="line"><span class="keyword">val</span> numRDD = sc.parallelize(arr)</span><br><span class="line"><span class="keyword">val</span> resultRDD = numRDD.filter(_ % <span class="number">2</span> == <span class="number">0</span>)</span><br><span class="line">resultRDD.collect.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<p><strong>flatMap</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">      .setAppName(<span class="string">&quot;flatMap function&quot;</span>)</span><br><span class="line">      .setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"><span class="comment">//初始化数组</span></span><br><span class="line"><span class="keyword">val</span> words = <span class="type">Array</span>(<span class="string">&quot;hello python&quot;</span>, <span class="string">&quot;hello hadoop&quot;</span>, <span class="string">&quot;hello spark&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> wordRDD = sc.parallelize(words)</span><br><span class="line">wordRDD.flatMap(_.split(<span class="string">&quot; &quot;</span>)).collect.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<p><strong>mapPartitions</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">      .setAppName(<span class="string">&quot;mapPartitions function&quot;</span>)</span><br><span class="line">      .setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"><span class="keyword">val</span> arrayRDD = sc.parallelize(<span class="type">Array</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>))</span><br><span class="line">arrayRDD.mapPartitions(elements =&gt; &#123;</span><br><span class="line">	<span class="keyword">val</span> result = <span class="keyword">new</span> <span class="type">ArrayBuffer</span>[<span class="type">Int</span>]</span><br><span class="line">	elements.foreach(e =&gt; &#123;</span><br><span class="line">		result += e</span><br><span class="line">	&#125;)</span><br><span class="line">	result.iterator</span><br><span class="line">&#125;).foreach(println)</span><br></pre></td></tr></table></figure>
+
+<p><strong>mapPartitionsWithIndex</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">      .setAppName(<span class="string">&quot;mapPartitionsWithIndex function&quot;</span>)</span><br><span class="line">      .setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"><span class="keyword">val</span> arrayRDD = sc.parallelize(<span class="type">Array</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>), <span class="number">2</span>)</span><br><span class="line">arrayRDD.mapPartitionsWithIndex((index,elements) =&gt; &#123;</span><br><span class="line">	println(<span class="string">&quot;partition index: &quot;</span> + index)</span><br><span class="line">	<span class="keyword">val</span> result = <span class="keyword">new</span> <span class="type">ArrayBuffer</span>[<span class="type">Int</span>]</span><br><span class="line">	elements.foreach(e =&gt; &#123;</span><br><span class="line">	result += e</span><br><span class="line">	&#125;)</span><br><span class="line">	result.iterator</span><br><span class="line">&#125;).foreach(println)</span><br></pre></td></tr></table></figure>
+
+<p><strong>sample</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">	.setAppName(<span class="string">&quot;sample function&quot;</span>)</span><br><span class="line">	.setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"><span class="keyword">val</span> arrayRDD = sc.parallelize(<span class="number">0</span> to <span class="number">10000</span>)</span><br><span class="line"><span class="keyword">val</span> sampleRDD = arrayRDD.sample(<span class="literal">false</span>, <span class="number">0.2</span>)</span><br><span class="line">println(sampleRDD.count)</span><br></pre></td></tr></table></figure>
+
+<p><strong>groupByKey</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">      .setAppName(<span class="string">&quot;groupByKey function&quot;</span>)</span><br><span class="line">      .setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"><span class="comment">//初始化数组</span></span><br><span class="line"><span class="keyword">val</span> scores = <span class="type">Array</span>(<span class="type">Tuple2</span>(<span class="string">&quot;class1&quot;</span>, <span class="number">80</span>), <span class="type">Tuple2</span>(<span class="string">&quot;class2&quot;</span>, <span class="number">90</span>), <span class="type">Tuple2</span>(<span class="string">&quot;class1&quot;</span>, <span class="number">100</span>))</span><br><span class="line"><span class="keyword">val</span> scoreRDD = sc.parallelize(scores)</span><br><span class="line">scoreRDD.groupByKey.collect.foreach(_._2.foreach(println))</span><br></pre></td></tr></table></figure>
+
+<p><strong>reduceByKey</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">      .setAppName(<span class="string">&quot;reduceByKey function&quot;</span>)</span><br><span class="line">      .setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"><span class="comment">//初始化数组</span></span><br><span class="line"><span class="keyword">val</span> scores = <span class="type">Array</span>(<span class="type">Tuple2</span>(<span class="string">&quot;class1&quot;</span>, <span class="number">80</span>), <span class="type">Tuple2</span>(<span class="string">&quot;class2&quot;</span>, <span class="number">90</span>), <span class="type">Tuple2</span>(<span class="string">&quot;class1&quot;</span>, <span class="number">100</span>))</span><br><span class="line"><span class="keyword">val</span> scoreRDD = sc.parallelize(scores)</span><br><span class="line">scoreRDD.reduceByKey(_+_).collect.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<p><strong>sortByKey</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">      .setAppName(<span class="string">&quot;sortByKey function&quot;</span>)</span><br><span class="line">      .setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"><span class="comment">//初始化数组</span></span><br><span class="line"><span class="keyword">val</span> scores = <span class="type">Array</span>(<span class="type">Tuple2</span>(<span class="string">&quot;mike&quot;</span>, <span class="number">80</span>), <span class="type">Tuple2</span>(<span class="string">&quot;max&quot;</span>, <span class="number">90</span>), <span class="type">Tuple2</span>(<span class="string">&quot;bob&quot;</span>, <span class="number">100</span>))</span><br><span class="line"><span class="keyword">val</span> scoreRDD = sc.parallelize(scores)</span><br><span class="line"><span class="keyword">val</span> sortByKeyRDD = scoreRDD.map(x =&gt; (x._2, x._1)).sortByKey(<span class="literal">false</span>).map(x =&gt; (x._2, x._1))</span><br><span class="line">sortByKeyRDD.collect.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<p><strong>join</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">      .setAppName(<span class="string">&quot;join function&quot;</span>)</span><br><span class="line">      .setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"><span class="comment">//学生信息</span></span><br><span class="line"><span class="keyword">val</span> students = <span class="type">Array</span>(</span><br><span class="line">	<span class="type">Tuple2</span>(<span class="number">1</span>, <span class="string">&quot;max&quot;</span>),</span><br><span class="line">	<span class="type">Tuple2</span>(<span class="number">2</span>, <span class="string">&quot;mike&quot;</span>),</span><br><span class="line">	<span class="type">Tuple2</span>(<span class="number">3</span>, <span class="string">&quot;bob&quot;</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">//分数</span></span><br><span class="line"><span class="keyword">val</span> scores = <span class="type">Array</span>(</span><br><span class="line">	<span class="type">Tuple2</span>(<span class="number">1</span>, <span class="number">90</span>),</span><br><span class="line">	<span class="type">Tuple2</span>(<span class="number">2</span>, <span class="number">120</span>),</span><br><span class="line">	<span class="type">Tuple2</span>(<span class="number">3</span>, <span class="number">80</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> stuRDD = sc.parallelize(students)</span><br><span class="line"><span class="keyword">val</span> scoresRDD = sc.parallelize(scores)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> resultRDD = stuRDD.join(scoresRDD).sortByKey()</span><br><span class="line">	resultRDD.foreach(x =&gt; &#123;</span><br><span class="line">	println(<span class="string">&quot;id: &quot;</span> + x._1 + <span class="string">&quot; name: &quot;</span> + x._2._1 + <span class="string">&quot; score: &quot;</span> + x._2._2)</span><br><span class="line">	println(<span class="string">&quot;=========================&quot;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>cogroup</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">      .setAppName(<span class="string">&quot;cogroup function&quot;</span>)</span><br><span class="line">      .setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"><span class="comment">//学生信息</span></span><br><span class="line"><span class="keyword">val</span> students = <span class="type">Array</span>(</span><br><span class="line">	<span class="type">Tuple2</span>(<span class="string">&quot;class1&quot;</span>, <span class="string">&quot;max&quot;</span>),</span><br><span class="line">	<span class="type">Tuple2</span>(<span class="string">&quot;class1&quot;</span>, <span class="string">&quot;mike&quot;</span>),</span><br><span class="line">	<span class="type">Tuple2</span>(<span class="string">&quot;class2&quot;</span>, <span class="string">&quot;bob&quot;</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">//分数</span></span><br><span class="line"><span class="keyword">val</span> scores = <span class="type">Array</span>(</span><br><span class="line">	<span class="type">Tuple2</span>(<span class="string">&quot;class1&quot;</span>, <span class="number">90</span>),</span><br><span class="line">	<span class="type">Tuple2</span>(<span class="string">&quot;class1&quot;</span>, <span class="number">120</span>),</span><br><span class="line">	<span class="type">Tuple2</span>(<span class="string">&quot;class2&quot;</span>, <span class="number">80</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> stuRDD = sc.parallelize(students)</span><br><span class="line"><span class="keyword">val</span> scoresRDD = sc.parallelize(scores)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> resultRDD = stuRDD.cogroup(scoresRDD).sortByKey()</span><br><span class="line">resultRDD.foreach(x =&gt; &#123;</span><br><span class="line">	println(<span class="string">&quot;class: &quot;</span> + x._1 )</span><br><span class="line"><span class="keyword">for</span>(i &lt;- x._2._1) &#123;</span><br><span class="line">	println(i)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(j &lt;- x._2._2) &#123;</span><br><span class="line">	println(j)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">println(<span class="string">&quot;=================&quot;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>union</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">      .setAppName(<span class="string">&quot;union function&quot;</span>)</span><br><span class="line">      .setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> rdd1 = sc.parallelize(<span class="number">1</span> to <span class="number">10</span>)</span><br><span class="line"><span class="keyword">val</span> rdd2 = sc.parallelize(<span class="number">11</span> to <span class="number">20</span>)</span><br><span class="line"><span class="keyword">val</span> result = rdd1.union(rdd2)</span><br><span class="line">result.collect.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<p><strong>intersection</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">      .setAppName(<span class="string">&quot;intersection function&quot;</span>)</span><br><span class="line">      .setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> rdd1 = sc.parallelize(<span class="type">Array</span>(<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">8</span>))</span><br><span class="line"><span class="keyword">val</span> rdd2 = sc.parallelize(<span class="type">Array</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>))</span><br><span class="line"><span class="keyword">val</span> result = rdd1.intersection(rdd2)</span><br><span class="line">result.collect.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<p><strong>distinct</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">      .setAppName(<span class="string">&quot;distinct function&quot;</span>)</span><br><span class="line">      .setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> arr = <span class="type">Array</span>(</span><br><span class="line"><span class="type">Tuple3</span>(<span class="string">&quot;max&quot;</span>, <span class="string">&quot;math&quot;</span>, <span class="number">90</span>),</span><br><span class="line"><span class="type">Tuple3</span>(<span class="string">&quot;max&quot;</span>, <span class="string">&quot;english&quot;</span>, <span class="number">85</span>),</span><br><span class="line"><span class="type">Tuple3</span>(<span class="string">&quot;mike&quot;</span>, <span class="string">&quot;math&quot;</span>, <span class="number">100</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> scoreRDD = sc.parallelize(arr)</span><br><span class="line"><span class="keyword">val</span> userNumber = scoreRDD.map(_._1).distinct.collect</span><br><span class="line">println(userNumber.mkString(<span class="string">&quot;,&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<p><strong>cartesian</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">      .setAppName(<span class="string">&quot;cartesian function&quot;</span>)</span><br><span class="line">      .setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> arr1 = sc.parallelize(<span class="type">Array</span>(<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>))</span><br><span class="line"><span class="keyword">val</span> arr2 = sc.parallelize(<span class="type">Array</span>(<span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>))</span><br><span class="line">arr1.cartesian(arr2).collect.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<p><strong>pipe</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">.setAppName(<span class="string">&quot;pipe function&quot;</span>)</span><br><span class="line">.setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> rdd = sc.parallelize(<span class="number">1</span> to <span class="number">100</span>, <span class="number">10</span>)</span><br><span class="line">rdd.pipe(<span class="string">&quot;head -n 1&quot;</span>).collect.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<p><strong>coalesce与repartition</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">      .setAppName(<span class="string">&quot;coalesce function&quot;</span>)</span><br><span class="line">      .setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> rdd1 = sc.parallelize(<span class="number">1</span> to <span class="number">100</span>, <span class="number">10</span>)</span><br><span class="line">println(rdd1.partitions.length)</span><br><span class="line"><span class="keyword">var</span> rdd2 = rdd1.coalesce(<span class="number">15</span>, <span class="literal">true</span>)</span><br><span class="line"><span class="keyword">var</span> rdd3 = rdd1.repartition(<span class="number">15</span>)</span><br><span class="line">println(rdd2.partitions.length)</span><br><span class="line">println(rdd3.partitions.length)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>aggregateByKey</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">      .setAppName(<span class="string">&quot;aggregateByKey function&quot;</span>)</span><br><span class="line">      .setMaster(<span class="string">&quot;local&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> data = <span class="type">List</span>((<span class="number">1</span>, <span class="number">3</span>), (<span class="number">1</span>, <span class="number">4</span>), (<span class="number">2</span>, <span class="number">3</span>), (<span class="number">3</span>, <span class="number">6</span>), (<span class="number">1</span>, <span class="number">2</span>), (<span class="number">3</span>, <span class="number">8</span>))</span><br><span class="line"><span class="keyword">val</span> rdd = sc.parallelize(data, <span class="number">3</span>)</span><br><span class="line">rdd.aggregateByKey(<span class="number">0</span>)(math.max(_, _), _ + _).collect.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<p><strong>Actions</strong></p>
+<table>
+<thead>
+<tr>
+<th>动作</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>reduce</strong>(<em>func</em>)</td>
+<td>使用函数func聚合数据集的元素(函数func接受两个参数并返回一个参数)。函数应该是交换的和结合的，这样才能正确地并行计算</td>
+</tr>
+<tr>
+<td><strong>collect</strong>()</td>
+<td>在driver program中，以数组的形式返回数据集的所有元素</td>
+</tr>
+<tr>
+<td><strong>count</strong>()</td>
+<td>返回RDD的元素个数</td>
+</tr>
+<tr>
+<td><strong>first</strong>()</td>
+<td>返回RDD的第一个元素(类似take(1))</td>
+</tr>
+<tr>
+<td><strong>take</strong>(<em>n</em>)</td>
+<td>返回一个由数据集前n个元素组成的数组</td>
+</tr>
+<tr>
+<td><strong>takeSample</strong>(<em>withReplacement</em>, <em>num</em>, [<em>seed</em>])</td>
+<td>返回一个数组，该数组由从数据集中随机采样num个元素组成。可以选择是否采用随机数替换不足的部分，seed用于指定随机数生成器种子</td>
+</tr>
+<tr>
+<td><strong>takeOrdered</strong>(<em>n</em>, <em>[ordering]</em>)</td>
+<td>使用RDD的自然顺序或自定义比较器返回RDD的前n个元素</td>
+</tr>
+<tr>
+<td><strong>saveAsTextFile</strong>(<em>path</em>)</td>
+<td>将数据集的元素以textfile的形式保存到HDFS文件系统或其他文件系统</td>
+</tr>
+<tr>
+<td><strong>saveAsSequenceFile</strong>(<em>path</em>) (Java and Scala)</td>
+<td>将数据集中的元素以Hadoop sequencefile的格式保存到指定的目录下</td>
+</tr>
+<tr>
+<td><strong>saveAsObjectFile</strong>(<em>path</em>) (Java and Scala)</td>
+<td>使用Java序列化将数据集的元素以一种简单的格式写入，然后可以使用</td>
+</tr>
+<tr>
+<td><strong>countByKey</strong>()</td>
+<td>针对(K,V)类型的RDD，返回一个(K,int)的map，表示每一个key对应元素的个数</td>
+</tr>
+<tr>
+<td><strong>foreach</strong>(<em>func</em>)</td>
+<td>对数据集的每个元素运行函数func</td>
+</tr>
+</tbody></table>
+<h2 id="4-3-Shuffle操作"><a href="#4-3-Shuffle操作" class="headerlink" title="4.3 Shuffle操作"></a>4.3 Shuffle操作</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Certain operations within Spark trigger an event known as the shuffle. The shuffle is Spark’s mechanism for re-distributing data so that it’s grouped differently across partitions. This typically involves copying data across executors and machines, making the shuffle a complex and costly operation</span><br></pre></td></tr></table></figure>
+
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Spark中的某些操作会触发一个称为shuffle的事件。shuffle是spark重新分配数据的机制，因此它在分区之间的分组方式不同。这通常涉及到跨执行器和机器复制数据，使无序处理成为一个复杂且昂贵的操作</span><br></pre></td></tr></table></figure>
+
+<img src="http://ww2.sinaimg.cn/large/006tNc79gy1g5a04bnt0jj30wa02oq38.jpg" width=700 />
+
+<p>What happens when we do a <code>groupBy</code> or a <code>groupByKey</code> on a RDD? (Remember that our data is distributed on multiple nodes).</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> list = <span class="type">List</span>((<span class="number">1</span>, <span class="string">&quot;one&quot;</span>),(<span class="number">2</span>, <span class="string">&quot;two&quot;</span>),(<span class="number">3</span>, <span class="string">&quot;three&quot;</span>))</span><br><span class="line"><span class="keyword">val</span> pairs = sc.parallelize(list)</span><br><span class="line">pairs.groupByKey()</span><br><span class="line"><span class="comment">// &gt; res2: org.apache.spark.rdd.RDD[(Int, Iterable[String])] </span></span><br><span class="line"><span class="comment">//         = ShuffledRDD[16] at groupByKey at &lt;console&gt;:37</span></span><br></pre></td></tr></table></figure>
+
+<p>We typically have to move data from one node to another to be “grouped” with its “key”. Doing this is called <strong>Shuffling</strong>. We never call this shuffle method directly, but it happens behind to curtains for some other functions as above.</p>
+<p>This might be very expensive for performance because of <strong>Latency</strong>!</p>
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">通常，我们不得不将数据从一个节点移动到另一个节点，以便根据键进行&quot;分组&quot;。这种操作就叫做洗牌。我们并没有直接调用shuffle相关的方法，但它发生在行为幕后</span><br><span class="line"></span><br><span class="line">这种操作对于性能可能非常昂贵</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CFF是一家瑞士火车公司</span></span><br><span class="line"><span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">CFFPurchase</span>(<span class="params">customerId: <span class="type">Int</span>, destination: <span class="type">String</span>, price: <span class="type">Double</span></span>)</span></span><br><span class="line"><span class="comment">// 假设我们有一个用户过去一个月内的火车票购买记录的RDD</span></span><br><span class="line"><span class="keyword">val</span> purchasesRdd: <span class="type">RDD</span>[<span class="type">CFFPurchase</span>] = sc.textFile(...)</span><br></pre></td></tr></table></figure>
+
+<p><strong>Data Set</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> purchases = <span class="type">List</span>( <span class="type">CFFPurchase</span>(<span class="number">100</span>, <span class="string">&quot;Geneva&quot;</span>, <span class="number">22.25</span>),</span><br><span class="line">                      <span class="type">CFFPurchase</span>(<span class="number">100</span>, <span class="string">&quot;Zurich&quot;</span>, <span class="number">42.10</span>),</span><br><span class="line">                      <span class="type">CFFPurchase</span>(<span class="number">100</span>, <span class="string">&quot;Fribourg&quot;</span>, <span class="number">12.40</span>),</span><br><span class="line">                      <span class="type">CFFPurchase</span>(<span class="number">100</span>, <span class="string">&quot;St.Gallen&quot;</span>, <span class="number">8.20</span>),</span><br><span class="line">                      <span class="type">CFFPurchase</span>(<span class="number">100</span>, <span class="string">&quot;Lucerne&quot;</span>, <span class="number">31.60</span>),</span><br><span class="line">                      <span class="type">CFFPurchase</span>(<span class="number">100</span>, <span class="string">&quot;Basel&quot;</span>, <span class="number">16.20</span>) )</span><br></pre></td></tr></table></figure>
+
+<p><font color=red>目标：计算一个月内每个客户的旅行次数和花费金额</font></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> purchasesPerMonth = purchasesRdd</span><br><span class="line">						  .map( p =&gt; (p.customerId, p.price) ) <span class="comment">// pair RDD</span></span><br><span class="line">                          .groupByKey()                        <span class="comment">// RDD[K, Iterable[V]] i.e</span></span><br><span class="line">							<span class="comment">// RDD[p.customerId, Iterable[p.price]]</span></span><br><span class="line">                          .map( p =&gt; (p._1, (p._2.size, p._2.sum)) )</span><br><span class="line">                          .collect()</span><br></pre></td></tr></table></figure>
+
+<p>How would this look on a cluster?</p>
+<p>Lets say we have 3 nodes and our data is evenly distributed on it, so above operations look like this:</p>
+<p><img src="http://ww3.sinaimg.cn/large/006tNc79gy1g5a0ksczwlj31380f2dio.jpg" alt="image-20190723194948930"></p>
+<p> <font color=red>This shuffling is very expensive because of <strong>Latency</strong>.</font></p>
+<p><strong>Can we do a better job?</strong></p>
+<p>Perhaps we can reduce before we shuffle. This could greatly reduce the amount of data we send over network.</p>
+<p>To do this we use <code>reduceByKey</code></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> purchasesPerMonth = purchasesRdd.map( p =&gt; (p.customerId, (<span class="number">1</span>, p.price)) ) <span class="comment">// pair RDD</span></span><br><span class="line">                                    .reduceByKey( (v1, v2) =&gt; (v1._1 + v2._1, v1._2 + v2._2) )</span><br><span class="line">                                    .collect()        </span><br></pre></td></tr></table></figure>
+
+<p>What will this look like on the cluster?</p>
+<p><img src="http://ww3.sinaimg.cn/large/006tNc79gy1g5a0nao0wjj313i0eutaw.jpg" alt="image-20190723195214877"></p>
+<p><strong>Note</strong>: Here we shuffle considerable less amount of data, just by using <code>reduceByKey</code> instead of doing a <code>groupByKey</code> followed by <code>map</code></p>
+<p><strong>Benefits of this approach:</strong></p>
+<ul>
+<li>By reducing the dataset first, the amount of data sent over the network during the shuffle is greatly reduced. Thus performance gains are achieved!</li>
+</ul>
+<h2 id="4-4-宽依赖与窄依赖"><a href="#4-4-宽依赖与窄依赖" class="headerlink" title="4.4 宽依赖与窄依赖"></a>4.4 宽依赖与窄依赖</h2><p><strong>Lineages</strong></p>
+<p>​    RDD也是一个DAG的任务集合，一个DAG代表了一个RDD的计算过程</p>
+<p>​    每个DAG都会记住创建该数据集需要哪些操作，跟踪记录RDD的继承关系</p>
+<p>​    这种关系在Spark中叫做<strong>Lineages</strong></p>
+<p><strong>Example</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> rdd = sc.textFile(...)</span><br><span class="line"><span class="keyword">val</span> filtered = rdd.map(...).filter(...).persist()</span><br><span class="line"><span class="keyword">val</span> count = filtered.count()</span><br><span class="line"><span class="keyword">val</span> reduced = filtered.reduce()</span><br></pre></td></tr></table></figure>
+
+<img src="http://ww4.sinaimg.cn/large/006tNc79gy1g5a0tp6dl6j30nm0nc3zm.jpg" width=350 />
+
+<p>RDD的依赖分为两种</p>
+<ul>
+<li>窄依赖</li>
+<li>宽依赖</li>
+</ul>
+<p><strong>窄依赖</strong></p>
+<p>父RDD的每个分区最多由子RDD的一个分区使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[parent RDD partition] ---&gt; [child RDD partition]</span><br></pre></td></tr></table></figure>
+
+<img src="http://ww1.sinaimg.cn/large/006tNc79gy1g5a16jnuilj30j40d8jsg.jpg" width=400 />
+
+<p><strong>宽依赖</strong></p>
+<p>父RDD的每个分区被多个子RDD使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">                       ---&gt; [child RDD partition 1]</span><br><span class="line">[parent RDD partition] ---&gt; [child RDD partition 2]</span><br><span class="line">                       ---&gt; [child RDD partition 3]</span><br></pre></td></tr></table></figure>
+
+<img src="http://ww2.sinaimg.cn/large/006tNc79gy1g5a1481tnoj30eo0aemxs.jpg" width=320 />
+
+<ul>
+<li>通常具有<strong>窄依赖</strong>的算子<ul>
+<li>map</li>
+<li>flatMap</li>
+<li>filter</li>
+<li>mapPartitions</li>
+<li>mapPartitionsWithIndex</li>
+</ul>
+</li>
+<li>通常具有<strong>宽依赖</strong>的算子<ul>
+<li>cogroup</li>
+<li>join</li>
+<li>leftOuterJoin</li>
+<li>rightOuterJoin</li>
+<li>groupByKey</li>
+<li>reduceByKey</li>
+<li>distinct</li>
+<li>intersection</li>
+<li>repartition</li>
+<li>coalesce</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-5-RDD容错"><a href="#4-5-RDD容错" class="headerlink" title="4.5 RDD容错"></a>4.5 RDD容错</h2><img src="http://ww4.sinaimg.cn/large/006tNc79gy1g5a1gulfbhj30fg0g7abc.jpg" width=400 />
+
+<img src="http://ww4.sinaimg.cn/large/006tNc79gy1g5a1hogv6oj30gy0h8wfz.jpg" width=420 />
+
+<p>Recomputing missing partitions is fast for narrow but slow for wide dependencies. So if above, a partition in G would have failed, it would have taken us more time to recompute that partition. So losing partitions that were derived from a transformation with wide dependencies, can be much slower.</p>
+<h1 id="5-RDD持久化"><a href="#5-RDD持久化" class="headerlink" title="5.RDD持久化"></a>5.RDD持久化</h1><h2 id="5-1-持久化策略"><a href="#5-1-持久化策略" class="headerlink" title="5.1 持久化策略"></a>5.1 持久化策略</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">One of the most important capabilities in Spark is persisting (or caching) a dataset in memory across operations. When you persist an RDD, each node stores any partitions of it that it computes in memory and reuses them in other actions on that dataset (or datasets derived from it). This allows future actions to be much faster (often by more than 10x). Caching is a key tool for iterative algorithms and fast interactive use.</span><br><span class="line"></span><br><span class="line">You can mark an RDD to be persisted using the persist() or cache() methods on it. The first time it is computed in an action, it will be kept in memory on the nodes. Spark’s cache is fault-tolerant – if any partition of an RDD is lost, it will automatically be recomputed using the transformations that originally created it.</span><br><span class="line"></span><br><span class="line">In addition, each persisted RDD can be stored using a different storage level</span><br></pre></td></tr></table></figure>
+
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Spark中最重要的功能之一就是在内存中持久化(或缓存)数据集。当您持久化一个RDD时，每个节点将其计算的任何分区存储在内存中，并在该数据集(或从该数据集派生的数据集)上的其他操作中重用它们。这使得未来的行动更快(通常超过10倍)。缓存是迭代算法和快速交互使用的关键工具</span><br><span class="line"></span><br><span class="line">可以使用persist()或cache()方法将RDD标记为持久化。第一次在操作中计算它时，它将保存在节点的内存中。</span><br><span class="line">Spark的缓存是容错的——如果RDD的任何分区丢失，它将使用最初创建它的转换自动重新计算。</span><br><span class="line"></span><br><span class="line">此外，每一个持久化RDD可以使用不同的存储级别进行存储</span><br></pre></td></tr></table></figure>
+
+<p><strong>持久化级别</strong></p>
+<table>
+<thead>
+<tr>
+<th>持久化级别</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MEMORY_ONLY</td>
+<td>使用未序列化的Java对象格式，将数据保存在内存中。如果内存不够存放所有的数据，则数据可能就不会进行持久化，默认的持久化策略</td>
+</tr>
+<tr>
+<td>MEMORY_AND_DISK</td>
+<td>使用未序列化的Java对象格式，优先尝试将数据保存在内存中。如果内存不够存放所有的数据，会将数据写入磁盘文件中，不会立刻输出到磁盘</td>
+</tr>
+<tr>
+<td>MEMORY_ONLY_SER</td>
+<td>RDD的每个partition会被序列化成一个字节数组，节省空间，读取时间更占CPU</td>
+</tr>
+<tr>
+<td>MEMORY_AND_DISK_SER</td>
+<td>序列化存储，超出部分写入磁盘文件中</td>
+</tr>
+<tr>
+<td>DISK_ONLY</td>
+<td>使用未序列化的Java对象格式，将数据全部写入磁盘文件中</td>
+</tr>
+<tr>
+<td>MEMORY_ONLY_2, MEMORY_AND_DISK_2, etc.</td>
+<td>对于上述任意一种持久化策略，如果加上后缀_2，代表的是将每个持久化的数据，都复制一份副本，并将副本保存到其他节点上</td>
+</tr>
+<tr>
+<td>OFF_HEAP (experimental)</td>
+<td>RDD序列化存储在Tachyon</td>
+</tr>
+</tbody></table>
+<p><strong>如何选择持久化策略</strong></p>
+<ul>
+<li>优先使用MEMORY_ONLY</li>
+<li>内存放不下就使用MEMORY_ONLY_SER，但会额外消耗CPU资源</li>
+<li>容错恢复使用MEMORY_ONLY_2</li>
+<li>尽量不使用DISK相关策略</li>
+</ul>
+<h2 id="5-2-数据移除"><a href="#5-2-数据移除" class="headerlink" title="5.2 数据移除"></a>5.2 数据移除</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Spark automatically monitors cache usage on each node and drops out old data partitions in a least-recently-used (LRU) fashion. If you would like to manually remove an RDD instead of waiting for it to fall out of the cache, use the RDD.unpersist() method.</span><br></pre></td></tr></table></figure>
+
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spark会自动监视每个节点上的缓存使用情况，并通过LRU算法移除老的数据分区</span><br><span class="line">如果要手动删除RDD而不是等待它从缓存中掉出来，请使用rdd.unpersist()方法</span><br></pre></td></tr></table></figure>
+
+<h1 id="6-共享变量"><a href="#6-共享变量" class="headerlink" title="6.共享变量"></a>6.共享变量</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Normally, when a function passed to a Spark operation (such as map or reduce) is executed on a remote cluster node, it works on separate copies of all the variables used in the function. These variables are copied to each machine, and no updates to the variables on the remote machine are propagated back to the driver program. Supporting general, read-write shared variables across tasks would be inefficient. However, Spark does provide two limited types of shared variables for two common usage patterns: broadcast variables and accumulators.</span><br></pre></td></tr></table></figure>
+
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">通常，当传递给Spark操作(如map或reduce)的函数在远程集群节点上执行时，它在函数中使用的所有变量的driver program中变量的副本。这些变量被复制到每台机器上，对远程机器上变量的任何更新都不会传播回driver program。</span><br><span class="line">Spark中提供了两种在多节点多任务中共享变量的方式：广播变量和累加器</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-1-广播变量"><a href="#6-1-广播变量" class="headerlink" title="6.1 广播变量"></a>6.1 广播变量</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Broadcast variables allow the programmer to keep a read-only variable cached on each machine rather than shipping a copy of it with tasks. They can be used, for example, to give every node a copy of a large input dataset in an efficient manner. Spark also attempts to distribute broadcast variables using efficient broadcast algorithms to reduce communication cost.</span><br></pre></td></tr></table></figure>
+
+<p>翻译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">广播变量允许程序员在每台计算机上缓存只读变量，而不是将其副本与任务一起发送。</span><br><span class="line">例如，它们可以有效地为每个节点提供一个大型输入数据集的副本。Spark还尝试使用有效的广播算法</span><br><span class="line">来分配广播变量，以降低通信成本</span><br></pre></td></tr></table></figure>
+
+<p>广播变量是通过调用<code>sparkContext.broadcast(v)</code>从变量v创建的。广播变量是围绕<code>v</code>的包装器，它的值可以通过调用value方法来访问</p>
+<p><strong>代码演示说明</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="keyword">val</span> broadcastVar = sc.broadcast(<span class="type">Array</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line">broadcastVar: org.apache.spark.broadcast.<span class="type">Broadcast</span>[<span class="type">Array</span>[<span class="type">Int</span>]] = <span class="type">Broadcast</span>(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">scala&gt; broadcastVar.value</span><br><span class="line">res0: <span class="type">Array</span>[<span class="type">Int</span>] = <span class="type">Array</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<p>创建广播变量后，应在集群上运行的任何函数中使用它，而不是使用值<code>v</code></p>
+<p>此外，对象<code>v</code>在广播后不应进行修改，以确保所有节点都获得广播变量的相同值</p>
+<h2 id="6-2-累加器"><a href="#6-2-累加器" class="headerlink" title="6.2 累加器"></a>6.2 累加器</h2><p>累加器是在Spark计算操作中变量值累加起来，可以被用来实现计数器、或者求和操作</p>
+<p><strong>代码演示说明</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="keyword">val</span> accum = sc.accumulator(<span class="number">0</span>, <span class="string">&quot;My Accumulator&quot;</span>)</span><br><span class="line">accum: spark.<span class="type">Accumulator</span>[<span class="type">Int</span>] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">scala&gt; sc.parallelize(<span class="type">Array</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)).foreach(x =&gt; accum += x)</span><br><span class="line">...</span><br><span class="line"><span class="number">10</span>/<span class="number">09</span>/<span class="number">29</span> <span class="number">18</span>:<span class="number">41</span>:<span class="number">08</span> <span class="type">INFO</span> <span class="type">SparkContext</span>: <span class="type">Tasks</span> finished in <span class="number">0.317106</span> s</span><br><span class="line"></span><br><span class="line">scala&gt; accum.value</span><br><span class="line">res2: <span class="type">Int</span> = <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="7-二次排序"><a href="#7-二次排序" class="headerlink" title="7.二次排序"></a>7.二次排序</h1><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">  <span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setMaster(<span class="string">&quot;local&quot;</span>).setAppName(<span class="string">&quot;SecondSortByKey&quot;</span>)</span><br><span class="line">  <span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line">  <span class="keyword">val</span> filePath = <span class="string">&quot;C:\\Users\\Administrator\\Desktop\\test1.txt&quot;</span></span><br><span class="line">  <span class="keyword">val</span> file = sc.textFile(filePath)</span><br><span class="line">  <span class="keyword">val</span> pairsRDD = file.map(line =&gt; &#123;</span><br><span class="line">    <span class="keyword">val</span> spl = line.split(<span class="string">&quot; &quot;</span>)</span><br><span class="line">    (<span class="keyword">new</span> <span class="type">SecondSortByKey</span>(spl(<span class="number">0</span>).toInt, spl(<span class="number">1</span>).toInt), line)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">val</span> sortPairRDD=pairsRDD.sortByKey(ascending = <span class="literal">true</span>)</span><br><span class="line">  <span class="keyword">val</span> sortResult = sortPairRDD.map(line=&gt;line._2)</span><br><span class="line">  sortResult.collect().foreach(println)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SecondSortByKey</span>(<span class="params">val first: <span class="type">Int</span>, val second: <span class="type">Int</span></span>) <span class="keyword">extends</span> <span class="title">Ordered</span>[<span class="type">SecondSortByKey</span>] <span class="keyword">with</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">compare</span></span>(that: <span class="type">SecondSortByKey</span>): <span class="type">Int</span> = &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.first - that.first != <span class="number">0</span>)</span><br><span class="line">      <span class="keyword">this</span>.first - that.first</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      <span class="keyword">this</span>.second - that.second</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</div><div class="tags"><a href="/tags/Spark/"><i class="fa fa-tag"></i>Spark</a></div><div class="post-nav"><a class="pre" href="/2019/07/01/Spark%20SQL/">Spark SQL</a><a class="next" href="/2019/06/11/5.%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">JAVA集合框架</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/FastDFS/">FastDFS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-%E9%A1%B9%E7%9B%AE/">JAVA-项目</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM/">JVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kafaka/">Kafaka</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Maven/">Maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spark/">Spark</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Boot/">Spring Boot</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringMVC/">SpringMVC</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/kafuka/">kafuka</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E5%B7%A5%E5%85%B7/">版本控制工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/JAVA/" style="font-size: 15px;">JAVA</a> <a href="/tags/FastDFS/" style="font-size: 15px;">FastDFS</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/JAVA-WEB/" style="font-size: 15px;">JAVA-WEB</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/SVN/" style="font-size: 15px;">SVN</a> <a href="/tags/Redis/" style="font-size: 15px;">Redis</a> <a href="/tags/kafuka/" style="font-size: 15px;">kafuka</a> <a href="/tags/linux%E5%91%BD%E4%BB%A4/" style="font-size: 15px;">linux命令</a> <a href="/tags/Maven/" style="font-size: 15px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/yum%E5%91%BD%E4%BB%A4/" style="font-size: 15px;">yum命令</a> <a href="/tags/SSL/" style="font-size: 15px;">SSL</a> <a href="/tags/Docker/" style="font-size: 15px;">Docker</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/Scala/" style="font-size: 15px;">Scala</a> <a href="/tags/Spark/" style="font-size: 15px;">Spark</a> <a href="/tags/Spring-Boot/" style="font-size: 15px;">Spring Boot</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 15px;">项目</a> <a href="/tags/SpringMVC/" style="font-size: 15px;">SpringMVC</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/%E5%BF%83%E6%83%85/" style="font-size: 15px;">心情</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2050/08/09/%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8F%90%E4%BA%A4/">👋 Hi!</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/09/30/maven%E7%9A%84pom%E9%85%8D%E7%BD%AE/">Maven的pom配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/12/kafuka%E6%93%8D%E4%BD%9C/">kafuka操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/12/CUP%E5%8D%A0%E7%94%A8%E7%8E%87%E8%BF%87%E9%AB%98%E5%AE%9A%E4%BD%8D%E8%BF%87%E7%A8%8B/">定位cup占用过高</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/11/Git/">Git</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/11/Docker/">Docker</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/11/Kafka/">Kafaka搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/11/Spring/">Spring</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/09/%E6%B7%BB%E5%8A%A0CA%E8%AF%81%E4%B9%A6/">添加CA证书执行步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/08/10/linux%E6%9F%A5%E7%9C%8B%E5%B7%B2%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E4%B8%8E%E5%8D%B8%E8%BD%BD/">linux查看已安装软件与卸载</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a href="/." rel="nofollow">云起迎风燕.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
