@@ -1,0 +1,617 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="color-scheme" content="light dark"><meta name="description"><title>Redis 基础（一） | 云起迎风燕</title><link rel="preload" href="/fonts/title-zhi-mang-xing.woff2" as="font" type="font/woff2" crossorigin="anonymous" fetchpriority="high"><link rel="preload" href="/vendor/font-awesome/fonts/fontawesome-webfont.woff2?v=4.7.0" as="font" type="font/woff2" crossorigin="anonymous" fetchpriority="high"><script>(function() {
+  var root = document.documentElement;
+  var theme = 'light';
+  var language = 'zh';
+  var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  var isChrome = /Chrome\//.test(navigator.userAgent) && !/Edg\//.test(navigator.userAgent);
+  try {
+    var storedTheme = localStorage.getItem('liutianlong-theme');
+    var storedLanguage = localStorage.getItem('liutianlong-language');
+    var systemLanguage = (navigator.language || (navigator.languages && navigator.languages[0]) || 'zh').toLowerCase();
+    theme = storedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    language = storedLanguage === 'en' || storedLanguage === 'zh'
+      ? storedLanguage
+      : (systemLanguage.indexOf('zh') === 0 ? 'zh' : 'en');
+  } catch (error) {}
+  root.setAttribute('data-theme', theme);
+  root.setAttribute('data-lang', language);
+  root.setAttribute('lang', language === 'en' ? 'en' : 'zh-CN');
+  root.style.colorScheme = theme;
+  root.classList.toggle('is-safari', isSafari);
+  root.classList.toggle('is-chrome', isChrome);
+})();</script><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.25"><link rel="stylesheet" type="text/css" href="/css/theme-dark.css?v=1.1.25"><link rel="stylesheet" type="text/css" href="/vendor/normalize/normalize.min.css?v=1.1.25"><link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css?v=1.1.25"><link rel="preconnect" href="https://static.cloudflareinsights.com"><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;:&quot;6ded9c330d0946ed8789cbe8fe6bada1&quot;}"></script><link rel="icon" href="data:,"><meta name="generator" content="Hexo 5.4.0"></head><body class="docs-post" data-current-category=""><script>(function() {
+  var body = document.body;
+  var mobile = window.innerWidth < 1180;
+  var hasCategory = Boolean(body.getAttribute('data-current-category'));
+  var navPreference = null;
+  var tocPreference = null;
+  try {
+    navPreference = localStorage.getItem('maupassant-docs-nav-open');
+    tocPreference = localStorage.getItem('maupassant-docs-toc-open');
+  } catch (error) {}
+  body.classList.toggle('docs-nav-collapsed', mobile || (!hasCategory && navPreference === 'false'));
+  body.classList.toggle('docs-toc-collapsed', mobile || tocPreference === 'false');
+})();</script><div id="reading-progress" role="progressbar" data-i18n-aria="readingProgress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="reading-progress-fill"></span></div><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Redis 基础（一）</h1><a id="logo" href="/.">云起迎风燕</a><p class="description"></p></div><div class="header-actions"><div id="nav-menu"><a href="/."><i class="fa fa-home"></i><span data-i18n="home"> 首页</span></a><a href="/archives/"><i class="fa fa-archive"></i><span data-i18n="archiveShort"> 归档</span></a><a href="/profile/"><i class="fa fa-user"></i><span data-i18n="profile"> 关于</span></a><a href="/gallery/"><i class="fa fa-camera"></i><span data-i18n="photoWall"> 照片墙</span></a><a href="/guestbook/"><i class="fa fa-comment"></i><span data-i18n="guestbook"> 留言</span></a><a href="/statistics/"><i class="fa fa-bar-chart"></i><span data-i18n="statistics"> 统计</span></a></div><div class="ui-controls" data-i18n-aria="displaySettings"><button class="ui-toggle" id="language-toggle" type="button" data-i18n-aria="languageToggle" data-i18n-title="languageToggle"><span id="language-toggle-label">EN</span></button><button class="ui-toggle" id="theme-toggle" type="button" data-i18n-aria="themeToDark" data-i18n-title="themeToDark"><i class="fa fa-moon-o" id="theme-toggle-icon" aria-hidden="true"></i></button></div></div><nav class="docs-breadcrumb" data-i18n-aria="breadcrumb"><a href="/." data-i18n="home">首页</a><span class="docs-breadcrumb-separator">/</span><a href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/">数据与存储</a><span class="docs-breadcrumb-separator">/</span><a href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/Redis/">Redis</a><span class="docs-breadcrumb-separator">/</span><span class="docs-breadcrumb-current">Redis 基础（一）</span></nav></div><button class="docs-edge-tab docs-edge-tab-left" id="docs-nav-open" type="button" aria-controls="sidebar" aria-expanded="false"><i class="fa fa-folder-o" aria-hidden="true"></i><span data-i18n="navigation">导航</span></button><button class="docs-edge-tab docs-edge-tab-right" id="docs-toc-open" type="button" aria-controls="article-toc" aria-expanded="false"><i class="fa fa-list-ul" aria-hidden="true"></i><span data-i18n="toc">目录</span></button><div class="docs-layout with-toc" id="layout"><aside class="docs-sidebar" id="sidebar" data-i18n-aria="siteNav"><div class="docs-panel-header"><span><i class="fa fa-compass" aria-hidden="true"></i><span data-i18n="contentNav">内容导航</span></span><button class="docs-panel-close" id="docs-nav-close" type="button" data-i18n-aria="closeNav"><i class="fa fa-chevron-left" aria-hidden="true"></i></button></div><div class="docs-sidebar-scroll"><div class="widget search-widget"><div class="search-form"><input id="local-search-input" placeholder="搜索文章" data-i18n-placeholder="search" type="text" name="q" results="0" autocomplete="off" data-search-url="/search.xml"/><div id="local-search-result" role="status" aria-live="polite"></div></div></div><nav class="docs-quick-nav" data-i18n-aria="siteNav"><a href="/."><i class="fa fa-home" aria-hidden="true"></i><span data-i18n="home">首页</span></a><a href="/archives/"><i class="fa fa-archive" aria-hidden="true"></i><span data-i18n="archiveShort">归档</span></a><a href="/profile/"><i class="fa fa-user" aria-hidden="true"></i><span data-i18n="profile">关于</span></a><a href="/gallery/"><i class="fa fa-camera" aria-hidden="true"></i><span data-i18n="photoWall">照片墙</span></a><a href="/guestbook/"><i class="fa fa-comment-o" aria-hidden="true"></i><span data-i18n="guestbook">留言</span></a><a href="/statistics/"><i class="fa fa-bar-chart" aria-hidden="true"></i><span data-i18n="statistics">统计</span></a></nav><div class="widget category-widget" id="category-widget"><div class="widget-title"><span class="category-title-mark" aria-hidden="true"></span><span data-i18n="categories"> 分类</span></div><div class="category-widget-content" id="category-list"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/JVM/">JVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/MyBatis/">MyBatis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/">项目实践</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/">Spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Maven/">Maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/SVN/">SVN</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/">数据与存储</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/FastDFS/">FastDFS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/Redis/">Redis</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%94%9F%E6%B4%BB%E9%9A%8F%E7%AC%94/">生活随笔</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/">系统与中间件</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka/">Kafka</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul></li></ul></div></div></div></aside><main class="docs-main" id="docs-main"><div class="content_container"><div class="post"><h1 class="post-title">Redis 基础（一）</h1><div class="post-meta"><span class="category"><a href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/">数据与存储</a><span class="category-separator"> / </span><a href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/Redis/">Redis</a></span><span class="reading-time"><i class="fa fa-clock-o"></i><span data-i18n="readingTime" data-minutes="14"> 阅读约 14 分钟</span></span></div><div class="post-content"><h2 id="Redis-概述"><a href="#Redis-概述" class="headerlink" title="Redis 概述"></a>Redis 概述</h2><p>官网网站：<a target="_blank" rel="noopener" href="https://redis.io/">https://redis.io</a></p>
+<p>中文网：<a target="_blank" rel="noopener" href="http://www.redis.cn/">http://www.redis.cn</a></p>
+<p>redis是一款高性能的NoSQL系列的非关系型数据库。</p>
+<p>是一个开源的，使用ANSI <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/C%E8%AF%AD%E8%A8%80">C语言</a>编写、支持网络、可基于内存亦可持久化的日志型、Key-Value<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%95%B0%E6%8D%AE%E5%BA%93/103728">数据库</a>，并提供多种语言的API。</p>
+<p>NoSQL=Not Only SQL(不仅仅是SQL)</p>
+<p>泛指非关系型的数据库。随着互联网web2.0网站的兴起，传统的关系数据库在应付web2.0网站，特别是超大规模和高并发的SNS类型的web2.0纯动态网站已经显得力不从心，暴露了很多难以克服的问题，而非关系型的数据库则由于其本身的特点得到了非常迅速的发展。NoSQL数据库的产生就是为了解决大规模数据集合多重数据种类带来的挑战，尤其是大数据应用难题，包括超大规模数据的存储。</p>
+<p>NoSQL的代表：MongoDB、Redis、Memcache</p>
+<p>关系型数据库与NoSQL的区别?</p>
+<p>RDBMS</p>
+<ul>
+<li><p>高度组织化结构化数据</p>
+</li>
+<li><p>结构化查询语言(SQL)</p>
+</li>
+<li><p>数据和关系都存储在单独的表中</p>
+</li>
+<li><p>数据操纵语言，数据定义语言</p>
+</li>
+<li><p>严格的一致性</p>
+</li>
+<li><p>基础事务</p>
+</li>
+<li><p>ACID</p>
+</li>
+</ul>
+<p>NoSQL</p>
+<ul>
+<li>代表着不仅仅是SQL</li>
+<li>没有声明性查询语言</li>
+<li>没有预定义的模式</li>
+<li>键 - 值对存储、列存储、文档存储、图形数据库</li>
+<li>最终一致性，而非ACID属性</li>
+<li>非结构化和不可预知的数据</li>
+<li>CAP定理</li>
+<li>高性能，高可用性和可伸缩性</li>
+</ul>
+<p>redis的应用场景</p>
+<ul>
+<li><p>缓存(数据查询、短连接)</p>
+</li>
+<li><p>任务队列(秒杀、抢购)</p>
+</li>
+<li><p>应用排行榜</p>
+</li>
+<li><p>网站访问统计</p>
+</li>
+<li><p>数据过期处理(可精确到毫秒)</p>
+</li>
+<li><p>分布式集群架构中的session分离</p>
+</li>
+</ul>
+<h2 id="Redis-环境搭建（Linux）"><a href="#Redis-环境搭建（Linux）" class="headerlink" title="Redis 环境搭建（Linux）"></a>Redis 环境搭建（Linux）</h2><h3 id="Redis-预备环境"><a href="#Redis-预备环境" class="headerlink" title="Redis 预备环境"></a>Redis 预备环境</h3><ul>
+<li>linux</li>
+<li>gcc<ul>
+<li>yum install gcc-c++</li>
+</ul>
+</li>
+<li>redis-x.x.xx.tar.gz(下载地址：<a target="_blank" rel="noopener" href="https://redis.io/download">https://redis.io/download</a>)</li>
+</ul>
+<h3 id="Redis-安装"><a href="#Redis-安装" class="headerlink" title="Redis 安装"></a>Redis 安装</h3><ol>
+<li>解压redis-x.x.xx.tar.gz到指定目录(tar zxvf redis-x.x.xx.tar.gz -C /xxx/xxx/..)</li>
+<li>cd redis-x.x.xx.tar.gz</li>
+<li>make</li>
+<li>make install</li>
+<li>查看默认安装目录：/usr/local/bin</li>
+<li>启动(redis-server)</li>
+<li>客户端连接(redis-cli -p 6379)</li>
+<li>输入ping</li>
+</ol>
+<h3 id="Redis-自定义配置"><a href="#Redis-自定义配置" class="headerlink" title="Redis 自定义配置"></a>Redis 自定义配置</h3><p>redis启动时，会自动加载redis.conf文件，配置文件是可以进行自定义配置的。</p>
+<ol>
+<li>cp redis-x.x.xx/redis.conf /path/redis.conf</li>
+<li>/usr/local/bin/redis-server /path/redis.conf</li>
+</ol>
+<h2 id="Redis-基础知识"><a href="#Redis-基础知识" class="headerlink" title="Redis 基础知识"></a>Redis 基础知识</h2><h3 id="单进程"><a href="#单进程" class="headerlink" title="单进程"></a>单进程</h3><p>redis是通过单进程模型来处理客户端的请求。</p>
+<p>对读写等事件的响应是通过epoll函数的包装来做到的。</p>
+<p>redis的实际处理速度完全依靠主进程的执行速度。</p>
+<p>epoll</p>
+<p>epoll是<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/Linux%E5%86%85%E6%A0%B8">Linux内核</a>为处理大批量<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6/9809582">文件描述符</a>而作了改进的poll，是Linux下多路复用IO接口select/poll的增强版本，它能显著提高程序在大量<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%B9%B6%E5%8F%91%E8%BF%9E%E6%8E%A5/3763280">并发连接</a>中只有少量活跃的情况下的系统CPU利用率。</p>
+<h3 id="默认数据库"><a href="#默认数据库" class="headerlink" title="默认数据库"></a>默认数据库</h3><p>redis默认有16个数据库，类似数组索引从零开始，初始默认使用零号库。</p>
+<p>redis.conf</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Set the number of databases. The default database is DB 0, you can select</span><br><span class="line"># a different one on a per-connection basis using SELECT &lt;dbid&gt; where</span><br><span class="line"># dbid is a number between 0 and &#x27;databases&#x27;-1</span><br><span class="line">databases 16</span><br></pre></td></tr></table></figure>
+
+<p>数据库切换</p>
+<h3 id="查看当前数据库key数量"><a href="#查看当前数据库key数量" class="headerlink" title="查看当前数据库key数量"></a>查看当前数据库key数量</h3><p>dbsize</p>
+<p>keys *</p>
+<p>通常并不推荐直接使用keys *</p>
+<h3 id="FLUSH"><a href="#FLUSH" class="headerlink" title="FLUSH"></a>FLUSH</h3><p>flushdb 清空当前数据库</p>
+<p>flushall  清空所有数据库(慎用)</p>
+<h2 id="Redis-数据类型"><a href="#Redis-数据类型" class="headerlink" title="Redis 数据类型"></a>Redis 数据类型</h2><p><img decoding="async" loading="lazy" src="/images/articles/redis-data-model.svg" alt="Redis 单线程事件循环与常用数据类型"></p>
+<p>redis常用的五大数据类型</p>
+<ul>
+<li>String(字符串)</li>
+<li>Hash(哈希)</li>
+<li>List(列表)</li>
+<li>Set(集合)</li>
+<li>Zset(有序集合)</li>
+</ul>
+<h3 id="String-字符串"><a href="#String-字符串" class="headerlink" title="String(字符串)"></a>String(字符串)</h3><p>string是redis中最基本的数据类型，一个key对应一个value。</p>
+<p>string类型是二进制安全的，意味着redis的string可以包含任何数据，比如图片、序列化对象。</p>
+<p>一个字符的value最大为512M。</p>
+<h3 id="Hash-哈希"><a href="#Hash-哈希" class="headerlink" title="Hash(哈希)"></a>Hash(哈希)</h3><p>redis中的hash，类似java中的map。</p>
+<p>redis的hash是一个string类型的field和value的映射表，hash特别适合用于存储对象。</p>
+<p>类似java中的Map&lt;String, Object&gt;</p>
+<h3 id="List-列表"><a href="#List-列表" class="headerlink" title="List(列表)"></a>List(列表)</h3><p>redis列表是一个简单的字符串列表，按照插入顺序排序，你可以添加一个元素到列表的头部(左边)或尾部(右边)。</p>
+<p>它的底层实际是个链表。</p>
+<h3 id="Set-集合"><a href="#Set-集合" class="headerlink" title="Set(集合)"></a>Set(集合)</h3><p>redis的set是string类型的无序集合，它是通过HashTable实现的。</p>
+<h3 id="Zset-有序集合"><a href="#Zset-有序集合" class="headerlink" title="Zset(有序集合)"></a>Zset(有序集合)</h3><p>redis的zset和set一样，都是string类型元素的集合，且不允许重复。</p>
+<p>每一个元素都会关联一个double类型的score(分数)</p>
+<p>redis正是通过分数来为集合中的元素进行从小到大的排序，zset的元素是唯一的，但score可以重复。</p>
+<h2 id="Redis-常用指令"><a href="#Redis-常用指令" class="headerlink" title="Redis 常用指令"></a>Redis 常用指令</h2><p>redis指令参考手册：<a target="_blank" rel="noopener" href="http://doc.redisfans.com/">http://doc.redisfans.com</a></p>
+<h3 id="Key相关指令"><a href="#Key相关指令" class="headerlink" title="Key相关指令"></a>Key相关指令</h3><table>
+<thead>
+<tr>
+<th>指令</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>del</td>
+<td>del key</td>
+<td>删除指定的key-value</td>
+</tr>
+<tr>
+<td>exists</td>
+<td>exists key</td>
+<td>判断某个key是否存在</td>
+</tr>
+<tr>
+<td>expire</td>
+<td>expire key second</td>
+<td>指定key的过期时间，单位为秒</td>
+</tr>
+<tr>
+<td>keys</td>
+<td>keys *</td>
+<td>显示所有的key</td>
+</tr>
+<tr>
+<td>move</td>
+<td>move key db</td>
+<td>将key移动到某个库</td>
+</tr>
+<tr>
+<td>ttl</td>
+<td>ttl key</td>
+<td>查看key的过期时间，-1表示永不过期，-2表示已过期</td>
+</tr>
+<tr>
+<td>type</td>
+<td>type ke</td>
+<td>查看key的类型</td>
+</tr>
+</tbody></table>
+<h3 id="String相关指令"><a href="#String相关指令" class="headerlink" title="String相关指令"></a>String相关指令</h3><p>基本操作</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>set</td>
+<td>set key value</td>
+<td>添加key-value</td>
+</tr>
+<tr>
+<td>get</td>
+<td>get key</td>
+<td>获取key对应的value</td>
+</tr>
+<tr>
+<td>append</td>
+<td>append key value</td>
+<td>不存在则新增，存在则在value末尾追加</td>
+</tr>
+<tr>
+<td>strlen</td>
+<td>strlen key</td>
+<td>返回key对应value的字符串长度</td>
+</tr>
+</tbody></table>
+<p>数值操作</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>incr</td>
+<td>incr key</td>
+<td>将key对应的value加1，不存在则创建并初始化为0,再执行incr操作</td>
+</tr>
+<tr>
+<td>incrby</td>
+<td>incrby key number</td>
+<td>将key对应的value加number，不存在则创建并初始化为0,再执行incrby操作</td>
+</tr>
+<tr>
+<td>decr</td>
+<td>decr key</td>
+<td>将key对应的value减1，不存在则创建并初始化为0,再执行decr操作</td>
+</tr>
+<tr>
+<td>decrby</td>
+<td>decrby key number</td>
+<td>将key对应的value减number，不存在则创建并初始化为0,再执行decrby操作</td>
+</tr>
+</tbody></table>
+<p>其他操作</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>getrange</td>
+<td>getrange key start end</td>
+<td>返回 key 中字符串值的子字符串，字符串的截取范围由 start 和 end 两个偏移量决定(包括 start 和 end在内)</td>
+</tr>
+<tr>
+<td>setrange</td>
+<td>setrange key offset value</td>
+<td>用 value参数覆写(overwrite)给定 key 所储存的字符串值，从偏移量 offset开始。不存在的key当作空白字符串处理。</td>
+</tr>
+<tr>
+<td>setex</td>
+<td>set key second value</td>
+<td>将值 value关联到 key ，并将 key 的生存时间设为 seconds (以秒为单位)。如果 key 已经存在，setex 命令将覆写旧值。</td>
+</tr>
+<tr>
+<td>setnx</td>
+<td>setnx key value</td>
+<td>将 key 的值设为 value，当且仅当 key 不存在。若给定的 key 已经存在，则 setnx 不做任何动作。</td>
+</tr>
+<tr>
+<td>mset</td>
+<td>mset key value   [key value ….]</td>
+<td>同时设置一个或多个 key-value 对。如果某个给定 key 已经存在，那么 mset 会用新值覆盖原来的旧值</td>
+</tr>
+<tr>
+<td>mget</td>
+<td>mget key [key …]</td>
+<td>返回所有(一个或多个)给定 key 的值。如果给定的 key 里面，有某个 key 不存在，那么这个 key 返回特殊值 nil 。因此，该命令永不失败。</td>
+</tr>
+<tr>
+<td>msetnx</td>
+<td>msetnx key value [key value …]</td>
+<td>同时设置一个或多个 key-value 对，当且仅当所有给定 key 都不存在。</td>
+</tr>
+<tr>
+<td>getset</td>
+<td>getset key value</td>
+<td>将给定 key 的值设为 value ，并返回 key 的旧值(old value)。</td>
+</tr>
+</tbody></table>
+<h3 id="List相关指令"><a href="#List相关指令" class="headerlink" title="List相关指令"></a>List相关指令</h3><table>
+<thead>
+<tr>
+<th>指令</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>lpush</td>
+<td>lpush key value [value …]</td>
+<td>将一个或多个值 <code>value</code> 插入到列表 <code>key</code> 的表头。如果有多个 <code>value</code> 值，那么各个 <code>value</code> 值按从左到右的顺序依次插入到表头。如果 <code>key</code> 不存在，一个空列表会被创建并执行lpush操作。</td>
+</tr>
+<tr>
+<td>rpush</td>
+<td>rpush key value [value …]</td>
+<td>将一个或多个值 <code>value</code> 插入到列表 <code>key</code> 的表尾。如果有多个 <code>value</code> 值，那么各个 <code>value</code> 值按从左到右的顺序依次插入到表尾。如果 <code>key</code> 不存在，一个空列表会被创建并执行rpush操作。</td>
+</tr>
+<tr>
+<td>lrange</td>
+<td>lrange key start end</td>
+<td>返回列表 <code>key</code> 中指定区间内的元素，区间以偏移量 <code>start</code> 和 <code>stop</code> 指定。超出范围的下标值不会引起错误。</td>
+</tr>
+<tr>
+<td>lindex</td>
+<td>lindex key index</td>
+<td>返回列表 <code>key</code> 中，下标为 <code>index</code> 的元素。</td>
+</tr>
+<tr>
+<td>llen</td>
+<td>llen key</td>
+<td>返回列表 <code>key</code> 的长度。如果 <code>key</code> 不存在，则 <code>key</code> 被解释为一个空列表，返回 <code>0</code> 。如果 <code>key</code> 不是列表类型，返回一个错误。</td>
+</tr>
+<tr>
+<td>lrem</td>
+<td>lrem key count value</td>
+<td>根据参数 <code>count</code> 的值，移除列表中与参数 <code>value</code> 相等的元素。</td>
+</tr>
+<tr>
+<td>ltrim</td>
+<td>ltrim key start end</td>
+<td>对一个列表进行修剪(trim)，就是说，让列表只保留指定区间内的元素，不在指定区间之内的元素都将被删除。</td>
+</tr>
+<tr>
+<td>rpoplpush</td>
+<td>rpoplpush source destination</td>
+<td>将列表 <code>source</code> 中的最后一个元素(尾元素)弹出，将 <code>source</code> 弹出的元素插入到列表 <code>destination</code> ，作为 <code>destination</code> 列表的的头元素。</td>
+</tr>
+<tr>
+<td>lset</td>
+<td>lset key index value</td>
+<td>将列表 <code>key</code> 下标为 <code>index</code> 的元素的值设置为 <code>value</code> 。当 <code>index</code> 参数超出范围，或对一个空列表( <code>key</code> 不存在)进行 lset 时，返回一个错误。</td>
+</tr>
+<tr>
+<td>linsert</td>
+<td>linsert key before|after pivot value</td>
+<td>将值 <code>value</code> 插入到列表 <code>key</code> 当中，位于值 <code>pivot</code> 之前或之后。当 <code>pivot</code> 不存在于列表 <code>key</code> 时，不执行任何操作。</td>
+</tr>
+</tbody></table>
+<p>注：由于redis的List(列表)是一个双向链表，因此适用于链表首尾的元素操作，对中间元素操作效率较低。</p>
+<h3 id="Set相关指令"><a href="#Set相关指令" class="headerlink" title="Set相关指令"></a>Set相关指令</h3><table>
+<thead>
+<tr>
+<th>指令</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sadd</td>
+<td>sadd key member [member …]</td>
+<td>将一个或多个 <code>member</code> 元素加入到集合 <code>key</code> 当中，已经存在于集合的 <code>member</code> 元素将被忽略。假如 <code>key</code> 不存在，则创建一个只包含 <code>member</code> 元素作成员的集合。</td>
+</tr>
+<tr>
+<td>smembers</td>
+<td>smembers key</td>
+<td>返回集合 <code>key</code> 中的所有成员。</td>
+</tr>
+<tr>
+<td>sismember</td>
+<td>sismember key member</td>
+<td>判断 <code>member</code> 元素是否集合 <code>key</code> 的成员。</td>
+</tr>
+<tr>
+<td>scard</td>
+<td>scard key</td>
+<td>返回集合 <code>key</code> 的基数(集合中元素的数量)。</td>
+</tr>
+<tr>
+<td>srem</td>
+<td>srem key member [member …]</td>
+<td>移除集合 <code>key</code> 中的一个或多个 <code>member</code> 元素，不存在的 <code>member</code> 元素会被忽略</td>
+</tr>
+<tr>
+<td>srandmember</td>
+<td>srandmember key [count]</td>
+<td>如果命令执行时，只提供了 <code>key</code> 参数，那么返回集合中的一个随机元素。如果添加count参数，则返回count个随机元素</td>
+</tr>
+<tr>
+<td>spop</td>
+<td>spop key</td>
+<td>移除并返回集合中的一个随机元素。</td>
+</tr>
+<tr>
+<td>smove</td>
+<td>smove source destination member</td>
+<td>将 <code>member</code> 元素从 <code>source</code> 集合移动到 <code>destination</code> 集合。</td>
+</tr>
+<tr>
+<td>sdiff</td>
+<td>sdiff key [key …]</td>
+<td>返回一个集合的全部成员，该集合是所有给定集合之间的差集。</td>
+</tr>
+<tr>
+<td>sinter</td>
+<td>sinter key [key …]</td>
+<td>返回一个集合的全部成员，该集合是所有给定集合的交集。当给定集合当中有一个空集时，结果也为空集(根据集合运算定律)。</td>
+</tr>
+<tr>
+<td>sunion</td>
+<td>sunion key [key …]</td>
+<td>返回一个集合的全部成员，该集合是所有给定集合的并集。</td>
+</tr>
+</tbody></table>
+<h3 id="Hash相关指令"><a href="#Hash相关指令" class="headerlink" title="Hash相关指令"></a>Hash相关指令</h3><p>注：redis中的hash，KV模式不变，但V是一个键值对。</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hset</td>
+<td>hset key field value</td>
+<td>将哈希表 <code>key</code> 中的域 <code>field</code> 的值设为 <code>value</code> 。如果 <code>key</code> 不存在，一个新的哈希表被创建并进行hset操作。如果域 <code>field</code> 已经存在于哈希表中，旧值将被覆盖。</td>
+</tr>
+<tr>
+<td>hget</td>
+<td>hget key field</td>
+<td>返回哈希表 <code>key</code> 中给定域 <code>field</code> 的值。</td>
+</tr>
+<tr>
+<td>hmset</td>
+<td>hmset key field value [field value …]</td>
+<td>同时将多个 <code>field-value</code> (域-值)对设置到哈希表 <code>key</code> 中。此命令会覆盖哈希表中已存在的域。</td>
+</tr>
+<tr>
+<td>hmget</td>
+<td>hmget key field [field …]</td>
+<td>返回哈希表 <code>key</code> 中，一个或多个给定域的值。</td>
+</tr>
+<tr>
+<td>hgetall</td>
+<td>hgetall key</td>
+<td>返回哈希表 <code>key</code> 中，所有的域和值。在返回值里，紧跟每个域名(field name)之后是域的值(value)，所以返回值的长度是哈希表大小的两倍。</td>
+</tr>
+<tr>
+<td>hdel</td>
+<td>hdel key field [field …]</td>
+<td>删除哈希表 <code>key</code> 中的一个或多个指定域，不存在的域将被忽略。</td>
+</tr>
+<tr>
+<td>hlen</td>
+<td>hlen key</td>
+<td>返回哈希表 <code>key</code> 中域的数量。</td>
+</tr>
+<tr>
+<td>hexists</td>
+<td>hexists key field</td>
+<td>查看哈希表 <code>key</code> 中，给定域 <code>field</code> 是否存在。</td>
+</tr>
+<tr>
+<td>hkeys</td>
+<td>hkeys key</td>
+<td>返回哈希表 <code>key</code> 中的所有域。</td>
+</tr>
+<tr>
+<td>hvals</td>
+<td>hvals key</td>
+<td>返回哈希表 <code>key</code> 中所有域的值。</td>
+</tr>
+<tr>
+<td>hincrby</td>
+<td>hincreby key field increment</td>
+<td>为哈希表 <code>key</code> 中的域 <code>field</code> 的值加上增量 <code>increment</code> 。增量也可以为负数，相当于对给定域进行减法操作。</td>
+</tr>
+<tr>
+<td>hincrbyfloat</td>
+<td>hincrbyfloat key field increment</td>
+<td>为哈希表 <code>key</code> 中的域 <code>field</code> 加上浮点数增量 <code>increment</code> 。</td>
+</tr>
+<tr>
+<td>hsetnx</td>
+<td>hsetnx key field value</td>
+<td>将哈希表 <code>key</code> 中的域 <code>field</code> 的值设置为 <code>value</code> ，当且仅当域 <code>field</code> 不存在。若域 <code>field</code> 已经存在，该操作无效。</td>
+</tr>
+</tbody></table>
+<h3 id="Zset相关指令"><a href="#Zset相关指令" class="headerlink" title="Zset相关指令"></a>Zset相关指令</h3><table>
+<thead>
+<tr>
+<th>指令</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>zadd</td>
+<td>zadd key score member [[score member] [score member] …]</td>
+<td>将一个或多个 <code>member</code> 元素及其 <code>score</code> 值加入到有序集 <code>key</code> 当中。如果某个 <code>member</code> 已经是有序集的成员，那么更新这个 <code>member</code> 的 <code>score</code> 值。</td>
+</tr>
+<tr>
+<td>zrange</td>
+<td>zrange key start end [withscores]</td>
+<td>返回有序集 <code>key</code> 中，指定区间内的成员。其中成员的位置按 <code>score</code> 值递增(从小到大)来排序。</td>
+</tr>
+<tr>
+<td>zrangebyscore</td>
+<td>zrangebyscore key min max [withscores] [LIMIT offset count]</td>
+<td>返回有序集 <code>key</code> 中，所有 <code>score</code> 值介于 <code>min</code> 和 <code>max</code> 之间(包括等于 <code>min</code> 或 <code>max</code> )的成员。有序集成员按 <code>score</code> 值递增(从小到大)次序排列。</td>
+</tr>
+<tr>
+<td>zrem</td>
+<td>zrem key member [member …]</td>
+<td>移除有序集 <code>key</code> 中的一个或多个成员，不存在的成员将被忽略。</td>
+</tr>
+<tr>
+<td>zcard</td>
+<td>zcard key</td>
+<td>返回有序集 <code>key</code> 的基数。</td>
+</tr>
+<tr>
+<td>zcount</td>
+<td>zcount key min max</td>
+<td>返回有序集 <code>key</code> 中， <code>score</code> 值在 <code>min</code> 和 <code>max</code> 之间(默认包括 <code>score</code> 值等于 <code>min</code> 或 <code>max</code> )的成员的数量。</td>
+</tr>
+<tr>
+<td>zrevrank</td>
+<td>zrevrank key member</td>
+<td>返回有序集 <code>key</code> 中成员 <code>member</code> 的排名。其中有序集成员按 <code>score</code> 值递减(从大到小)排序</td>
+</tr>
+<tr>
+<td>zrevrange</td>
+<td>zrevrange key start end [withscores]</td>
+<td>返回有序集 <code>key</code> 中，指定区间内的成员。其中成员的位置按 <code>score</code> 值递减(从大到小)来排列。</td>
+</tr>
+<tr>
+<td>zrevrangebyscore</td>
+<td>zrevrangebyscore</td>
+<td>返回有序集 <code>key</code> 中， <code>score</code> 值介于 <code>max</code> 和 <code>min</code> 之间(默认包括等于 <code>max</code> 或 <code>min</code> )的所有的成员。有序集成员按 <code>score</code> 值递减(从大到小)的次序排列。</td>
+</tr>
+</tbody></table>
+</div><div class="post-nav"><a class="pre" href="/Redis%E9%AB%98%E7%BA%A7/">Redis 高级</a><a class="next" href="/Redis%E5%9F%BA%E7%A1%80%EF%BC%88%E4%BA%8C%EF%BC%89/">Redis 基础（二）</a></div><div class="comments-container" id="utterances-container"></div><script>(function() {
+  var container = document.getElementById('utterances-container');
+  if (!container) return;
+  var lazy = true;
+  var started = !lazy;
+
+  function installComments(themeName) {
+    container.querySelectorAll('script.utterances-comments, iframe.utterances-frame').forEach(function(node) {
+      node.remove();
+    });
+
+    var script = document.createElement('script');
+    script.src = 'https://utteranc.es/client.js';
+    script.className = 'utterances-comments';
+    script.crossOrigin = 'anonymous';
+    script.async = true;
+    script.setAttribute('repo', 'ltl10121314/ltl10121314.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', themeName);
+    container.appendChild(script);
+  }
+
+  function renderComments(themeName) {
+    var nextTheme = themeName === 'github-dark' ? 'github-dark' : 'github-light';
+    var frame = document.querySelector('iframe.utterances-frame');
+    if (frame) {
+      var frameUrl = new URL(frame.src);
+      if (frameUrl.searchParams.get('theme') !== nextTheme) {
+        frameUrl.searchParams.set('theme', nextTheme);
+        frame.src = frameUrl.toString();
+      }
+      return;
+    }
+    installComments(nextTheme);
+  }
+
+  function currentTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'github-dark' : 'github-light';
+  }
+
+  function startComments() {
+    if (started) return;
+    started = true;
+    renderComments(currentTheme());
+  }
+
+  if (started) renderComments(currentTheme());
+  window.addEventListener('site-theme-change', function(event) {
+    if (started) renderComments(event.detail.theme === 'dark' ? 'github-dark' : 'github-light');
+  });
+  new MutationObserver(function() {
+    if (started) renderComments(currentTheme());
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  if (lazy && 'IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      if (!entries.some(function(entry) { return entry.isIntersecting; })) return;
+      observer.disconnect();
+      startComments();
+    }, { rootMargin: '600px 0px' });
+    observer.observe(container);
+  } else {
+    startComments();
+  }
+})();
+</script><script type="text/javascript" src="/js/article.js?v=1.1.25" defer></script></div></div><div id="footer"><span data-i18n="footerCopyright" data-year="2026">版权所有 © 2026</span> <a href="/." rel="nofollow">云起迎风燕.</a> <span data-i18n="poweredBy"> 基于</span> <a rel="nofollow" target="_blank" href="https://hexo.io">Hexo.</a> <a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo">Maupassant</a> <span data-i18n="theme">主题</span></div></main><aside class="docs-toc-panel" id="article-toc" data-i18n-aria="toc"><div class="docs-panel-header"><span><i class="fa fa-list-ul" aria-hidden="true"></i><span data-i18n="toc">文章目录</span></span><button class="docs-panel-close" id="docs-toc-close" type="button" data-i18n-aria="closeToc"><i class="fa fa-chevron-right" aria-hidden="true"></i></button></div><div class="docs-toc-content" id="toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis-%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">Redis 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88Linux%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">Redis 环境搭建（Linux）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis-%E9%A2%84%E5%A4%87%E7%8E%AF%E5%A2%83"><span class="toc-number">2.1.</span> <span class="toc-text">Redis 预备环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis-%E5%AE%89%E8%A3%85"><span class="toc-number">2.2.</span> <span class="toc-text">Redis 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis-%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE"><span class="toc-number">2.3.</span> <span class="toc-text">Redis 自定义配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">3.</span> <span class="toc-text">Redis 基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E8%BF%9B%E7%A8%8B"><span class="toc-number">3.1.</span> <span class="toc-text">单进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">3.2.</span> <span class="toc-text">默认数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E6%95%B0%E6%8D%AE%E5%BA%93key%E6%95%B0%E9%87%8F"><span class="toc-number">3.3.</span> <span class="toc-text">查看当前数据库key数量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FLUSH"><span class="toc-number">3.4.</span> <span class="toc-text">FLUSH</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">4.</span> <span class="toc-text">Redis 数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#String-%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">4.1.</span> <span class="toc-text">String(字符串)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hash-%E5%93%88%E5%B8%8C"><span class="toc-number">4.2.</span> <span class="toc-text">Hash(哈希)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List-%E5%88%97%E8%A1%A8"><span class="toc-number">4.3.</span> <span class="toc-text">List(列表)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Set-%E9%9B%86%E5%90%88"><span class="toc-number">4.4.</span> <span class="toc-text">Set(集合)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Zset-%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88"><span class="toc-number">4.5.</span> <span class="toc-text">Zset(有序集合)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4"><span class="toc-number">5.</span> <span class="toc-text">Redis 常用指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Key%E7%9B%B8%E5%85%B3%E6%8C%87%E4%BB%A4"><span class="toc-number">5.1.</span> <span class="toc-text">Key相关指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#String%E7%9B%B8%E5%85%B3%E6%8C%87%E4%BB%A4"><span class="toc-number">5.2.</span> <span class="toc-text">String相关指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List%E7%9B%B8%E5%85%B3%E6%8C%87%E4%BB%A4"><span class="toc-number">5.3.</span> <span class="toc-text">List相关指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Set%E7%9B%B8%E5%85%B3%E6%8C%87%E4%BB%A4"><span class="toc-number">5.4.</span> <span class="toc-text">Set相关指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hash%E7%9B%B8%E5%85%B3%E6%8C%87%E4%BB%A4"><span class="toc-number">5.5.</span> <span class="toc-text">Hash相关指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Zset%E7%9B%B8%E5%85%B3%E6%8C%87%E4%BB%A4"><span class="toc-number">5.6.</span> <span class="toc-text">Zset相关指令</span></a></li></ol></li></ol></div></aside></div><div class="docs-backdrop" id="docs-backdrop" aria-hidden="true"></div></div><script type="text/javascript" src="/js/ui-preferences.js?v=1.1.25" defer></script><script type="text/javascript" src="/js/fancybox.js?v=1.1.25" defer></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.25"><script type="text/javascript" src="/js/search.js?v=1.1.25" defer></script><script type="text/javascript" src="/js/copycode.js?v=1.1.25" data-success-text="复制成功!" defer></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/sidebar.js?v=1.1.25" defer></script><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.25" defer></script></body></html>

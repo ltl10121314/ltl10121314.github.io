@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Kafka 架构</title>
+  <desc id="desc">生产者写入 Kafka Broker 集群中的 Topic 分区，消费者组并行消费，ZooKeeper 负责旧版本集群协调。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbfaff"/>
+      <stop offset="1" stop-color="#f2eff9"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#3a2359" flood-opacity=".1"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0 0L12 6L0 12Z" fill="#8a7ba0"/>
+    </marker>
+    <style>
+      .title{font:700 32px "PingFang SC","Microsoft YaHei",Arial,sans-serif;fill:#302245}
+      .subtitle{font:400 16px "PingFang SC","Microsoft YaHei",Arial,sans-serif;fill:#746782}
+      .heading{font:700 20px "PingFang SC","Microsoft YaHei",Arial,sans-serif;fill:#302245}
+      .label{font:600 15px "PingFang SC","Microsoft YaHei",Arial,sans-serif;fill:#4f3d67}
+      .body{font:400 13px "PingFang SC","Microsoft YaHei",Arial,sans-serif;fill:#796b87}
+    </style>
+  </defs>
+  <rect width="1200" height="700" rx="28" fill="url(#bg)"/>
+  <circle cx="1090" cy="72" r="118" fill="#e8ddf7"/>
+  <text x="70" y="72" class="title">Kafka 消息架构</text>
+  <text x="70" y="102" class="subtitle">发布订阅模型：Topic 分区提供并行度，副本提供故障转移能力</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="196" width="210" height="230" rx="22" fill="#fff"/>
+    <text x="98" y="240" class="heading">生产者</text>
+    <rect x="98" y="268" width="154" height="44" rx="11" fill="#f0eafa"/>
+    <text x="124" y="296" class="label">Service A</text>
+    <rect x="98" y="326" width="154" height="44" rx="11" fill="#f0eafa"/>
+    <text x="124" y="354" class="label">Service B</text>
+    <text x="98" y="400" class="body">按 Key 选择 Partition</text>
+  </g>
+
+  <line x1="290" y1="310" x2="350" y2="310" stroke="#8a7ba0" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="360" y="142" width="480" height="338" rx="26" fill="#fff"/>
+    <text x="390" y="188" class="heading">Kafka Broker 集群</text>
+    <text x="390" y="214" class="body">Topic: order-events · Replication Factor: 2</text>
+    <rect x="390" y="240" width="420" height="66" rx="14" fill="#e9e1f6"/>
+    <text x="414" y="267" class="label">Partition 0</text>
+    <text x="414" y="290" class="body">Broker 1 · Leader / Broker 2 · Replica</text>
+    <rect x="390" y="320" width="420" height="66" rx="14" fill="#eee9f8"/>
+    <text x="414" y="347" class="label">Partition 1</text>
+    <text x="414" y="370" class="body">Broker 2 · Leader / Broker 3 · Replica</text>
+    <rect x="390" y="400" width="420" height="50" rx="13" fill="#f8f5fc"/>
+    <text x="414" y="431" class="label">Partition 2 · Broker 3 · Leader</text>
+    <text x="390" y="466" class="body">消息按顺序追加写入，消费者按 Offset 记录进度</text>
+  </g>
+
+  <line x1="850" y1="310" x2="910" y2="310" stroke="#8a7ba0" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="922" y="176" width="208" height="270" rx="22" fill="#fff"/>
+    <text x="950" y="220" class="heading">消费者组</text>
+    <rect x="950" y="248" width="152" height="44" rx="11" fill="#eaf7f3"/>
+    <text x="976" y="276" class="label">Consumer 1</text>
+    <rect x="950" y="304" width="152" height="44" rx="11" fill="#eaf7f3"/>
+    <text x="976" y="332" class="label">Consumer 2</text>
+    <text x="950" y="380" class="body">组内分区不重复消费</text>
+    <text x="950" y="404" class="body">不同组可独立消费</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="250" y="540" width="700" height="96" rx="20" fill="#3d2c55"/>
+    <circle cx="300" cy="588" r="22" fill="#6c5788"/>
+    <text x="290" y="595" class="label" fill="#fff">ZK</text>
+    <text x="342" y="580" class="heading" fill="#fff">ZooKeeper</text>
+    <text x="342" y="606" class="body" fill="#cfc3dd">旧版本 Kafka 的元数据与 Broker 协调；新版本逐步迁移到 KRaft</text>
+  </g>
+  <line x1="600" y1="540" x2="600" y2="490" stroke="#8a7ba0" stroke-width="2" stroke-dasharray="7 7"/>
+</svg>

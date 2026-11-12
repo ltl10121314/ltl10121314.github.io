@@ -1,0 +1,173 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="color-scheme" content="light dark"><meta name="description"><title> | 云起迎风燕</title><link rel="preload" href="/fonts/title-zhi-mang-xing.woff2" as="font" type="font/woff2" crossorigin="anonymous" fetchpriority="high"><link rel="preload" href="/vendor/font-awesome/fonts/fontawesome-webfont.woff2?v=4.7.0" as="font" type="font/woff2" crossorigin="anonymous" fetchpriority="high"><script>(function() {
+  var root = document.documentElement;
+  var theme = 'light';
+  var language = 'zh';
+  var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  var isChrome = /Chrome\//.test(navigator.userAgent) && !/Edg\//.test(navigator.userAgent);
+  try {
+    var storedTheme = localStorage.getItem('liutianlong-theme');
+    var storedLanguage = localStorage.getItem('liutianlong-language');
+    var systemLanguage = (navigator.language || (navigator.languages && navigator.languages[0]) || 'zh').toLowerCase();
+    theme = storedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    language = storedLanguage === 'en' || storedLanguage === 'zh'
+      ? storedLanguage
+      : (systemLanguage.indexOf('zh') === 0 ? 'zh' : 'en');
+  } catch (error) {}
+  root.setAttribute('data-theme', theme);
+  root.setAttribute('data-lang', language);
+  root.setAttribute('lang', language === 'en' ? 'en' : 'zh-CN');
+  root.style.colorScheme = theme;
+  root.classList.toggle('is-safari', isSafari);
+  root.classList.toggle('is-chrome', isChrome);
+})();</script><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.25"><link rel="stylesheet" type="text/css" href="/css/theme-dark.css?v=1.1.25"><link rel="stylesheet" type="text/css" href="/vendor/normalize/normalize.min.css?v=1.1.25"><link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css?v=1.1.25"><link rel="preconnect" href="https://static.cloudflareinsights.com"><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;:&quot;6ded9c330d0946ed8789cbe8fe6bada1&quot;}"></script><link rel="icon" href="data:,"><meta name="generator" content="Hexo 5.4.0"></head><body class="docs-page" data-current-category=""><script>(function() {
+  var body = document.body;
+  var mobile = window.innerWidth < 1180;
+  var hasCategory = Boolean(body.getAttribute('data-current-category'));
+  var navPreference = null;
+  var tocPreference = null;
+  try {
+    navPreference = localStorage.getItem('maupassant-docs-nav-open');
+    tocPreference = localStorage.getItem('maupassant-docs-toc-open');
+  } catch (error) {}
+  body.classList.toggle('docs-nav-collapsed', mobile || (!hasCategory && navPreference === 'false'));
+  body.classList.toggle('docs-toc-collapsed', mobile || tocPreference === 'false');
+})();</script><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">云起迎风燕</h1><a id="logo" href="/.">云起迎风燕</a><p class="description"></p></div><div class="header-actions"><div id="nav-menu"><a href="/."><i class="fa fa-home"></i><span data-i18n="home"> 首页</span></a><a href="/archives/"><i class="fa fa-archive"></i><span data-i18n="archiveShort"> 归档</span></a><a class="current" href="/profile/"><i class="fa fa-user"></i><span data-i18n="profile"> 关于</span></a><a href="/gallery/"><i class="fa fa-camera"></i><span data-i18n="photoWall"> 照片墙</span></a><a href="/guestbook/"><i class="fa fa-comment"></i><span data-i18n="guestbook"> 留言</span></a><a href="/statistics/"><i class="fa fa-bar-chart"></i><span data-i18n="statistics"> 统计</span></a></div><div class="ui-controls" data-i18n-aria="displaySettings"><button class="ui-toggle" id="language-toggle" type="button" data-i18n-aria="languageToggle" data-i18n-title="languageToggle"><span id="language-toggle-label">EN</span></button><button class="ui-toggle" id="theme-toggle" type="button" data-i18n-aria="themeToDark" data-i18n-title="themeToDark"><i class="fa fa-moon-o" id="theme-toggle-icon" aria-hidden="true"></i></button></div></div><nav class="docs-breadcrumb" data-i18n-aria="breadcrumb"><a href="/." data-i18n="home">首页</a><span class="docs-breadcrumb-separator">/</span><span class="docs-breadcrumb-current" data-title-zh="" data-title-en=""></span></nav></div><button class="docs-edge-tab docs-edge-tab-left" id="docs-nav-open" type="button" aria-controls="sidebar" aria-expanded="false"><i class="fa fa-folder-o" aria-hidden="true"></i><span data-i18n="navigation">导航</span></button><div class="docs-layout without-toc" id="layout"><aside class="docs-sidebar" id="sidebar" data-i18n-aria="siteNav"><div class="docs-panel-header"><span><i class="fa fa-compass" aria-hidden="true"></i><span data-i18n="contentNav">内容导航</span></span><button class="docs-panel-close" id="docs-nav-close" type="button" data-i18n-aria="closeNav"><i class="fa fa-chevron-left" aria-hidden="true"></i></button></div><div class="docs-sidebar-scroll"><div class="widget search-widget"><div class="search-form"><input id="local-search-input" placeholder="搜索文章" data-i18n-placeholder="search" type="text" name="q" results="0" autocomplete="off" data-search-url="/search.xml"/><div id="local-search-result" role="status" aria-live="polite"></div></div></div><nav class="docs-quick-nav" data-i18n-aria="siteNav"><a href="/."><i class="fa fa-home" aria-hidden="true"></i><span data-i18n="home">首页</span></a><a href="/archives/"><i class="fa fa-archive" aria-hidden="true"></i><span data-i18n="archiveShort">归档</span></a><a class="current" href="/profile/"><i class="fa fa-user" aria-hidden="true"></i><span data-i18n="profile">关于</span></a><a href="/gallery/"><i class="fa fa-camera" aria-hidden="true"></i><span data-i18n="photoWall">照片墙</span></a><a href="/guestbook/"><i class="fa fa-comment-o" aria-hidden="true"></i><span data-i18n="guestbook">留言</span></a><a href="/statistics/"><i class="fa fa-bar-chart" aria-hidden="true"></i><span data-i18n="statistics">统计</span></a></nav><div class="widget category-widget" id="category-widget"><div class="widget-title"><span class="category-title-mark" aria-hidden="true"></span><span data-i18n="categories"> 分类</span></div><div class="category-widget-content" id="category-list"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/JVM/">JVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/MyBatis/">MyBatis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/">项目实践</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/">Spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Maven/">Maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/SVN/">SVN</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/">数据与存储</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/FastDFS/">FastDFS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/Redis/">Redis</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%94%9F%E6%B4%BB%E9%9A%8F%E7%AC%94/">生活随笔</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/">系统与中间件</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka/">Kafka</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul></li></ul></div></div></div></aside><main class="docs-main" id="docs-main"><div class="content_container"><div class="post"><h1 class="post-title" data-title-zh="" data-title-en=""></h1><div class="post-content"><h1 id="刘天龙"><a href="#刘天龙" class="headerlink" title="刘天龙"></a>刘天龙</h1><p>13476248538（同微信） | <a href="mailto:&#x6c;&#x69;&#x75;&#x74;&#x6c;&#x5f;&#119;&#x65;&#108;&#64;&#x31;&#54;&#51;&#x2e;&#x63;&#111;&#109;">&#x6c;&#x69;&#x75;&#x74;&#x6c;&#x5f;&#119;&#x65;&#108;&#64;&#x31;&#54;&#51;&#x2e;&#x63;&#111;&#109;</a><br>个人主页：<a href="https://liutianlong.top/">https://liutianlong.top</a><br>1994-11 | 男 | 陕西省靖边县 | 离职 | 西安<br><strong>求职意向：Java 开发工程师 | 期望薪资：18k-19k</strong></p>
+<h2 id="教育经历"><a href="#教育经历" class="headerlink" title="教育经历"></a>教育经历</h2><p><strong>中国地质大学（武汉）</strong> | 2014.09 - 2018.07<br>信息与计算科学 · 本科 · 数学与物理学院 · 全日制 | 武汉</p>
+<h2 id="专业技能"><a href="#专业技能" class="headerlink" title="专业技能"></a>专业技能</h2><p><strong>Java 后端：</strong> Java 基础、JVM、多线程与并发；Spring、Spring Boot、Spring Cloud、MyBatis、Hibernate、Dubbo、Nacos。<br><strong>数据与中间件：</strong> MySQL（索引、事务、SQL 调优）、Redis/Redisson、Kafka、RocketMQ；可使用 Python 处理数据。<br><strong>工程能力：</strong> 分布式锁、异步消息、批处理与并行计算、公式/规则引擎、慢 SQL 与 JVM 问题定位。<br><strong>工具：</strong> Linux、Git、Maven、IDEA、VS Code、MAT、JMeter、Druid。</p>
+<h2 id="工作经历"><a href="#工作经历" class="headerlink" title="工作经历"></a>工作经历</h2><p><strong>用友网络科技股份有限公司</strong> | 2021.12 - 2026.02<br>后端开发高级工程师 · 薪资核算 | 北京<br>负责薪资档案、薪资取数、发放单核算审批及支付明细，保障多租户薪酬业务准确、稳定运行。</p>
+<p><strong>北京东方国信科技股份有限公司</strong> | 2019.09 - 2021.11<br>软件开发工程师 · 数据治理产品研发中心 | 北京<br>负责数据治理平台统一调度工作流的设计、开发与维护，覆盖流程发布、调度执行、监控运维和事件触发。</p>
+<p><strong>中国科学院地理科学与资源研究所</strong> | 2017.12 - 2019.09<br>科研助理 · 农业政策研究中心 | 北京<br>使用 TERM/CGE、MATLAB、R、Python 开展分析建模、数据处理与可视化。</p>
+<h2 id="项目经历"><a href="#项目经历" class="headerlink" title="项目经历"></a>项目经历</h2><h3 id="人力-薪酬管理"><a href="#人力-薪酬管理" class="headerlink" title="人力-薪酬管理"></a>人力-薪酬管理</h3><p><strong>项目周期：</strong> 2021.12 - 2026.02 | <strong>所属公司：</strong> 用友网络科技股份有限公司 | <strong>角色：</strong> 后端开发高级工程师</p>
+<p><strong>项目简介：</strong> 用友 BIP 人力云薪资业务模块，覆盖薪资档案、薪资标准、发放单和支付明细，贯通维护、审核与支付流程。</p>
+<p><strong>主要工作与技术问题：</strong></p>
+<ul>
+<li><strong>发薪方案及项目生成（公式依赖闭包）：</strong> 基于 MDD 元数据生成方案版本和发放项目；递归解析公式变量构建依赖闭包，校验权限、启用状态、分段、税种兼容与重复引用，避免引用版本中不存在的项目。</li>
+<li><strong>薪资发放单及人员生成（组合、去重与批量装配）：</strong> 按“发薪方案 × 薪资期间”生成发放单模型，预先查询已存在发放单以避免重复创建；按组织和方案懒加载发薪人员，批量装配发放单人员后按 1000 条分片写入，兼顾多组织生成效率与事务粒度。</li>
+<li><strong>发薪人员生成（多段任职算法）：</strong> 解析本组织、非在职、历史任职和业务规则等核算范围；把候选人按任职开始日期排序，以薪资期间与任职有效期重叠为条件筛选，计算多税种和个税组织，并标记最后任职记录，保证人员档案与任职变更时间线一致。</li>
+<li><strong>异步消息处理（分页状态机与背压）：</strong> 使用模板方法统一同步流程，通过 <code>BatchHandler</code> 每页查询 1000 条、累计成功数并计算进度；任务提交至带界队列的 YMS 线程池，队列饱和时采用 <code>CallerRunsPolicy</code> 背压，Redis <code>asyncKey</code> 保存进度、失败信息并供前端轮询。</li>
+<li><strong>本地消息补偿（幂等与并发收敛）：</strong> 任职变动事件通过事件总线本地消费，过滤无效元数据并按 <code>任职ID + 操作类型</code> 剔除重复消息；发送失败返回非成功状态交由上游重试，消费异常标记 <code>Retry</code>。针对方案同步与事件消费同时生成同一人员的问题，使用方案级/任职级 Redis <code>SETNX</code> 锁、超时释放和差异化锁值合并结果，保证重复投递和并发消费下最终一致。</li>
+</ul>
+<p><strong>技术栈：</strong> Java、Spring Boot、MDD、MyBatis、MySQL、Redis、Kafka。</p>
+<h3 id="人力-薪资计算引擎"><a href="#人力-薪资计算引擎" class="headerlink" title="人力-薪资计算引擎"></a>人力-薪资计算引擎</h3><p><strong>项目周期：</strong> 2021.12 - 2026.02 | <strong>所属公司：</strong> 用友网络科技股份有限公司 | <strong>角色：</strong> 后端开发高级工程师</p>
+<p><strong>项目简介：</strong> 薪资核算核心服务，覆盖数据采集、公式解析、分段聚合、重算、分布式进度和结果落库。</p>
+<p><strong>主要工作与技术问题：</strong></p>
+<ul>
+<li><strong>分布式进度卡在中间值：</strong> 多批次计算由不同实例上报进度，实例异常退出后批次永久未完成；使用 Redis 分布式锁串行更新、批次加权聚合，并结合实例存活列表回收失效批次，使总进度正常收敛。</li>
+<li><strong>大名单计算的内存与性能压力：</strong> 采用名单分批、ForkJoinPool 员工/项目双维度并行、批量查询和 <code>CallerRunsPolicy</code> 背压，并按薪资项目按需加载考勤、社保、定调薪等数据集，减少全量取数和内存占用。</li>
+<li><strong>公式依赖与跨期计算错误：</strong> 对个税等强依赖项目重排计算顺序；年度累计函数增加有限重试，超限直接失败；修复分段计算、假勤批量取数和存休折算问题，保证“计算成功后再落库”。</li>
+<li><strong>函数取数链路异常：</strong> 围绕“函数参数解析 - 数据集预取 - 变量转换”逐层定位定调薪档案和业务规则取不到值的问题，补齐数据集及参数适配，并前置校验规则配置。</li>
+<li><strong>补发补扣/离职测算：</strong> 主导按原方案、薪资期间和历史发放单重建计算上下文，完成员工差额重算与差异明细回填，保证历史调整可追溯。</li>
+</ul>
+<p><strong>技术栈：</strong> Java、Spring Boot、MDD MetaDao、MyBatis、MySQL、Redis/Redisson、Kafka、ForkJoinPool、YMS。</p>
+<h3 id="数据治理平台-统一调度调度器"><a href="#数据治理平台-统一调度调度器" class="headerlink" title="数据治理平台-统一调度调度器"></a>数据治理平台-统一调度调度器</h3><p><strong>项目周期：</strong> 2019.09 - 2021.11 | <strong>所属公司：</strong> 北京东方国信科技股份有限公司 | <strong>角色：</strong> 软件开发工程师</p>
+<p><strong>项目简介：</strong> 调度编排服务，负责任务触发、流程运行控制及调度请求分发。</p>
+<p><strong>主要工作与技术问题：</strong></p>
+<ul>
+<li><strong>重复调度与状态失联：</strong> 手动、Quartz、事件和父子流程均可能触发同一流程；通过调度唯一记录、启停状态机、持久化调度参数和幂等判断，避免重复启动和取消竞态。</li>
+<li><strong>子流程变量传递错误：</strong> 梳理父子流程变量映射及同步/异步调用方式，在启动前完成变量替换和子流程版本解析，保证父子流程状态与参数一致。</li>
+<li><strong>实例宕机后的任务恢复：</strong> 记录任务所在节点与运行状态，通过 Dubbo/REST 重试、节点故障转移和宕机任务重新分发，解决多实例环境下任务失联。</li>
+</ul>
+<p><strong>技术栈：</strong> Java、Spring、Spring Boot、Hibernate、MySQL、Dubbo、Redis、Nacos、ZooKeeper。</p>
+<h3 id="数据治理平台-统一调度执行器"><a href="#数据治理平台-统一调度执行器" class="headerlink" title="数据治理平台-统一调度执行器"></a>数据治理平台-统一调度执行器</h3><p><strong>项目周期：</strong> 2019.09 - 2021.11 | <strong>所属公司：</strong> 北京东方国信科技股份有限公司 | <strong>角色：</strong> 软件开发工程师</p>
+<p><strong>项目简介：</strong> 工作流任务执行节点，负责接收调度请求、运行任务、回调结果并上报资源状态。</p>
+<p><strong>主要工作与技术问题：</strong></p>
+<ul>
+<li><strong>多类型任务互相阻塞：</strong> 支持 SQL、存储过程、Shell、JavaScript 和自定义插件，按任务类型拆分线程池并增加业务线程池限流，避免单一慢任务耗尽公共执行资源。</li>
+<li><strong>任务无法停止与资源泄漏：</strong> 实现执行线程中断、强制终止、任务资源释放和堆栈采集，为运维停止异常任务、恢复执行器节点提供手段。</li>
+<li><strong>执行结果回调失败：</strong> 对 RPC 回调结果进行重试和补偿，补充运行任务数、峰值、线程堆栈、CPU/内存等监控，缩短任务卡死和节点异常的定位时间。</li>
+</ul>
+<p><strong>技术栈：</strong> Java、Spring、Spring Boot、Dubbo、Nacos、ZooKeeper、线程池、Shell、SQL。</p>
+<h3 id="数据治理平台-统一调度管理平台"><a href="#数据治理平台-统一调度管理平台" class="headerlink" title="数据治理平台-统一调度管理平台"></a>数据治理平台-统一调度管理平台</h3><p><strong>项目周期：</strong> 2019.09 - 2021.11 | <strong>所属公司：</strong> 北京东方国信科技股份有限公司 | <strong>角色：</strong> 软件开发工程师</p>
+<p><strong>项目简介：</strong> 工作流管理服务，提供流程建模、保存发布、版本与调度配置及监控运维。</p>
+<p><strong>主要工作与技术问题：</strong></p>
+<ul>
+<li><strong>多表流程保存一致性：</strong> 流程保存涉及流程、任务、事件、实例和调度数据；重写二次保存与状态更新，明确事务边界，修复重复保存和发布异常。</li>
+<li><strong>监控列表重复与慢查询：</strong> 多角色用户会重复看到流程，重写监控查询并去重；结合大表分区、索引重构和 Druid 慢 SQL 分析降低查询压力。</li>
+<li><strong>事务/JVM 稳定性：</strong> 修复 Spring 事务代理回滚，定位 CPU 和内存溢出，并用 Redis 缓存热点数据。</li>
+</ul>
+<p><strong>技术栈：</strong> Java、Spring、Spring Boot、Hibernate、MySQL、Dubbo、RocketMQ、Redis、Nacos、GitLab。</p>
+<h3 id="开源商城项目学习实践（yudao-cloud）"><a href="#开源商城项目学习实践（yudao-cloud）" class="headerlink" title="开源商城项目学习实践（yudao-cloud）"></a>开源商城项目学习实践（yudao-cloud）</h3><p><strong>项目周期：</strong> 2026.02 - 至今 | <strong>所属公司：</strong> 开源项目 | <strong>性质：</strong> 个人学习与本地实践</p>
+<p><strong>项目简介：</strong> yudao-cloud（芋道源码）基于 Spring Cloud Alibaba，商城拆分为商品、营销、交易、统计四个服务，并与会员、支付、基础设施协同。</p>
+<p><strong>项目来源：</strong> <a target="_blank" rel="noopener" href="https://github.com/YunaiV/yudao-cloud">GitHub - YunaiV/yudao-cloud</a></p>
+<p><strong>主要工作与技术问题：</strong></p>
+<ul>
+<li><strong>商品模型问题：</strong> 围绕 SPU/SKU、分类品牌、规格属性、上下架、库存销量、收藏和评价，梳理多规格商品的数据建模及商品服务对外 RPC 接口。</li>
+<li><strong>营销规则耦合：</strong> 交易价格计算将商品价、会员优惠、优惠券、限时折扣、积分和物流费拆为独立计算器；通过计算器链组合规则，使新增营销类型减少对订单主流程的侵入。</li>
+<li><strong>库存并发超卖：</strong> 学习带库存条件的原子更新（仅当库存充足时扣减），并区分下单、支付、取消和售后场景的库存变化，理解并发校验与补偿边界。</li>
+<li><strong>支付回调重复处理：</strong> 支付回调根据订单状态和支付单号校验，重复通知直接返回，避免重复更新订单；结合唯一约束和消息重试理解支付与交易的一致性。</li>
+<li><strong>状态流转与补偿：</strong> 梳理订单创建、支付、取消、收货、评价和售后退款状态，结合 XXL-Job 自动取消/收货/评价任务及支付退款 API，理解状态机与跨服务补偿。</li>
+<li><strong>工程链路跟踪：</strong> 结合本地配置跟踪“商品展示 - 营销匹配 - 购物车/结算 - 下单支付 - 库存更新 - 售后退款”，整理 Nacos、Gateway、Feign、MyBatis Plus、Redis 的协作方式及问题定位文档。</li>
+<li><strong>计价链与金额边界：</strong> 分析促销计算器依次处理会员、折扣、优惠券、积分和物流费的顺序，以及商品级、订单级优惠金额的累计方式；通过最终支付金额校验拦截异常计价结果。</li>
+<li><strong>购物车有效性校验：</strong> 购物车展示需要跨商品服务批量获取 SPU/SKU，下架、删除或库存不足时标记无效；学习将多次单项查询合并为批量查询，降低商城首页和结算页的 RPC 压力。</li>
+<li><strong>库存回退路径：</strong> 区分支付成功扣减、订单取消和售后完成后的补回操作；通过订单项与 SKU 的映射统一转换为库存变更请求，避免各业务分支重复实现库存逻辑。</li>
+<li><strong>多租户与登录上下文：</strong> 梳理网关解析 Token 后通过请求头透传租户和登录用户，Feign 拦截器在商城跨服务调用时继续传递上下文，避免商品、交易和支付服务读取到错误租户数据。</li>
+<li><strong>本地部署与问题定位：</strong> 对比单体与微服务启动方式，梳理端口、Nacos 命名空间、MySQL/Redis 和网关路由配置；通过服务调用链与日志定位跨服务接口异常，形成可复现的本地调试记录。</li>
+</ul>
+<p><strong>技术栈：</strong> Java、Spring Boot、Spring Cloud Alibaba、Nacos、Spring Cloud Gateway、OpenFeign、MyBatis Plus、Redis/Redisson、XXL-Job、MySQL。</p>
+<h2 id="个人总结"><a href="#个人总结" class="headerlink" title="个人总结"></a>个人总结</h2><p>7 年 Java 后端开发经验，长期从事人力资源 SaaS 与数据治理平台研发，具备复杂业务链路分析、跨模块协作和线上问题定位能力。熟悉批处理、并行计算、消息队列与分布式任务调度，注重数据准确性、可观测性和代码质量。</p>
+</div></div><div class="comments-container" id="utterances-container"></div><script>(function() {
+  var container = document.getElementById('utterances-container');
+  if (!container) return;
+  var lazy = false;
+  var started = !lazy;
+
+  function installComments(themeName) {
+    container.querySelectorAll('script.utterances-comments, iframe.utterances-frame').forEach(function(node) {
+      node.remove();
+    });
+
+    var script = document.createElement('script');
+    script.src = 'https://utteranc.es/client.js';
+    script.className = 'utterances-comments';
+    script.crossOrigin = 'anonymous';
+    script.async = true;
+    script.setAttribute('repo', 'ltl10121314/ltl10121314.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', themeName);
+    container.appendChild(script);
+  }
+
+  function renderComments(themeName) {
+    var nextTheme = themeName === 'github-dark' ? 'github-dark' : 'github-light';
+    var frame = document.querySelector('iframe.utterances-frame');
+    if (frame) {
+      var frameUrl = new URL(frame.src);
+      if (frameUrl.searchParams.get('theme') !== nextTheme) {
+        frameUrl.searchParams.set('theme', nextTheme);
+        frame.src = frameUrl.toString();
+      }
+      return;
+    }
+    installComments(nextTheme);
+  }
+
+  function currentTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'github-dark' : 'github-light';
+  }
+
+  function startComments() {
+    if (started) return;
+    started = true;
+    renderComments(currentTheme());
+  }
+
+  if (started) renderComments(currentTheme());
+  window.addEventListener('site-theme-change', function(event) {
+    if (started) renderComments(event.detail.theme === 'dark' ? 'github-dark' : 'github-light');
+  });
+  new MutationObserver(function() {
+    if (started) renderComments(currentTheme());
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  if (lazy && 'IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      if (!entries.some(function(entry) { return entry.isIntersecting; })) return;
+      observer.disconnect();
+      startComments();
+    }, { rootMargin: '600px 0px' });
+    observer.observe(container);
+  } else {
+    startComments();
+  }
+})();
+</script></div><div id="footer"><span data-i18n="footerCopyright" data-year="2026">版权所有 © 2026</span> <a href="/." rel="nofollow">云起迎风燕.</a> <span data-i18n="poweredBy"> 基于</span> <a rel="nofollow" target="_blank" href="https://hexo.io">Hexo.</a> <a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo">Maupassant</a> <span data-i18n="theme">主题</span></div></main></div><div class="docs-backdrop" id="docs-backdrop" aria-hidden="true"></div></div><script type="text/javascript" src="/js/ui-preferences.js?v=1.1.25" defer></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.25"><script type="text/javascript" src="/js/search.js?v=1.1.25" defer></script><script type="text/javascript" src="/js/sidebar.js?v=1.1.25" defer></script><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.25" defer></script></body></html>

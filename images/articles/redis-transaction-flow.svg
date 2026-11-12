@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">Redis 事务流程</title>
+  <desc id="desc">客户端通过 MULTI 将命令放入队列，EXEC 按顺序执行；WATCH 检测到键被修改时中止事务。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbfcff"/>
+      <stop offset="1" stop-color="#f0f5fa"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#26384d" flood-opacity=".1"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0 0L12 6L0 12Z" fill="#7890a5"/>
+    </marker>
+    <style>
+      .title{font:700 32px "PingFang SC","Microsoft YaHei",Arial,sans-serif;fill:#17324d}
+      .subtitle{font:400 16px "PingFang SC","Microsoft YaHei",Arial,sans-serif;fill:#66788a}
+      .step{font:700 19px "PingFang SC","Microsoft YaHei",Arial,sans-serif;fill:#17324d}
+      .body{font:400 14px "PingFang SC","Microsoft YaHei",Arial,sans-serif;fill:#5e7488}
+      .code{font:600 14px Menlo,Consolas,monospace;fill:#245e93}
+    </style>
+  </defs>
+  <rect width="1200" height="680" rx="28" fill="url(#bg)"/>
+  <text x="70" y="72" class="title">Redis 事务执行流程</text>
+  <text x="70" y="102" class="subtitle">命令先入队，EXEC 时按顺序执行；WATCH 用于检测并发修改</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="164" width="220" height="160" rx="20" fill="#fff"/>
+    <circle cx="108" cy="202" r="18" fill="#dbeafe"/>
+    <text x="102" y="208" class="code">1</text>
+    <text x="140" y="208" class="step">MULTI</text>
+    <text x="98" y="246" class="body">开启事务</text>
+    <text x="98" y="274" class="body">后续命令不会立即执行</text>
+    <rect x="98" y="290" width="164" height="18" rx="9" fill="#eef4ff"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="350" y="164" width="220" height="160" rx="20" fill="#fff"/>
+    <circle cx="388" cy="202" r="18" fill="#e2f7f5"/>
+    <text x="382" y="208" class="code">2</text>
+    <text x="420" y="208" class="step">命令入队</text>
+    <text x="378" y="246" class="body">SET / INCR / GET ...</text>
+    <text x="378" y="274" class="body">返回 QUEUED</text>
+    <rect x="378" y="290" width="164" height="18" rx="9" fill="#e2f7f5"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="630" y="164" width="220" height="160" rx="20" fill="#fff"/>
+    <circle cx="668" cy="202" r="18" fill="#fff0d8"/>
+    <text x="662" y="208" class="code">3</text>
+    <text x="700" y="208" class="step">EXEC</text>
+    <text x="658" y="246" class="body">依次执行队列</text>
+    <text x="658" y="274" class="body">返回结果数组</text>
+    <rect x="658" y="290" width="164" height="18" rx="9" fill="#fff0d8"/>
+  </g>
+
+  <line x1="292" y1="244" x2="338" y2="244" stroke="#7890a5" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="572" y1="244" x2="618" y2="244" stroke="#7890a5" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="850" y1="244" x2="914" y2="244" stroke="#7890a5" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="925" y="164" width="205" height="160" rx="20" fill="#17324d"/>
+  <text x="952" y="204" class="step" fill="#fff">事务提交</text>
+  <text x="952" y="240" class="body" fill="#c9d9e8">原子执行命令序列</text>
+  <text x="952" y="268" class="body" fill="#c9d9e8">返回每个命令的结果</text>
+  <circle cx="1078" cy="288" r="13" fill="#3eb59f"/>
+  <path d="M1071 288l5 5 9-11" fill="none" stroke="#fff" stroke-width="2.5"/>
+
+  <path d="M740 350v64h-560v54" fill="none" stroke="#d49742" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 8"/>
+  <g filter="url(#shadow)">
+    <rect x="70" y="468" width="1060" height="142" rx="22" fill="#fff"/>
+    <rect x="70" y="468" width="10" height="142" rx="5" fill="#d49742"/>
+    <text x="104" y="508" class="step">WATCH 并发检测</text>
+    <text x="104" y="542" class="body">在 MULTI 之前监控一个或多个 Key；若 EXEC 前 Key 被其他客户端修改，事务中止并返回 nil。</text>
+    <g>
+      <rect x="104" y="562" width="300" height="28" rx="8" fill="#fff8eb"/>
+      <text x="120" y="582" class="code">WATCH balance</text>
+      <rect x="426" y="562" width="300" height="28" rx="8" fill="#fff8eb"/>
+      <text x="442" y="582" class="code">MULTI → SET → EXEC</text>
+      <rect x="748" y="562" width="342" height="28" rx="8" fill="#fff8eb"/>
+      <text x="764" y="582" class="code">Key 变化 → 事务取消</text>
+    </g>
+  </g>
+</svg>

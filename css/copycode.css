@@ -1,0 +1,52 @@
+.highlight{
+  position: relative;
+}
+.btn-copy {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 6px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-appearance: none;
+    color: #808080;
+    -webkit-transition: opacity .3s ease-in-out;
+    -o-transition: opacity .3s ease-in-out;
+    transition: opacity .3s ease-in-out;
+    opacity: 0;
+}
+.btn-copy:hover{
+  color: #000;
+}
+
+.highlight:hover .btn-copy{
+  opacity: 1;
+}
+
+.btn-copy.is-copied {
+    width: auto;
+    padding: 0 8px;
+    opacity: 1;
+    background: rgba(245, 249, 252, .96);
+    color: #356f98;
+    font-size: 11px;
+}
+
+.btn-copy.is-copied::after {
+    content: attr(data-copied);
+}
+
+.btn-copy.is-copied svg {
+    display: none;
+}

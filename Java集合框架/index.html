@@ -1,0 +1,272 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="color-scheme" content="light dark"><meta name="description"><title>Java 集合框架 | 云起迎风燕</title><link rel="preload" href="/fonts/title-zhi-mang-xing.woff2" as="font" type="font/woff2" crossorigin="anonymous" fetchpriority="high"><link rel="preload" href="/vendor/font-awesome/fonts/fontawesome-webfont.woff2?v=4.7.0" as="font" type="font/woff2" crossorigin="anonymous" fetchpriority="high"><script>(function() {
+  var root = document.documentElement;
+  var theme = 'light';
+  var language = 'zh';
+  var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  var isChrome = /Chrome\//.test(navigator.userAgent) && !/Edg\//.test(navigator.userAgent);
+  try {
+    var storedTheme = localStorage.getItem('liutianlong-theme');
+    var storedLanguage = localStorage.getItem('liutianlong-language');
+    var systemLanguage = (navigator.language || (navigator.languages && navigator.languages[0]) || 'zh').toLowerCase();
+    theme = storedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    language = storedLanguage === 'en' || storedLanguage === 'zh'
+      ? storedLanguage
+      : (systemLanguage.indexOf('zh') === 0 ? 'zh' : 'en');
+  } catch (error) {}
+  root.setAttribute('data-theme', theme);
+  root.setAttribute('data-lang', language);
+  root.setAttribute('lang', language === 'en' ? 'en' : 'zh-CN');
+  root.style.colorScheme = theme;
+  root.classList.toggle('is-safari', isSafari);
+  root.classList.toggle('is-chrome', isChrome);
+})();</script><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.25"><link rel="stylesheet" type="text/css" href="/css/theme-dark.css?v=1.1.25"><link rel="stylesheet" type="text/css" href="/vendor/normalize/normalize.min.css?v=1.1.25"><link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css?v=1.1.25"><link rel="preconnect" href="https://static.cloudflareinsights.com"><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;:&quot;6ded9c330d0946ed8789cbe8fe6bada1&quot;}"></script><link rel="icon" href="data:,"><meta name="generator" content="Hexo 5.4.0"></head><body class="docs-post" data-current-category=""><script>(function() {
+  var body = document.body;
+  var mobile = window.innerWidth < 1180;
+  var hasCategory = Boolean(body.getAttribute('data-current-category'));
+  var navPreference = null;
+  var tocPreference = null;
+  try {
+    navPreference = localStorage.getItem('maupassant-docs-nav-open');
+    tocPreference = localStorage.getItem('maupassant-docs-toc-open');
+  } catch (error) {}
+  body.classList.toggle('docs-nav-collapsed', mobile || (!hasCategory && navPreference === 'false'));
+  body.classList.toggle('docs-toc-collapsed', mobile || tocPreference === 'false');
+})();</script><div id="reading-progress" role="progressbar" data-i18n-aria="readingProgress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="reading-progress-fill"></span></div><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Java 集合框架</h1><a id="logo" href="/.">云起迎风燕</a><p class="description"></p></div><div class="header-actions"><div id="nav-menu"><a href="/."><i class="fa fa-home"></i><span data-i18n="home"> 首页</span></a><a href="/archives/"><i class="fa fa-archive"></i><span data-i18n="archiveShort"> 归档</span></a><a href="/profile/"><i class="fa fa-user"></i><span data-i18n="profile"> 关于</span></a><a href="/gallery/"><i class="fa fa-camera"></i><span data-i18n="photoWall"> 照片墙</span></a><a href="/guestbook/"><i class="fa fa-comment"></i><span data-i18n="guestbook"> 留言</span></a><a href="/statistics/"><i class="fa fa-bar-chart"></i><span data-i18n="statistics"> 统计</span></a></div><div class="ui-controls" data-i18n-aria="displaySettings"><button class="ui-toggle" id="language-toggle" type="button" data-i18n-aria="languageToggle" data-i18n-title="languageToggle"><span id="language-toggle-label">EN</span></button><button class="ui-toggle" id="theme-toggle" type="button" data-i18n-aria="themeToDark" data-i18n-title="themeToDark"><i class="fa fa-moon-o" id="theme-toggle-icon" aria-hidden="true"></i></button></div></div><nav class="docs-breadcrumb" data-i18n-aria="breadcrumb"><a href="/." data-i18n="home">首页</a><span class="docs-breadcrumb-separator">/</span><a href="/categories/Java/">Java</a><span class="docs-breadcrumb-separator">/</span><a href="/categories/Java/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a><span class="docs-breadcrumb-separator">/</span><span class="docs-breadcrumb-current">Java 集合框架</span></nav></div><button class="docs-edge-tab docs-edge-tab-left" id="docs-nav-open" type="button" aria-controls="sidebar" aria-expanded="false"><i class="fa fa-folder-o" aria-hidden="true"></i><span data-i18n="navigation">导航</span></button><button class="docs-edge-tab docs-edge-tab-right" id="docs-toc-open" type="button" aria-controls="article-toc" aria-expanded="false"><i class="fa fa-list-ul" aria-hidden="true"></i><span data-i18n="toc">目录</span></button><div class="docs-layout with-toc" id="layout"><aside class="docs-sidebar" id="sidebar" data-i18n-aria="siteNav"><div class="docs-panel-header"><span><i class="fa fa-compass" aria-hidden="true"></i><span data-i18n="contentNav">内容导航</span></span><button class="docs-panel-close" id="docs-nav-close" type="button" data-i18n-aria="closeNav"><i class="fa fa-chevron-left" aria-hidden="true"></i></button></div><div class="docs-sidebar-scroll"><div class="widget search-widget"><div class="search-form"><input id="local-search-input" placeholder="搜索文章" data-i18n-placeholder="search" type="text" name="q" results="0" autocomplete="off" data-search-url="/search.xml"/><div id="local-search-result" role="status" aria-live="polite"></div></div></div><nav class="docs-quick-nav" data-i18n-aria="siteNav"><a href="/."><i class="fa fa-home" aria-hidden="true"></i><span data-i18n="home">首页</span></a><a href="/archives/"><i class="fa fa-archive" aria-hidden="true"></i><span data-i18n="archiveShort">归档</span></a><a href="/profile/"><i class="fa fa-user" aria-hidden="true"></i><span data-i18n="profile">关于</span></a><a href="/gallery/"><i class="fa fa-camera" aria-hidden="true"></i><span data-i18n="photoWall">照片墙</span></a><a href="/guestbook/"><i class="fa fa-comment-o" aria-hidden="true"></i><span data-i18n="guestbook">留言</span></a><a href="/statistics/"><i class="fa fa-bar-chart" aria-hidden="true"></i><span data-i18n="statistics">统计</span></a></nav><div class="widget category-widget" id="category-widget"><div class="widget-title"><span class="category-title-mark" aria-hidden="true"></span><span data-i18n="categories"> 分类</span></div><div class="category-widget-content" id="category-list"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/JVM/">JVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/MyBatis/">MyBatis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/">项目实践</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/">Spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Maven/">Maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/SVN/">SVN</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/">数据与存储</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/FastDFS/">FastDFS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/Redis/">Redis</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%94%9F%E6%B4%BB%E9%9A%8F%E7%AC%94/">生活随笔</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/">系统与中间件</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka/">Kafka</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul></li></ul></div></div></div></aside><main class="docs-main" id="docs-main"><div class="content_container"><div class="post"><h1 class="post-title">Java 集合框架</h1><div class="post-meta"><span class="category"><a href="/categories/Java/">Java</a><span class="category-separator"> / </span><a href="/categories/Java/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a></span><span class="reading-time"><i class="fa fa-clock-o"></i><span data-i18n="readingTime" data-minutes="15"> 阅读约 15 分钟</span></span></div><div class="post-content"><h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><h3 id="集合框架概述"><a href="#集合框架概述" class="headerlink" title="集合框架概述"></a>集合框架概述</h3><p>在java中，对于多元素的存储提供了丰富的集合类支持。<br><img decoding="async" loading="lazy" src="/images/posts/java-collections/01.jpg" width=700 /></p>
+<p>Collection接口：集合类的根接口，定义了所有集合中的共性方法</p>
+<p>List接口：有序集合，允许存在重复元素，可通过索引进行遍历</p>
+<p>Set接口：无序集合，不允许存在重复元素，不能通过索引进行遍历</p>
+<h3 id="Collection集合"><a href="#Collection集合" class="headerlink" title="Collection集合"></a>Collection集合</h3><p>Collection集合常用方法</p>
+<ol>
+<li><code>public boolean add(E e)</code>  把指定的元素添加到集合中</li>
+<li><code>public void clear()</code> 清空集合中的所有元素</li>
+<li><code>public boolean remove(E e)</code> 移除集合中给定的元素</li>
+<li><code>public boolean contains(E e)</code> 如果集合中包含指定的元素，则返回 <code>true</code></li>
+<li><code>public boolean isEmpty()</code> 判断集合是否为空</li>
+<li><code>public int size()</code> 返回集合中的元素个数</li>
+<li><code>public Object[] toArray()</code> 将集合中的元素转换成数组的格式存储</li>
+</ol>
+<h3 id="Iterator接口"><a href="#Iterator接口" class="headerlink" title="Iterator接口"></a>Iterator接口</h3><p>在程序开发中，经常需要遍历集合中的元素。针对这种需求，JDK专门提供了Iterator接口来对集合进行遍历，</p>
+<p>Iterator又被称为迭代器。</p>
+<p>Iterator常用方法</p>
+<ol>
+<li><code>public boolean hashNext()</code> 判断集合中是否仍有元素可以迭代，有就返回true</li>
+<li><code>public E next()</code> 返回迭代的下一个元素</li>
+<li><code>public void remove()</code> 移除当前迭代的元素</li>
+</ol>
+<p>代码演示说明</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CollectionTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Collection collection = <span class="keyword">new</span> ArrayList();</span><br><span class="line">        collection.add(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">        collection.add(<span class="number">123</span>);</span><br><span class="line"></span><br><span class="line">        Iterator it = collection.iterator();</span><br><span class="line">        <span class="keyword">while</span>(it.hasNext()) &#123;</span><br><span class="line">            it.next();</span><br><span class="line">            it.remove();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(collection.size());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><p>java中的集合主要使用了如下几种数据结构</p>
+<ol>
+<li>数组</li>
+<li>栈</li>
+<li>队列</li>
+<li>链表</li>
+<li>红黑树</li>
+</ol>
+<h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p>数组会在内存中开辟一块连续的内存空间，然后当有数据进入的时候会将数据按顺序的存储在这块连续的内存中。</p>
+<p><img decoding="async" loading="lazy" src="/images/posts/java-collections/02.jpg" alt="img"></p>
+<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><p>创建链表的过程和创建数组的过程不同，不会先划出一块连续的内存。因为链表中的数据并不是连续的，链表在存储数据的内存中有两块区域，一块区域用来存储数据，一块区域用来记录下一个数据保存在哪里（指向下一个数据的指针）。当有数据进入链表时候，会根据指针找到下一个存储数据的位置，然后把数据保存起来，然后再指向下一个存储数据的位置。这样链表就把一些碎片空间利用起来了，虽然链表是线性表，但是并不会按线性的顺序存储数据。</p>
+<p><img decoding="async" loading="lazy" src="/images/posts/java-collections/03.jpg" alt="img"></p>
+<h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><p>栈是限制在一端进行插入操作和删除操作的线性表（俗称堆栈），允许进行操作的一端称为“栈顶”，另一固定端称为“栈底”，当栈中没有元素时称为“空栈”。向一个栈内插入元素称为是进栈，push；从一个栈删除元素称为是出栈，pop。特点 ：后进先出(LIFO)</p>
+<img decoding="async" loading="lazy" src="/images/posts/java-collections/04.jpg" width=550 />
+
+<h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><p>队列是一种先进先出的线性表，它只允许在表的一端进行，而在另一端删除元素。</p>
+<p>在队列中，允许插入的一端叫做队尾，允许删除的一端则称为队头。</p>
+<div align=center>
+    <img decoding="async" loading="lazy" src="/images/posts/java-collections/05.jpg" width=650/>
+</div>
+
+<h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><p>普通的二叉查找树在极端情况下可退化成链表，此时的增删查效率都会比较低下。</p>
+<p>为了避免这种情况，就出现了一些自平衡的查找树，比如 AVL(自平衡二叉树)，红黑树等。这些自</p>
+<p>平衡的查找树通过定义一些性质，将任意节点的左右子树高度差控制在规定范围内，以达到平衡状态。</p>
+<p>红黑树通过如下的性质定义实现自平衡：</p>
+<ol>
+<li>根节点是黑色</li>
+<li>节点是红色或黑色</li>
+<li>所有叶子都是黑色(叶子是NIL节点)</li>
+<li>每个红色节点必须有两个黑色的子节点。(从每个叶子到根的所有路径上不能有两个连续的红色节点。)</li>
+<li>从任一节点到其每个叶子的所有简单路径都包含相同数目的黑色节点(简称黑高)</li>
+</ol>
+<p><img decoding="async" loading="lazy" src="/images/posts/java-collections/06.jpg" alt="点击查看源网页"></p>
+<h3 id="List接口"><a href="#List接口" class="headerlink" title="List接口"></a>List接口</h3><p>List接口的常用方法</p>
+<ol>
+<li><code>public boolean add(E e)</code> 向集合中新增元素</li>
+<li><code>public void clear()</code> 清空集合中的元素</li>
+<li><code>public boolean contains()</code> 如果集合中包含指定的元素，则返回 <code>true</code></li>
+<li><code>public E get(int index)</code> 获取集合中指定索引的元素</li>
+<li><code>public boolean remove(Object o)</code>  移除集合中给定的元素</li>
+<li><code>public int size()</code> 返回集合中的元素个数</li>
+</ol>
+<h3 id="List接口子类"><a href="#List接口子类" class="headerlink" title="List接口子类"></a>List接口子类</h3><h3 id="ArrayList集合"><a href="#ArrayList集合" class="headerlink" title="ArrayList集合"></a>ArrayList集合</h3><p>​    ArrayList集合，底层使用的是数组的数据结构，查询快，增删慢。所以ArrayList适用于元素遍历</p>
+<h3 id="LinkedList集合"><a href="#LinkedList集合" class="headerlink" title="LinkedList集合"></a>LinkedList集合</h3><p>​    LinkedList集合，底层使用的是链表结构，方便元素的添加与删除。适用于频繁修改的业务场景。</p>
+<h3 id="Vector集合"><a href="#Vector集合" class="headerlink" title="Vector集合"></a>Vector集合</h3><p>​    底层也是使用数据结构存储，最大的区别在于，Vector集合是同步的，线程安全的。</p>
+<h3 id="Set接口"><a href="#Set接口" class="headerlink" title="Set接口"></a>Set接口</h3><p>Set接口与List接口相似，都是继承自Collection接口。只不过Set集合中的元素不能重复且无序。</p>
+<p>Set接口的常用实现类是HashSet，底层实现是哈希表，查询速度非常快。</p>
+<h3 id="哈希值"><a href="#哈希值" class="headerlink" title="哈希值"></a>哈希值</h3><p>java中对象的hash值，是由系统底层生成的一串十进制的整数，代表对象的逻辑地址，但不是实际存储</p>
+<p>的物理地址。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashCodeTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Person person = <span class="keyword">new</span> Person();</span><br><span class="line">        System.out.println(person.hashCode());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h3><p>哈希表=数组+链表</p>
+<p>java8以后，哈希表=数组+链表+红黑树</p>
+<p><img decoding="async" loading="lazy" src="/images/posts/java-collections/07.jpg" alt="image-20190528133525996"></p>
+<h3 id="HashSet集合"><a href="#HashSet集合" class="headerlink" title="HashSet集合"></a>HashSet集合</h3><p>HashSet底层就是使用哈希表这种数据结构来进行存储。</p>
+<h3 id="LinkedHashSet集合"><a href="#LinkedHashSet集合" class="headerlink" title="LinkedHashSet集合"></a>LinkedHashSet集合</h3><p>由于HashSet集合保证了数据的唯一性，但元素的存储是无序的，因此可以通过LinkedHashSet来解决该问题</p>
+<p>，它是链表与哈希表的组合数据结构。</p>
+<h3 id="Map接口"><a href="#Map接口" class="headerlink" title="Map接口"></a>Map接口</h3><p>Map集合主要用于存储KV类型的对象。</p>
+<p>常用实现类</p>
+<ol>
+<li><p>HashMap&lt;K,V&gt;</p>
+<p>​    采用哈希表进行存储，元素的存储顺序不能保证一致。</p>
+</li>
+<li><p>LinkedHashMap&lt;K,V&gt;</p>
+<p>​    HashMap的子类，采用哈希表+链表的结构，能够保证存储顺序的一致性</p>
+</li>
+</ol>
+<p>Map接口中的常用方法</p>
+<ol>
+<li><code>public V put(K key, V value)</code>  将制定的键和值存储到Map集合中</li>
+<li><code>public V get(Object key)</code>  根据制定的键，在Map中获取指定的值</li>
+<li><code>public V remove(Object key)</code> 根据制定的键，删除Map集合中对应的键值对</li>
+<li><code>public Set&lt;K&gt; keySet()</code>  获取Map集合中所有的键，并存储到Set集合中</li>
+<li><code>public Collection&lt;V&gt; values()</code>  获取Map集合所有的值，并存储到Collection集合中</li>
+<li><code>public Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet()</code> 获取Map集合中所有的键值对</li>
+</ol>
+<h3 id="Collections工具类"><a href="#Collections工具类" class="headerlink" title="Collections工具类"></a>Collections工具类</h3><p>Collections工具类，主要用于对Collection集合类进行排序、求大小值等操作。</p>
+<p>Collections工具类常用方法</p>
+<ul>
+<li><code>public static boolean addAll(Collection&lt;? super T&gt; c, T... elements)</code> 同时添加多个元素到集合</li>
+<li><code>public static int binarySearch(List&lt;? extends T&gt; list, T key, Comparator&lt;? super T&gt; c) </code> 二分查找法</li>
+<li><code>public static T max(Collection&lt;? extends T&gt; coll) </code> 根据元素的自然排序，返回集合中的最大值</li>
+<li><code>public static T min(Collection&lt;? extends T&gt; coll) </code> 根据元素的自然排序，返回集合中的最小值</li>
+<li><code>public static void sort(List&lt;T&gt; list) </code> 根据元素的<em>自然顺序</em> 对指定列表按升序进行排序</li>
+<li><code>public static void sort(List&lt;T&gt; list, Comparator&lt;? super T&gt; c) </code> 根据指定比较器产生的顺序对指定列表进行排序。</li>
+</ul>
+<p>代码演示说明</p>
+<h3 id="addAll"><a href="#addAll" class="headerlink" title="addAll()"></a>addAll()</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CollectionsTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">//同时添加多个元素</span></span><br><span class="line">        Collections.addAll(list, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>);</span><br><span class="line">        <span class="comment">//元素遍历</span></span><br><span class="line">        list.forEach(x -&gt; System.out.println(<span class="string">&quot;element: &quot;</span> + x));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="sort升序"><a href="#sort升序" class="headerlink" title="sort升序"></a>sort升序</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CollectionsTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">//同时添加多个元素</span></span><br><span class="line">        Collections.addAll(list, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;e&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;f&quot;</span>);</span><br><span class="line">        <span class="comment">//升序</span></span><br><span class="line">        Collections.sort(list);</span><br><span class="line">        <span class="comment">//元素遍历</span></span><br><span class="line">        list.forEach(x -&gt; System.out.println(<span class="string">&quot;element: &quot;</span> + x));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义sort排序"><a href="#自定义sort排序" class="headerlink" title="自定义sort排序"></a>自定义sort排序</h3><p>由于Collections.sort()默认只支持基本数据类型和字符串的自然排序，如果想要对自定义对象进行自然排序，排序对象需要实现Comparable接口，并重现其compareTo()方法</p>
+<p>自定义对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">User</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;User&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, age=&quot;</span> + age +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(User o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> o.getAge() - <span class="keyword">this</span>.getAge();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>compareTo排序规则</p>
+<ul>
+<li>this - 其他对象等于升序</li>
+<li>其他对象 - this等于降序</li>
+</ul>
+<h4 id="sort-List-lt-T-gt-list-Comparator-lt-super-T-gt-c"><a href="#sort-List-lt-T-gt-list-Comparator-lt-super-T-gt-c" class="headerlink" title="sort(List&lt;T&gt; list, Comparator&lt;? super T&gt; c)"></a><code>sort(List&lt;T&gt; list, Comparator&lt;? super T&gt; c)</code></h4><p>对于自定义对象的排序，除了通过对象实现Comparable接口之外，还可以单独实现Comparator接口来创建外置</p>
+<p>比较器，来对集合进行排序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CollectionsTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;User&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">//添加对象元素</span></span><br><span class="line">        list.add(<span class="keyword">new</span> User(<span class="string">&quot;mike&quot;</span>, <span class="number">20</span>));</span><br><span class="line">        list.add(<span class="keyword">new</span> User(<span class="string">&quot;bob&quot;</span>, <span class="number">22</span>));</span><br><span class="line">        list.add(<span class="keyword">new</span> User(<span class="string">&quot;max&quot;</span>, <span class="number">18</span>));</span><br><span class="line">        <span class="comment">//升序</span></span><br><span class="line">        Collections.sort(list, <span class="keyword">new</span> Comparator&lt;User&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(User o1, User o2)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> o1.getAge() - o2.getAge();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">//元素遍历</span></span><br><span class="line">        list.forEach(u -&gt; System.out.println(u));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>compare排序规则</p>
+<ul>
+<li>o1 - o2等于升序</li>
+<li>o2 - o1等于降序</li>
+</ul>
+<h3 id="Comparable-接口与-Comparator-的区别"><a href="#Comparable-接口与-Comparator-的区别" class="headerlink" title="Comparable 接口与 Comparator 的区别"></a>Comparable 接口与 Comparator 的区别</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>Comparable</th>
+<th>Comparator</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>排序逻辑</td>
+<td>排序逻辑在待排序对象中实现，故称为自然排序</td>
+<td>排序逻辑独立实现</td>
+</tr>
+<tr>
+<td>实现</td>
+<td>实现Comparable接口</td>
+<td>实现Comparator接口</td>
+</tr>
+<tr>
+<td>排序方法</td>
+<td>int compareTo(Object o1)</td>
+<td>int compare(Object o1, Object o2)</td>
+</tr>
+<tr>
+<td>触发排序</td>
+<td>Collections.sort(List)</td>
+<td>Collections.sort(List, Comparator)</td>
+</tr>
+<tr>
+<td>接口所在包</td>
+<td>java.lang.Comparable</td>
+<td>java.util.Comparator</td>
+</tr>
+</tbody></table>
+<h4 id="max-Collection-lt-extends-T-gt-coll"><a href="#max-Collection-lt-extends-T-gt-coll" class="headerlink" title="max(Collection&lt;? extends T&gt; coll)"></a><code>max(Collection&lt;? extends T&gt; coll)</code></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CollectionsTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;User&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">//添加对象元素</span></span><br><span class="line">        list.add(<span class="keyword">new</span> User(<span class="string">&quot;mike&quot;</span>, <span class="number">20</span>));</span><br><span class="line">        list.add(<span class="keyword">new</span> User(<span class="string">&quot;bob&quot;</span>, <span class="number">22</span>));</span><br><span class="line">        list.add(<span class="keyword">new</span> User(<span class="string">&quot;max&quot;</span>, <span class="number">18</span>));</span><br><span class="line">        <span class="comment">//get max user</span></span><br><span class="line">        User maxUser = Collections.max(list);</span><br><span class="line">        System.out.println(<span class="string">&quot;max user: &quot;</span>+ maxUser);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="min-Collection-lt-extends-T-gt-coll"><a href="#min-Collection-lt-extends-T-gt-coll" class="headerlink" title="min(Collection&lt;? extends T&gt; coll)"></a><code>min(Collection&lt;? extends T&gt; coll)</code></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CollectionsTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;User&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">//添加对象元素</span></span><br><span class="line">        list.add(<span class="keyword">new</span> User(<span class="string">&quot;mike&quot;</span>, <span class="number">20</span>));</span><br><span class="line">        list.add(<span class="keyword">new</span> User(<span class="string">&quot;bob&quot;</span>, <span class="number">22</span>));</span><br><span class="line">        list.add(<span class="keyword">new</span> User(<span class="string">&quot;max&quot;</span>, <span class="number">18</span>));</span><br><span class="line">        <span class="comment">//get max user</span></span><br><span class="line">        User maxUser = Collections.min(list);</span><br><span class="line">        System.out.println(<span class="string">&quot;max user: &quot;</span>+ maxUser);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="binarySearch-List-lt-extends-T-gt-list-T-key-Comparator-lt-super-T-gt-c"><a href="#binarySearch-List-lt-extends-T-gt-list-T-key-Comparator-lt-super-T-gt-c" class="headerlink" title="binarySearch(List&lt;? extends T&gt; list, T key, Comparator&lt;? super T&gt; c)"></a><code>binarySearch(List&lt;? extends T&gt; list, T key, Comparator&lt;? super T&gt; c)</code></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CollectionsTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;User&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">//添加对象元素</span></span><br><span class="line">        list.add(<span class="keyword">new</span> User(<span class="string">&quot;mike&quot;</span>, <span class="number">20</span>));</span><br><span class="line">        list.add(<span class="keyword">new</span> User(<span class="string">&quot;bob&quot;</span>, <span class="number">22</span>));</span><br><span class="line">        list.add(<span class="keyword">new</span> User(<span class="string">&quot;max&quot;</span>, <span class="number">18</span>));</span><br><span class="line">        <span class="comment">//二分查找</span></span><br><span class="line">        <span class="keyword">int</span> index = Collections.binarySearch(list, <span class="keyword">new</span> User(<span class="string">&quot;bob&quot;</span>, <span class="number">22</span>));</span><br><span class="line">        System.out.println(<span class="string">&quot;user index: &quot;</span> + index);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</div><div class="post-nav"><a class="pre" href="/Git/">Git</a><a class="next" href="/Java%E6%96%87%E4%BB%B6%E4%B8%8EIO/">Java 文件与 I/O</a></div><div class="comments-container" id="utterances-container"></div><script>(function() {
+  var container = document.getElementById('utterances-container');
+  if (!container) return;
+  var lazy = true;
+  var started = !lazy;
+
+  function installComments(themeName) {
+    container.querySelectorAll('script.utterances-comments, iframe.utterances-frame').forEach(function(node) {
+      node.remove();
+    });
+
+    var script = document.createElement('script');
+    script.src = 'https://utteranc.es/client.js';
+    script.className = 'utterances-comments';
+    script.crossOrigin = 'anonymous';
+    script.async = true;
+    script.setAttribute('repo', 'ltl10121314/ltl10121314.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', themeName);
+    container.appendChild(script);
+  }
+
+  function renderComments(themeName) {
+    var nextTheme = themeName === 'github-dark' ? 'github-dark' : 'github-light';
+    var frame = document.querySelector('iframe.utterances-frame');
+    if (frame) {
+      var frameUrl = new URL(frame.src);
+      if (frameUrl.searchParams.get('theme') !== nextTheme) {
+        frameUrl.searchParams.set('theme', nextTheme);
+        frame.src = frameUrl.toString();
+      }
+      return;
+    }
+    installComments(nextTheme);
+  }
+
+  function currentTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'github-dark' : 'github-light';
+  }
+
+  function startComments() {
+    if (started) return;
+    started = true;
+    renderComments(currentTheme());
+  }
+
+  if (started) renderComments(currentTheme());
+  window.addEventListener('site-theme-change', function(event) {
+    if (started) renderComments(event.detail.theme === 'dark' ? 'github-dark' : 'github-light');
+  });
+  new MutationObserver(function() {
+    if (started) renderComments(currentTheme());
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  if (lazy && 'IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      if (!entries.some(function(entry) { return entry.isIntersecting; })) return;
+      observer.disconnect();
+      startComments();
+    }, { rootMargin: '600px 0px' });
+    observer.observe(container);
+  } else {
+    startComments();
+  }
+})();
+</script><script type="text/javascript" src="/js/article.js?v=1.1.25" defer></script></div></div><div id="footer"><span data-i18n="footerCopyright" data-year="2026">版权所有 © 2026</span> <a href="/." rel="nofollow">云起迎风燕.</a> <span data-i18n="poweredBy"> 基于</span> <a rel="nofollow" target="_blank" href="https://hexo.io">Hexo.</a> <a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo">Maupassant</a> <span data-i18n="theme">主题</span></div></main><aside class="docs-toc-panel" id="article-toc" data-i18n-aria="toc"><div class="docs-panel-header"><span><i class="fa fa-list-ul" aria-hidden="true"></i><span data-i18n="toc">文章目录</span></span><button class="docs-panel-close" id="docs-toc-close" type="button" data-i18n-aria="closeToc"><i class="fa fa-chevron-right" aria-hidden="true"></i></button></div><div class="docs-toc-content" id="toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E5%90%88"><span class="toc-number">1.</span> <span class="toc-text">集合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">集合框架概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Collection%E9%9B%86%E5%90%88"><span class="toc-number">1.2.</span> <span class="toc-text">Collection集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Iterator%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.3.</span> <span class="toc-text">Iterator接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.4.</span> <span class="toc-text">数据结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84"><span class="toc-number">1.5.</span> <span class="toc-text">数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8"><span class="toc-number">1.6.</span> <span class="toc-text">链表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%88"><span class="toc-number">1.7.</span> <span class="toc-text">栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%9F%E5%88%97"><span class="toc-number">1.8.</span> <span class="toc-text">队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%A2%E9%BB%91%E6%A0%91"><span class="toc-number">1.9.</span> <span class="toc-text">红黑树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.10.</span> <span class="toc-text">List接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List%E6%8E%A5%E5%8F%A3%E5%AD%90%E7%B1%BB"><span class="toc-number">1.11.</span> <span class="toc-text">List接口子类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ArrayList%E9%9B%86%E5%90%88"><span class="toc-number">1.12.</span> <span class="toc-text">ArrayList集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LinkedList%E9%9B%86%E5%90%88"><span class="toc-number">1.13.</span> <span class="toc-text">LinkedList集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vector%E9%9B%86%E5%90%88"><span class="toc-number">1.14.</span> <span class="toc-text">Vector集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Set%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.15.</span> <span class="toc-text">Set接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E5%80%BC"><span class="toc-number">1.16.</span> <span class="toc-text">哈希值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="toc-number">1.17.</span> <span class="toc-text">哈希表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HashSet%E9%9B%86%E5%90%88"><span class="toc-number">1.18.</span> <span class="toc-text">HashSet集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LinkedHashSet%E9%9B%86%E5%90%88"><span class="toc-number">1.19.</span> <span class="toc-text">LinkedHashSet集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Map%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.20.</span> <span class="toc-text">Map接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Collections%E5%B7%A5%E5%85%B7%E7%B1%BB"><span class="toc-number">1.21.</span> <span class="toc-text">Collections工具类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#addAll"><span class="toc-number">1.22.</span> <span class="toc-text">addAll()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sort%E5%8D%87%E5%BA%8F"><span class="toc-number">1.23.</span> <span class="toc-text">sort升序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89sort%E6%8E%92%E5%BA%8F"><span class="toc-number">1.24.</span> <span class="toc-text">自定义sort排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Comparable-%E6%8E%A5%E5%8F%A3%E4%B8%8E-Comparator-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.25.</span> <span class="toc-text">Comparable 接口与 Comparator 的区别</span></a></li></ol></li></ol></div></aside></div><div class="docs-backdrop" id="docs-backdrop" aria-hidden="true"></div></div><script type="text/javascript" src="/js/ui-preferences.js?v=1.1.25" defer></script><script type="text/javascript" src="/js/fancybox.js?v=1.1.25" defer></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.25"><script type="text/javascript" src="/js/search.js?v=1.1.25" defer></script><script type="text/javascript" src="/js/copycode.js?v=1.1.25" data-success-text="复制成功!" defer></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/sidebar.js?v=1.1.25" defer></script><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.25" defer></script></body></html>
