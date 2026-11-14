@@ -170,7 +170,8 @@
       return;
     }
     setStatus(copy().loading, false);
-    fetch(endpoint + '/api/stats', {
+    var cacheBucket = Math.floor(Date.now() / 15000);
+    fetch(endpoint + '/api/stats?cache=' + cacheBucket, {
       headers: { Accept: 'application/json' },
       credentials: 'omit',
       referrerPolicy: 'no-referrer'
