@@ -2368,6 +2368,14 @@ body .body_container {
   color: #35495a;
 }
 
+#tcomment .tk-comments-actions > .tk-icon.__comments:last-child {
+  display: none !important;
+}
+
+#tcomment.admin-entry-visible .tk-comments-actions > .tk-icon.__comments:last-child {
+  display: inline-flex !important;
+}
+
 .guestbook-comments #tcomment .twikoo-connection-status {
   display: flex;
   align-items: center;
