@@ -277,7 +277,8 @@ html[data-theme="dark"] .post-views i {
     color: #7eb6dc;
 }
 
-html[data-theme="dark"] .post-views #busuanzi_value_page_pv {
+html[data-theme="dark"] .post-views #busuanzi_value_page_pv,
+html[data-theme="dark"] .post-views .page-view-count {
     color: #d7e7f2;
 }
 

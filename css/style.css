@@ -482,7 +482,8 @@ div {
 .post .post-meta .post-views i {
   color: #7b99b1;
 }
-.post .post-meta .post-views #busuanzi_value_page_pv {
+.post .post-meta .post-views #busuanzi_value_page_pv,
+.post .post-meta .post-views .page-view-count {
   color: #385d78;
   font-variant-numeric: tabular-nums;
   font-weight: 600;
