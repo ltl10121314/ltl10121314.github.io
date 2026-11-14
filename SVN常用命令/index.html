@@ -61,69 +61,9 @@
 <h2 id="把工作拷贝更新到别的URL"><a href="#把工作拷贝更新到别的URL" class="headerlink" title="把工作拷贝更新到别的URL"></a>把工作拷贝更新到别的URL</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">svn　switch　http://目录全路径　本地目录全路径</span><br><span class="line">例子：</span><br><span class="line">svn switch http://localhost/test/456 .＜－(原为123的分支)当前所在目录分支到localhost/test/456</span><br></pre></td></tr></table></figure>
 
 <h2 id="解决冲突"><a href="#解决冲突" class="headerlink" title="解决冲突"></a>解决冲突</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn　resolved　[本地目录全路径]</span><br></pre></td></tr></table></figure>
-</div><div class="post-nav"><a class="pre" href="/Spring%20MVC/">Spring MVC</a><a class="next" href="/yum%E4%B8%8Eapt-get%E7%9A%84%E5%8C%BA%E5%88%AB/">yum 与 apt-get 的区别</a></div><div class="comments-container" id="utterances-container"></div><script>(function() {
-  var container = document.getElementById('utterances-container');
-  if (!container) return;
-  var lazy = true;
-  var started = !lazy;
-
-  function installComments(themeName) {
-    container.querySelectorAll('script.utterances-comments, iframe.utterances-frame').forEach(function(node) {
-      node.remove();
-    });
-
-    var script = document.createElement('script');
-    script.src = 'https://utteranc.es/client.js';
-    script.className = 'utterances-comments';
-    script.crossOrigin = 'anonymous';
-    script.async = true;
-    script.setAttribute('repo', 'ltl10121314/ltl10121314.github.io');
-    script.setAttribute('issue-term', 'pathname');
-    script.setAttribute('theme', themeName);
-    container.appendChild(script);
-  }
-
-  function renderComments(themeName) {
-    var nextTheme = themeName === 'github-dark' ? 'github-dark' : 'github-light';
-    var frame = document.querySelector('iframe.utterances-frame');
-    if (frame) {
-      var frameUrl = new URL(frame.src);
-      if (frameUrl.searchParams.get('theme') !== nextTheme) {
-        frameUrl.searchParams.set('theme', nextTheme);
-        frame.src = frameUrl.toString();
-      }
-      return;
-    }
-    installComments(nextTheme);
-  }
-
-  function currentTheme() {
-    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'github-dark' : 'github-light';
-  }
-
-  function startComments() {
-    if (started) return;
-    started = true;
-    renderComments(currentTheme());
-  }
-
-  if (started) renderComments(currentTheme());
-  window.addEventListener('site-theme-change', function(event) {
-    if (started) renderComments(event.detail.theme === 'dark' ? 'github-dark' : 'github-light');
-  });
-  new MutationObserver(function() {
-    if (started) renderComments(currentTheme());
-  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-
-  if (lazy && 'IntersectionObserver' in window) {
-    var observer = new IntersectionObserver(function(entries) {
-      if (!entries.some(function(entry) { return entry.isIntersecting; })) return;
-      observer.disconnect();
-      startComments();
-    }, { rootMargin: '600px 0px' });
-    observer.observe(container);
-  } else {
-    startComments();
-  }
-})();
-</script><script type="text/javascript" src="/js/article.js?v=1.1.25" defer></script></div></div><div id="footer"><span data-i18n="footerCopyright" data-year="2026">版权所有 © 2026</span> <a href="/." rel="nofollow">云起迎风燕.</a> <span data-i18n="poweredBy"> 基于</span> <a rel="nofollow" target="_blank" href="https://hexo.io">Hexo.</a> <a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo">Maupassant</a> <span data-i18n="theme">主题</span></div></main><aside class="docs-toc-panel" id="article-toc" data-i18n-aria="toc"><div class="docs-panel-header"><span><i class="fa fa-list-ul" aria-hidden="true"></i><span data-i18n="toc">文章目录</span></span><button class="docs-panel-close" id="docs-toc-close" type="button" data-i18n-aria="closeToc"><i class="fa fa-chevron-right" aria-hidden="true"></i></button></div><div class="docs-toc-content" id="toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A3%80%E5%87%BA"><span class="toc-number">1.</span> <span class="toc-text">检出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA-%E5%AF%BC%E5%87%BA%E4%B8%80%E4%B8%AA%E5%B9%B2%E5%87%80%E7%9A%84%E4%B8%8D%E5%B8%A6-svn%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E7%9B%AE%E5%BD%95%E6%A0%91"><span class="toc-number">2.</span> <span class="toc-text">导出(导出一个干净的不带.svn文件夹的目录树)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%96%B0%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">添加新文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4"><span class="toc-number">4.</span> <span class="toc-text">提交</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%96%87%E4%BB%B6"><span class="toc-number">5.</span> <span class="toc-text">更新文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6"><span class="toc-number">6.</span> <span class="toc-text">删除文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E9%94%81-%E8%A7%A3%E9%94%81"><span class="toc-number">7.</span> <span class="toc-text">加锁&#x2F;解锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E6%88%96%E8%80%85%E7%9B%AE%E5%BD%95%E7%8A%B6%E6%80%81"><span class="toc-number">8.</span> <span class="toc-text">查看文件或者目录状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="toc-number">9.</span> <span class="toc-text">查看日志</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF"><span class="toc-number">10.</span> <span class="toc-text">查看文件详细信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SVN-%E5%B8%AE%E5%8A%A9"><span class="toc-number">11.</span> <span class="toc-text">SVN 帮助</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%89%88%E6%9C%AC%E5%BA%93%E4%B8%8B%E7%9A%84%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E5%88%97%E8%A1%A8"><span class="toc-number">12.</span> <span class="toc-text">查看版本库下的文件和目录列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%BA%B3%E5%85%A5%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E4%B8%8B%E7%9A%84%E6%96%B0%E7%9B%AE%E5%BD%95"><span class="toc-number">13.</span> <span class="toc-text">创建纳入版本控制下的新目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%81%A2%E5%A4%8D%E6%9C%AC%E5%9C%B0%E4%BF%AE%E6%94%B9"><span class="toc-number">14.</span> <span class="toc-text">恢复本地修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%8A%E5%B7%A5%E4%BD%9C%E6%8B%B7%E8%B4%9D%E6%9B%B4%E6%96%B0%E5%88%B0%E5%88%AB%E7%9A%84URL"><span class="toc-number">15.</span> <span class="toc-text">把工作拷贝更新到别的URL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%86%B2%E7%AA%81"><span class="toc-number">16.</span> <span class="toc-text">解决冲突</span></a></li></ol></div></aside></div><div class="docs-backdrop" id="docs-backdrop" aria-hidden="true"></div></div><script type="text/javascript" src="/js/ui-preferences.js?v=1.1.25" defer></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.25"><script type="text/javascript" src="/js/search.js?v=1.1.25" defer></script><script type="text/javascript" src="/js/copycode.js?v=1.1.25" data-success-text="复制成功!" defer></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/sidebar.js?v=1.1.25" defer></script><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.25" defer></script></body></html>
+</div><div class="post-nav"><a class="pre" href="/Spring%20MVC/">Spring MVC</a><a class="next" href="/yum%E4%B8%8Eapt-get%E7%9A%84%E5%8C%BA%E5%88%AB/">yum 与 apt-get 的区别</a></div><div id="tcomment"></div><script src="https://registry.npmmirror.com/twikoo/2.0.17/files/dist/twikoo.min.js"></script><script>twikoo.init({
+  envId: 'https://twikoo-backend-tau.vercel.app',
+  el: '#tcomment',
+  path: window.location.pathname,
+  lang: document.documentElement.getAttribute('data-lang') === 'en' ? 'en-US' : 'zh-CN'
+})</script><script type="text/javascript" src="/js/article.js?v=1.1.25" defer></script></div></div><div id="footer"><span data-i18n="footerCopyright" data-year="2026">版权所有 © 2026</span> <a href="/." rel="nofollow">云起迎风燕.</a> <span data-i18n="poweredBy"> 基于</span> <a rel="nofollow" target="_blank" href="https://hexo.io">Hexo.</a> <a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo">Maupassant</a> <span data-i18n="theme">主题</span></div></main><aside class="docs-toc-panel" id="article-toc" data-i18n-aria="toc"><div class="docs-panel-header"><span><i class="fa fa-list-ul" aria-hidden="true"></i><span data-i18n="toc">文章目录</span></span><button class="docs-panel-close" id="docs-toc-close" type="button" data-i18n-aria="closeToc"><i class="fa fa-chevron-right" aria-hidden="true"></i></button></div><div class="docs-toc-content" id="toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A3%80%E5%87%BA"><span class="toc-number">1.</span> <span class="toc-text">检出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA-%E5%AF%BC%E5%87%BA%E4%B8%80%E4%B8%AA%E5%B9%B2%E5%87%80%E7%9A%84%E4%B8%8D%E5%B8%A6-svn%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E7%9B%AE%E5%BD%95%E6%A0%91"><span class="toc-number">2.</span> <span class="toc-text">导出(导出一个干净的不带.svn文件夹的目录树)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%96%B0%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">添加新文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4"><span class="toc-number">4.</span> <span class="toc-text">提交</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%96%87%E4%BB%B6"><span class="toc-number">5.</span> <span class="toc-text">更新文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6"><span class="toc-number">6.</span> <span class="toc-text">删除文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E9%94%81-%E8%A7%A3%E9%94%81"><span class="toc-number">7.</span> <span class="toc-text">加锁&#x2F;解锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E6%88%96%E8%80%85%E7%9B%AE%E5%BD%95%E7%8A%B6%E6%80%81"><span class="toc-number">8.</span> <span class="toc-text">查看文件或者目录状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="toc-number">9.</span> <span class="toc-text">查看日志</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF"><span class="toc-number">10.</span> <span class="toc-text">查看文件详细信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SVN-%E5%B8%AE%E5%8A%A9"><span class="toc-number">11.</span> <span class="toc-text">SVN 帮助</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%89%88%E6%9C%AC%E5%BA%93%E4%B8%8B%E7%9A%84%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E5%88%97%E8%A1%A8"><span class="toc-number">12.</span> <span class="toc-text">查看版本库下的文件和目录列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%BA%B3%E5%85%A5%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E4%B8%8B%E7%9A%84%E6%96%B0%E7%9B%AE%E5%BD%95"><span class="toc-number">13.</span> <span class="toc-text">创建纳入版本控制下的新目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%81%A2%E5%A4%8D%E6%9C%AC%E5%9C%B0%E4%BF%AE%E6%94%B9"><span class="toc-number">14.</span> <span class="toc-text">恢复本地修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%8A%E5%B7%A5%E4%BD%9C%E6%8B%B7%E8%B4%9D%E6%9B%B4%E6%96%B0%E5%88%B0%E5%88%AB%E7%9A%84URL"><span class="toc-number">15.</span> <span class="toc-text">把工作拷贝更新到别的URL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%86%B2%E7%AA%81"><span class="toc-number">16.</span> <span class="toc-text">解决冲突</span></a></li></ol></div></aside></div><div class="docs-backdrop" id="docs-backdrop" aria-hidden="true"></div></div><script type="text/javascript" src="/js/ui-preferences.js?v=1.1.25" defer></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.25"><script type="text/javascript" src="/js/search.js?v=1.1.25" defer></script><script type="text/javascript" src="/js/copycode.js?v=1.1.25" data-success-text="复制成功!" defer></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/sidebar.js?v=1.1.25" defer></script><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.25" defer></script></body></html>

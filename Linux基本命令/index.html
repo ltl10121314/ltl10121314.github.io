@@ -113,69 +113,9 @@
 <p>linux调用https接口</p>
 </blockquote>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">curl --tlsv1 -k https://172.16.26.46:9444/rest/dig-buw-manager/EtlControlledResServiceForRest/etlControlledResList -X POST -H &quot;Content-Type:application/json&quot; -d &#x27;&#123;</span><br><span class="line">    &quot;objectInfo&quot;: &#123;</span><br><span class="line">        &quot;start&quot;: 0,</span><br><span class="line">        &quot;limit&quot;: 20,</span><br><span class="line">        &quot;startTime&quot;: &quot;1607097600000&quot;,</span><br><span class="line">        &quot;endTime&quot;: &quot;1607183999999&quot;,</span><br><span class="line">        &quot;resourceName&quot;: &quot;&quot;,</span><br><span class="line">        &quot;resourceCode&quot;: &quot;&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;token&quot;:101019</span><br><span class="line">&#125;&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-</div><div class="post-nav"><a class="pre" href="/Linux%E6%9F%A5%E7%9C%8B%E5%B7%B2%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E4%B8%8E%E5%8D%B8%E8%BD%BD/">Linux 查看已安装软件与卸载</a><a class="next" href="/Linux%20top%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3/">Linux top 命令详解</a></div><div class="comments-container" id="utterances-container"></div><script>(function() {
-  var container = document.getElementById('utterances-container');
-  if (!container) return;
-  var lazy = true;
-  var started = !lazy;
-
-  function installComments(themeName) {
-    container.querySelectorAll('script.utterances-comments, iframe.utterances-frame').forEach(function(node) {
-      node.remove();
-    });
-
-    var script = document.createElement('script');
-    script.src = 'https://utteranc.es/client.js';
-    script.className = 'utterances-comments';
-    script.crossOrigin = 'anonymous';
-    script.async = true;
-    script.setAttribute('repo', 'ltl10121314/ltl10121314.github.io');
-    script.setAttribute('issue-term', 'pathname');
-    script.setAttribute('theme', themeName);
-    container.appendChild(script);
-  }
-
-  function renderComments(themeName) {
-    var nextTheme = themeName === 'github-dark' ? 'github-dark' : 'github-light';
-    var frame = document.querySelector('iframe.utterances-frame');
-    if (frame) {
-      var frameUrl = new URL(frame.src);
-      if (frameUrl.searchParams.get('theme') !== nextTheme) {
-        frameUrl.searchParams.set('theme', nextTheme);
-        frame.src = frameUrl.toString();
-      }
-      return;
-    }
-    installComments(nextTheme);
-  }
-
-  function currentTheme() {
-    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'github-dark' : 'github-light';
-  }
-
-  function startComments() {
-    if (started) return;
-    started = true;
-    renderComments(currentTheme());
-  }
-
-  if (started) renderComments(currentTheme());
-  window.addEventListener('site-theme-change', function(event) {
-    if (started) renderComments(event.detail.theme === 'dark' ? 'github-dark' : 'github-light');
-  });
-  new MutationObserver(function() {
-    if (started) renderComments(currentTheme());
-  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-
-  if (lazy && 'IntersectionObserver' in window) {
-    var observer = new IntersectionObserver(function(entries) {
-      if (!entries.some(function(entry) { return entry.isIntersecting; })) return;
-      observer.disconnect();
-      startComments();
-    }, { rootMargin: '600px 0px' });
-    observer.observe(container);
-  } else {
-    startComments();
-  }
-})();
-</script><script type="text/javascript" src="/js/article.js?v=1.1.25" defer></script></div></div><div id="footer"><span data-i18n="footerCopyright" data-year="2026">版权所有 © 2026</span> <a href="/." rel="nofollow">云起迎风燕.</a> <span data-i18n="poweredBy"> 基于</span> <a rel="nofollow" target="_blank" href="https://hexo.io">Hexo.</a> <a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo">Maupassant</a> <span data-i18n="theme">主题</span></div></main><aside class="docs-toc-panel" id="article-toc" data-i18n-aria="toc"><div class="docs-panel-header"><span><i class="fa fa-list-ul" aria-hidden="true"></i><span data-i18n="toc">文章目录</span></span><button class="docs-panel-close" id="docs-toc-close" type="button" data-i18n-aria="closeToc"><i class="fa fa-chevron-right" aria-hidden="true"></i></button></div><div class="docs-toc-content" id="toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E6%8C%87%E5%AE%9A%E8%A1%8C"><span class="toc-number">1.</span> <span class="toc-text">查看文件指定行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="toc-number">2.</span> <span class="toc-text">搜索文件内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E7%9B%AE%E5%BD%95%E4%B8%AD%E6%9F%A5%E6%89%BE%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">3.</span> <span class="toc-text">在目录中查找关键字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#grep-%E7%94%A8%E6%B3%95%E8%AF%A6%E8%A7%A3"><span class="toc-number">4.</span> <span class="toc-text">grep 用法详解</span></a></li></ol></div></aside></div><div class="docs-backdrop" id="docs-backdrop" aria-hidden="true"></div></div><script type="text/javascript" src="/js/ui-preferences.js?v=1.1.25" defer></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.25"><script type="text/javascript" src="/js/search.js?v=1.1.25" defer></script><script type="text/javascript" src="/js/copycode.js?v=1.1.25" data-success-text="复制成功!" defer></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/sidebar.js?v=1.1.25" defer></script><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.25" defer></script></body></html>
+</div><div class="post-nav"><a class="pre" href="/Linux%E6%9F%A5%E7%9C%8B%E5%B7%B2%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E4%B8%8E%E5%8D%B8%E8%BD%BD/">Linux 查看已安装软件与卸载</a><a class="next" href="/Linux%20top%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3/">Linux top 命令详解</a></div><div id="tcomment"></div><script src="https://registry.npmmirror.com/twikoo/2.0.17/files/dist/twikoo.min.js"></script><script>twikoo.init({
+  envId: 'https://twikoo-backend-tau.vercel.app',
+  el: '#tcomment',
+  path: window.location.pathname,
+  lang: document.documentElement.getAttribute('data-lang') === 'en' ? 'en-US' : 'zh-CN'
+})</script><script type="text/javascript" src="/js/article.js?v=1.1.25" defer></script></div></div><div id="footer"><span data-i18n="footerCopyright" data-year="2026">版权所有 © 2026</span> <a href="/." rel="nofollow">云起迎风燕.</a> <span data-i18n="poweredBy"> 基于</span> <a rel="nofollow" target="_blank" href="https://hexo.io">Hexo.</a> <a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo">Maupassant</a> <span data-i18n="theme">主题</span></div></main><aside class="docs-toc-panel" id="article-toc" data-i18n-aria="toc"><div class="docs-panel-header"><span><i class="fa fa-list-ul" aria-hidden="true"></i><span data-i18n="toc">文章目录</span></span><button class="docs-panel-close" id="docs-toc-close" type="button" data-i18n-aria="closeToc"><i class="fa fa-chevron-right" aria-hidden="true"></i></button></div><div class="docs-toc-content" id="toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E6%8C%87%E5%AE%9A%E8%A1%8C"><span class="toc-number">1.</span> <span class="toc-text">查看文件指定行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="toc-number">2.</span> <span class="toc-text">搜索文件内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E7%9B%AE%E5%BD%95%E4%B8%AD%E6%9F%A5%E6%89%BE%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">3.</span> <span class="toc-text">在目录中查找关键字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#grep-%E7%94%A8%E6%B3%95%E8%AF%A6%E8%A7%A3"><span class="toc-number">4.</span> <span class="toc-text">grep 用法详解</span></a></li></ol></div></aside></div><div class="docs-backdrop" id="docs-backdrop" aria-hidden="true"></div></div><script type="text/javascript" src="/js/ui-preferences.js?v=1.1.25" defer></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.25"><script type="text/javascript" src="/js/search.js?v=1.1.25" defer></script><script type="text/javascript" src="/js/copycode.js?v=1.1.25" data-success-text="复制成功!" defer></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/sidebar.js?v=1.1.25" defer></script><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.25" defer></script></body></html>

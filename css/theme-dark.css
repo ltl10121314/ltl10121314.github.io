@@ -713,6 +713,49 @@ html[data-theme="dark"] .guestbook-comments .comments-title {
     border-bottom-color: var(--dark-border);
 }
 
+html[data-theme="dark"] .guestbook-comments #tcomment {
+    --tk-text-color: #e1ebf2;
+    --tk-text-secondary-color: var(--dark-muted);
+    --tk-border-color: var(--dark-border);
+    --tk-bg-color: transparent;
+    color: #e1ebf2;
+}
+
+html[data-theme="dark"] .guestbook-comments #tcomment .tk-submit {
+    border-color: var(--dark-border);
+    background: var(--card-surface);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .2);
+}
+
+html[data-theme="dark"] .guestbook-comments #tcomment .el-input__inner,
+html[data-theme="dark"] .guestbook-comments #tcomment .el-textarea__inner {
+    border-color: var(--dark-border);
+    background: #202d37;
+    color: #e1ebf2;
+}
+
+html[data-theme="dark"] .guestbook-comments #tcomment .tk-comments-container,
+html[data-theme="dark"] .guestbook-comments #tcomment .tk-comment {
+    border-color: var(--dark-border);
+}
+
+html[data-theme="dark"] .guestbook-comments #tcomment .tk-nick {
+    color: #e1ebf2;
+}
+
+html[data-theme="dark"] .guestbook-comments #tcomment .tk-content {
+    color: #c3d0da;
+}
+
+html[data-theme="dark"] .guestbook-comments #tcomment .tk-time,
+html[data-theme="dark"] .guestbook-comments #tcomment .tk-footer {
+    color: var(--dark-muted);
+}
+
+html[data-theme="dark"] .guestbook-comments #tcomment .tk-replies {
+    border-left-color: var(--dark-border);
+}
+
 html[data-theme="dark"] .statistics-category-track {
     background: #202d37;
 }
@@ -727,6 +770,25 @@ html[data-theme="dark"] .stat-card::after {
 
 html[data-theme="dark"] .image-lightbox::backdrop {
     background: rgba(4, 9, 13, .86);
+}
+
+@media screen and (max-width: 48em) {
+    .guestbook-comments #tcomment .tk-submit {
+        padding: 14px;
+    }
+
+    .guestbook-comments #tcomment .tk-comment {
+        gap: 10px;
+        padding: 17px 0;
+    }
+
+    .guestbook-comments #tcomment .tk-comment > .tk-avatar,
+    .guestbook-comments #tcomment .tk-comment > .tk-avatar img,
+    .guestbook-comments #tcomment .tk-comment > .tk-avatar .el-avatar {
+        width: 36px;
+        height: 36px;
+        flex-basis: 36px;
+    }
 }
 
 html[data-theme="dark"] .image-lightbox-image {

@@ -2360,6 +2360,146 @@ body .body_container {
   border: 0;
 }
 
+.guestbook-comments #tcomment {
+  --tk-text-color: #35495a;
+  --tk-text-secondary-color: #7b8995;
+  --tk-border-color: #e7ebef;
+  --tk-bg-color: transparent;
+  color: #35495a;
+}
+
+.guestbook-comments #tcomment .tk-comments {
+  margin-top: 0;
+}
+
+.guestbook-comments #tcomment .tk-submit {
+  margin-bottom: 24px;
+  padding: 18px;
+  border: 1px solid #e2e8ed;
+  border-radius: 13px;
+  background: var(--card-surface, rgba(255, 255, 255, 0.82));
+  box-shadow: 0 8px 24px rgba(34, 52, 70, 0.05);
+}
+
+.guestbook-comments #tcomment .tk-meta-input {
+  gap: 10px;
+}
+
+.guestbook-comments #tcomment .el-input__inner,
+.guestbook-comments #tcomment .el-textarea__inner {
+  border-color: #dfe7ec;
+  border-radius: 9px;
+  background: rgba(248, 251, 253, 0.82);
+  color: #35495a;
+  box-shadow: none;
+}
+
+.guestbook-comments #tcomment .el-input__inner:focus,
+.guestbook-comments #tcomment .el-textarea__inner:focus {
+  border-color: #60a18f;
+  box-shadow: 0 0 0 3px rgba(59, 138, 120, 0.1);
+}
+
+.guestbook-comments #tcomment .tk-send {
+  min-height: 36px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 9px;
+  background: #3b8a78;
+  color: #fff;
+  font-weight: 600;
+}
+
+.guestbook-comments #tcomment .tk-send:hover,
+.guestbook-comments #tcomment .tk-send:focus-visible {
+  background: #327765;
+}
+
+.guestbook-comments #tcomment .tk-comments-container {
+  border-top: 1px solid #e7ebef;
+}
+
+.guestbook-comments #tcomment .tk-comment {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin: 0;
+  padding: 20px 0;
+  border: 0;
+  border-bottom: 1px solid #e7ebef;
+  background: transparent;
+}
+
+.guestbook-comments #tcomment .tk-comment > .tk-avatar {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #edf2f5;
+}
+
+.guestbook-comments #tcomment .tk-comment > .tk-avatar img,
+.guestbook-comments #tcomment .tk-comment > .tk-avatar .el-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+}
+
+.guestbook-comments #tcomment .tk-main {
+  min-width: 0;
+}
+
+.guestbook-comments #tcomment .tk-row {
+  align-items: center;
+}
+
+.guestbook-comments #tcomment .tk-nick {
+  color: #35495a;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.guestbook-comments #tcomment .tk-time,
+.guestbook-comments #tcomment .tk-footer {
+  color: #87949e;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.guestbook-comments #tcomment .tk-content {
+  margin-top: 7px;
+  color: #405566;
+  font-size: 15px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.guestbook-comments #tcomment .tk-footer {
+  margin-top: 8px;
+}
+
+.guestbook-comments #tcomment .tk-replies {
+  margin-top: 14px;
+  padding-left: 14px;
+  border-left: 2px solid #dfe8ed;
+}
+
+.guestbook-comments #tcomment .tk-replies .tk-comment {
+  padding: 14px 0;
+}
+
+.guestbook-comments #tcomment .tk-pagination {
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.guestbook-comments #tcomment .tk-pagination a,
+.guestbook-comments #tcomment .tk-pagination .tk-pagination-button {
+  border-radius: 7px;
+}
+
 .guestbook-unavailable {
   padding: 18px;
   border: 1px dashed #d8e0e6;

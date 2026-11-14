@@ -69,69 +69,9 @@
 <p><img decoding="async" loading="lazy" src="/images/posts/linux-top/top-08.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Linux查看物理CPU个数、核数、逻辑CPU个数</span><br><span class="line"># 总核数 = 物理CPU个数 X 每颗物理CPU的核数</span><br><span class="line"># 总逻辑CPU数 = 物理CPU个数 X 每颗物理CPU的核数 X 超线程数</span><br><span class="line"></span><br><span class="line"># 查看物理CPU个数</span><br><span class="line">cat /proc/cpuinfo| grep &quot;physical id&quot;| sort| uniq| wc -l</span><br><span class="line"></span><br><span class="line"># 查看每个物理CPU中core的个数(即核数)</span><br><span class="line">cat /proc/cpuinfo| grep &quot;cpu cores&quot;| uniq</span><br><span class="line"></span><br><span class="line"># 查看逻辑CPU的个数</span><br><span class="line">cat /proc/cpuinfo| grep &quot;processor&quot;| wc -l</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">查看CPU信息（型号）</span><br><span class="line">cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c</span><br><span class="line"></span><br><span class="line">查看内 存信息</span><br><span class="line"># cat /proc/meminfo</span><br></pre></td></tr></table></figure>
 
-</div><div class="post-nav"><a class="pre" href="/Linux%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/">Linux 基本命令</a><a class="next" href="/Maven%20POM%E9%85%8D%E7%BD%AE/">Maven POM 配置</a></div><div class="comments-container" id="utterances-container"></div><script>(function() {
-  var container = document.getElementById('utterances-container');
-  if (!container) return;
-  var lazy = true;
-  var started = !lazy;
-
-  function installComments(themeName) {
-    container.querySelectorAll('script.utterances-comments, iframe.utterances-frame').forEach(function(node) {
-      node.remove();
-    });
-
-    var script = document.createElement('script');
-    script.src = 'https://utteranc.es/client.js';
-    script.className = 'utterances-comments';
-    script.crossOrigin = 'anonymous';
-    script.async = true;
-    script.setAttribute('repo', 'ltl10121314/ltl10121314.github.io');
-    script.setAttribute('issue-term', 'pathname');
-    script.setAttribute('theme', themeName);
-    container.appendChild(script);
-  }
-
-  function renderComments(themeName) {
-    var nextTheme = themeName === 'github-dark' ? 'github-dark' : 'github-light';
-    var frame = document.querySelector('iframe.utterances-frame');
-    if (frame) {
-      var frameUrl = new URL(frame.src);
-      if (frameUrl.searchParams.get('theme') !== nextTheme) {
-        frameUrl.searchParams.set('theme', nextTheme);
-        frame.src = frameUrl.toString();
-      }
-      return;
-    }
-    installComments(nextTheme);
-  }
-
-  function currentTheme() {
-    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'github-dark' : 'github-light';
-  }
-
-  function startComments() {
-    if (started) return;
-    started = true;
-    renderComments(currentTheme());
-  }
-
-  if (started) renderComments(currentTheme());
-  window.addEventListener('site-theme-change', function(event) {
-    if (started) renderComments(event.detail.theme === 'dark' ? 'github-dark' : 'github-light');
-  });
-  new MutationObserver(function() {
-    if (started) renderComments(currentTheme());
-  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-
-  if (lazy && 'IntersectionObserver' in window) {
-    var observer = new IntersectionObserver(function(entries) {
-      if (!entries.some(function(entry) { return entry.isIntersecting; })) return;
-      observer.disconnect();
-      startComments();
-    }, { rootMargin: '600px 0px' });
-    observer.observe(container);
-  } else {
-    startComments();
-  }
-})();
-</script><script type="text/javascript" src="/js/article.js?v=1.1.25" defer></script></div></div><div id="footer"><span data-i18n="footerCopyright" data-year="2026">版权所有 © 2026</span> <a href="/." rel="nofollow">云起迎风燕.</a> <span data-i18n="poweredBy"> 基于</span> <a rel="nofollow" target="_blank" href="https://hexo.io">Hexo.</a> <a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo">Maupassant</a> <span data-i18n="theme">主题</span></div></main><aside class="docs-toc-panel" id="article-toc" data-i18n-aria="toc"><div class="docs-panel-header"><span><i class="fa fa-list-ul" aria-hidden="true"></i><span data-i18n="toc">文章目录</span></span><button class="docs-panel-close" id="docs-toc-close" type="button" data-i18n-aria="closeToc"><i class="fa fa-chevron-right" aria-hidden="true"></i></button></div><div class="docs-toc-content" id="toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#top-%E8%BE%93%E5%87%BA%E8%AF%B4%E6%98%8E"><span class="toc-number">1.</span> <span class="toc-text">top 输出说明</span></a></li></ol></div></aside></div><div class="docs-backdrop" id="docs-backdrop" aria-hidden="true"></div></div><script type="text/javascript" src="/js/ui-preferences.js?v=1.1.25" defer></script><script type="text/javascript" src="/js/fancybox.js?v=1.1.25" defer></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.25"><script type="text/javascript" src="/js/search.js?v=1.1.25" defer></script><script type="text/javascript" src="/js/copycode.js?v=1.1.25" data-success-text="复制成功!" defer></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/sidebar.js?v=1.1.25" defer></script><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.25" defer></script></body></html>
+</div><div class="post-nav"><a class="pre" href="/Linux%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/">Linux 基本命令</a><a class="next" href="/Maven%20POM%E9%85%8D%E7%BD%AE/">Maven POM 配置</a></div><div id="tcomment"></div><script src="https://registry.npmmirror.com/twikoo/2.0.17/files/dist/twikoo.min.js"></script><script>twikoo.init({
+  envId: 'https://twikoo-backend-tau.vercel.app',
+  el: '#tcomment',
+  path: window.location.pathname,
+  lang: document.documentElement.getAttribute('data-lang') === 'en' ? 'en-US' : 'zh-CN'
+})</script><script type="text/javascript" src="/js/article.js?v=1.1.25" defer></script></div></div><div id="footer"><span data-i18n="footerCopyright" data-year="2026">版权所有 © 2026</span> <a href="/." rel="nofollow">云起迎风燕.</a> <span data-i18n="poweredBy"> 基于</span> <a rel="nofollow" target="_blank" href="https://hexo.io">Hexo.</a> <a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo">Maupassant</a> <span data-i18n="theme">主题</span></div></main><aside class="docs-toc-panel" id="article-toc" data-i18n-aria="toc"><div class="docs-panel-header"><span><i class="fa fa-list-ul" aria-hidden="true"></i><span data-i18n="toc">文章目录</span></span><button class="docs-panel-close" id="docs-toc-close" type="button" data-i18n-aria="closeToc"><i class="fa fa-chevron-right" aria-hidden="true"></i></button></div><div class="docs-toc-content" id="toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#top-%E8%BE%93%E5%87%BA%E8%AF%B4%E6%98%8E"><span class="toc-number">1.</span> <span class="toc-text">top 输出说明</span></a></li></ol></div></aside></div><div class="docs-backdrop" id="docs-backdrop" aria-hidden="true"></div></div><script type="text/javascript" src="/js/ui-preferences.js?v=1.1.25" defer></script><script type="text/javascript" src="/js/fancybox.js?v=1.1.25" defer></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.25"><script type="text/javascript" src="/js/search.js?v=1.1.25" defer></script><script type="text/javascript" src="/js/copycode.js?v=1.1.25" data-success-text="复制成功!" defer></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/sidebar.js?v=1.1.25" defer></script><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.25" defer></script></body></html>
