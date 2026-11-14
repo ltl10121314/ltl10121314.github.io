@@ -641,6 +641,23 @@ div {
   padding-right: 0.3em;
 }
 
+.home-hero {
+  margin: 0 0 28px;
+  overflow: hidden;
+  border: 1px solid var(--reading-border);
+  border-radius: 18px;
+  background: var(--card-surface);
+  box-shadow: var(--reading-shadow);
+}
+
+.home-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1267/700;
+  object-fit: cover;
+}
+
 .page-navigator {
   display: flex;
   flex-wrap: wrap;
@@ -731,6 +748,10 @@ div {
 /* for archive page ends*/
 /* middle*/
 @media print, screen and (max-width: 48em) {
+  .home-hero {
+    margin-bottom: 18px;
+    border-radius: 12px;
+  }
   .body_container {
     padding: 0 30px;
   }

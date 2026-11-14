@@ -251,6 +251,12 @@ html[data-theme="dark"] .post-meta {
     color: var(--dark-muted);
 }
 
+html[data-theme="dark"] .home-hero {
+    border-color: var(--dark-border);
+    background: var(--card-surface);
+    box-shadow: 0 16px 38px rgba(0, 0, 0, .24);
+}
+
 html[data-theme="dark"] .label-title {
     color: #a9bac7;
 }
