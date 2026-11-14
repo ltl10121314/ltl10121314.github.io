@@ -2531,6 +2531,41 @@ body .body_container {
   margin: 20px 0;
 }
 
+.statistics-grid-live {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.statistics-live {
+  margin-top: 26px;
+}
+
+.statistics-content {
+  margin-top: 30px;
+  padding-top: 24px;
+  border-top: 1px solid #e7ebef;
+}
+
+.statistics-section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.statistics-section-title {
+  margin: 0;
+  color: #35495a;
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.statistics-section-hint {
+  margin: 0;
+  color: #84919b;
+  font-size: 12px;
+}
+
 .stat-card {
   position: relative;
   display: flex;
@@ -2574,6 +2609,21 @@ body .body_container {
 .stat-card-violet .stat-card-icon {
   background: #f1edfb;
   color: #6d57a5;
+}
+
+.stat-card-sky .stat-card-icon {
+  background: #eaf5ff;
+  color: #357ca8;
+}
+
+.stat-card-teal .stat-card-icon {
+  background: #eaf7f3;
+  color: #2f816f;
+}
+
+.stat-card-rose .stat-card-icon {
+  background: #fff0f1;
+  color: #a65c63;
 }
 
 .stat-card-label {
@@ -2627,6 +2677,135 @@ body .body_container {
 .statistics-panel-header span {
   color: #8b98a3;
   font-size: 12px;
+}
+
+.statistics-panels-traffic {
+  grid-template-columns: minmax(0, 1.4fr) minmax(250px, 0.85fr);
+}
+
+.traffic-chart {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  min-height: 176px;
+  align-items: end;
+}
+
+.traffic-chart-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.traffic-chart-value {
+  color: #607787;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.traffic-chart-track {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  width: min(34px, 72%);
+  height: 120px;
+  overflow: hidden;
+  border-radius: 8px 8px 4px 4px;
+  background: linear-gradient(180deg, #f6f9fb, #edf3f6);
+}
+
+.traffic-chart-bar {
+  display: block;
+  width: 100%;
+  min-height: 3px;
+  border-radius: 8px 8px 4px 4px;
+  background: linear-gradient(180deg, #79b9d8, #3b8a78);
+  box-shadow: 0 4px 12px rgba(59, 138, 120, 0.16);
+}
+
+.traffic-chart-day {
+  overflow: hidden;
+  width: 100%;
+  color: #84919b;
+  font-size: 11px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.analytics-status {
+  margin-top: 10px;
+  color: #84919b;
+  font-size: 12px;
+  text-align: center;
+}
+
+.analytics-status.is-error {
+  color: #a65c63;
+}
+
+.analytics-since {
+  margin-top: 6px;
+  color: #96a2ab;
+  font-size: 11px;
+  text-align: center;
+}
+
+.popular-pages {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.popular-page-item {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  padding: 11px 0;
+  border-bottom: 1px solid #edf1f4;
+}
+
+.popular-page-item:first-child {
+  padding-top: 0;
+}
+
+.popular-page-item:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.popular-page-rank {
+  color: #91a1ad;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.popular-page-link {
+  overflow: hidden;
+  color: #536879;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.popular-page-link:hover,
+.popular-page-link:focus-visible {
+  color: #2f806f;
+}
+
+.popular-page-count {
+  color: #84919b;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.popular-pages-empty {
+  padding: 30px 0;
+  color: #84919b;
+  font-size: 13px;
+  text-align: center;
 }
 
 .statistics-category-list,
@@ -2716,6 +2895,11 @@ body .body_container {
   .statistics-panel {
     padding: 15px;
   }
+  .statistics-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
   .statistics-grid {
     grid-template-columns: 1fr;
     gap: 10px;
@@ -2726,6 +2910,20 @@ body .body_container {
   .statistics-category-row {
     grid-template-columns: minmax(88px, 1fr) minmax(80px, 1.5fr) 28px;
     gap: 7px;
+  }
+  .traffic-chart {
+    gap: 5px;
+    min-height: 158px;
+  }
+  .traffic-chart-track {
+    width: min(28px, 76%);
+    height: 104px;
+  }
+  .popular-page-item {
+    grid-template-columns: 22px minmax(0, 1fr);
+  }
+  .popular-page-count {
+    grid-column: 2;
   }
 }
 #header #nav-menu a {

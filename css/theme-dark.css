@@ -704,6 +704,44 @@ html[data-theme="dark"] .guestbook-comments .comments-title {
     color: #e1ebf2;
 }
 
+html[data-theme="dark"] .statistics-section-title,
+html[data-theme="dark"] .popular-page-link {
+    color: #e1ebf2;
+}
+
+html[data-theme="dark"] .statistics-section-hint,
+html[data-theme="dark"] .traffic-chart-value,
+html[data-theme="dark"] .traffic-chart-day,
+html[data-theme="dark"] .analytics-status,
+html[data-theme="dark"] .analytics-since,
+html[data-theme="dark"] .popular-page-rank,
+html[data-theme="dark"] .popular-page-count,
+html[data-theme="dark"] .popular-pages-empty {
+    color: var(--dark-muted);
+}
+
+html[data-theme="dark"] .statistics-content {
+    border-top-color: var(--dark-border);
+}
+
+html[data-theme="dark"] .traffic-chart-track {
+    background: linear-gradient(180deg, #1b2832, #202d37);
+}
+
+html[data-theme="dark"] .traffic-chart-bar {
+    background: linear-gradient(180deg, #70aecd, #55ab97);
+    box-shadow: 0 4px 12px rgba(85, 171, 151, .12);
+}
+
+html[data-theme="dark"] .popular-page-item {
+    border-bottom-color: var(--dark-border);
+}
+
+html[data-theme="dark"] .popular-page-link:hover,
+html[data-theme="dark"] .popular-page-link:focus-visible {
+    color: #8fd0bf;
+}
+
 html[data-theme="dark"] .guestbook-status {
     border-top-color: var(--dark-border);
     color: var(--dark-muted);
