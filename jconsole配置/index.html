@@ -36,7 +36,7 @@
 
 <h2 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h2><p>在tomcat/bin/catalina.sh中的JAVA_OPTS下方添加：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if [ &quot;$1&quot; = &quot;start&quot; ];then</span><br><span class="line">   echo &quot;set console&quot;;</span><br><span class="line">   JAVA_OPTS=&quot;$JAVA_OPTS -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1314 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false&quot;</span><br><span class="line">else</span><br><span class="line">   echo &quot;no startup&quot;;</span><br><span class="line">fi;</span><br></pre></td></tr></table></figure>
-</div><div class="post-nav"><a class="pre" href="/JavaWeb%E8%BF%9B%E9%98%B6/">JavaWeb 进阶</a><a class="next" href="/JDBC/">JDBC</a></div><div id="tcomment"></div><script src="https://registry.npmmirror.com/twikoo/2.0.17/files/dist/twikoo.min.js"></script><script>twikoo.init({
+</div><div class="post-nav"><a class="pre" href="/JavaWeb%E8%BF%9B%E9%98%B6/">JavaWeb 进阶</a><a class="next" href="/JDBC/">JDBC</a></div><div id="tcomment"></div><script src="/vendor/twikoo/twikoo.min.js?v=2.0.17"></script><script>twikoo.init({
   envId: 'https://twikoo-backend-tau.vercel.app',
   el: '#tcomment',
   path: window.location.pathname,
