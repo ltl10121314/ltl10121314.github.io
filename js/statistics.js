@@ -7,6 +7,7 @@
   var statusMode = 'idle';
   var statusSavedAt = null;
   var loading = false;
+  var backgroundRetryTimer = null;
   var snapshotKey = 'liutianlong-analytics-snapshot-v1';
   var requestTimeout = 8000;
   var maxRetries = 2;
@@ -257,6 +258,10 @@
     setStatus(copy().loading, false);
     requestStats(0)
       .then(function(data) {
+        if (backgroundRetryTimer) {
+          window.clearTimeout(backgroundRetryTimer);
+          backgroundRetryTimer = null;
+        }
         cacheSnapshot(data);
         render(data, 'fresh');
       })
@@ -267,6 +272,12 @@
         } else {
           statusMode = 'unavailable';
           setStatus(copy().unavailable, true);
+        }
+        if (!backgroundRetryTimer) {
+          backgroundRetryTimer = window.setTimeout(function() {
+            backgroundRetryTimer = null;
+            load();
+          }, 15000);
         }
       })
       .finally(function() {
