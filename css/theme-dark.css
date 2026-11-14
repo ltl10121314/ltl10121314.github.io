@@ -772,25 +772,6 @@ html[data-theme="dark"] .image-lightbox::backdrop {
     background: rgba(4, 9, 13, .86);
 }
 
-@media screen and (max-width: 48em) {
-    .guestbook-comments #tcomment .tk-submit {
-        padding: 14px;
-    }
-
-    .guestbook-comments #tcomment .tk-comment {
-        gap: 10px;
-        padding: 17px 0;
-    }
-
-    .guestbook-comments #tcomment .tk-comment > .tk-avatar,
-    .guestbook-comments #tcomment .tk-comment > .tk-avatar img,
-    .guestbook-comments #tcomment .tk-comment > .tk-avatar .el-avatar {
-        width: 36px;
-        height: 36px;
-        flex-basis: 36px;
-    }
-}
-
 html[data-theme="dark"] .image-lightbox-image {
     background: #182128;
 }
