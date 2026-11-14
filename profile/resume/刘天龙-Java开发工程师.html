@@ -19,7 +19,7 @@
   root.style.colorScheme = theme;
   root.classList.toggle('is-safari', isSafari);
   root.classList.toggle('is-chrome', isChrome);
-})();</script><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.32"><link rel="stylesheet" type="text/css" href="/css/theme-dark.css?v=1.1.32"><link rel="stylesheet" type="text/css" href="/vendor/normalize/normalize.min.css?v=1.1.32"><link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css?v=1.1.32"><link rel="preconnect" href="https://twikoo.liutianlong.top" crossorigin="anonymous"><link rel="preconnect" href="https://api.liutianlong.top" crossorigin="anonymous"><script type="text/javascript" src="/js/analytics.js?v=1.1.32" defer data-endpoint="https://api.liutianlong.top" data-site-id="liutianlong.top"></script><link rel="icon" href="data:,"><meta name="generator" content="Hexo 5.4.0"></head><body class="docs-page" data-current-category=""><script>(function() {
+})();</script><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.33"><link rel="stylesheet" type="text/css" href="/css/theme-dark.css?v=1.1.33"><link rel="stylesheet" type="text/css" href="/vendor/normalize/normalize.min.css?v=1.1.33"><link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css?v=1.1.33"><link rel="preconnect" href="https://twikoo.liutianlong.top" crossorigin="anonymous"><link rel="preconnect" href="https://api.liutianlong.top" crossorigin="anonymous"><script type="text/javascript" src="/js/analytics.js?v=1.1.33" defer data-endpoint="https://api.liutianlong.top" data-site-id="liutianlong.top"></script><link rel="icon" href="data:,"><meta name="generator" content="Hexo 5.4.0"></head><body class="docs-page" data-current-category=""><script>(function() {
   var body = document.body;
   var mobile = window.innerWidth < 1180;
   var hasCategory = Boolean(body.getAttribute('data-current-category'));
@@ -134,6 +134,10 @@
   var fatalShown = false;
   var observer = null;
 
+  function clearElement(element) {
+    while (element.firstChild) element.removeChild(element.firstChild);
+  }
+
   function statusNode() {
     var node = container.querySelector('.twikoo-connection-status');
     if (node) return node;
@@ -141,13 +145,13 @@
     node.className = 'twikoo-connection-status';
     node.setAttribute('role', 'status');
     node.setAttribute('aria-live', 'polite');
-    container.prepend(node);
+    container.insertBefore(node, container.firstChild);
     return node;
   }
 
   function showStatus(message, canRetry) {
     var node = statusNode();
-    node.replaceChildren();
+    node.textContent = '';
     node.appendChild(document.createTextNode(message));
     container.setAttribute('aria-busy', 'true');
 
@@ -167,7 +171,7 @@
 
   function clearStatus() {
     var node = container.querySelector('.twikoo-connection-status');
-    if (node) node.remove();
+    if (node && node.parentNode) node.parentNode.removeChild(node);
     container.removeAttribute('aria-busy');
   }
 
@@ -200,7 +204,7 @@
     showStatus(labels.retrying, false);
     retryTimer = window.setTimeout(function() {
       retryTimer = null;
-      container.replaceChildren();
+      clearElement(container);
       showStatus(labels.retrying, false);
       mountComments();
     }, attempts * 1000);
@@ -232,4 +236,4 @@
   });
 
   mountComments();
-})();</script></div><div id="footer"><span data-i18n="footerCopyright" data-year="2026">版权所有 © 2026</span> <a href="/." rel="nofollow">云起迎风燕.</a> <span data-i18n="poweredBy"> 基于</span> <a rel="nofollow" target="_blank" href="https://hexo.io">Hexo.</a> <a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo">Maupassant</a> <span data-i18n="theme">主题</span></div></main></div><div class="docs-backdrop" id="docs-backdrop" aria-hidden="true"></div></div><script type="text/javascript" src="/js/ui-preferences.js?v=1.1.32" defer></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.32"><script type="text/javascript" src="/js/search.js?v=1.1.32" defer></script><script type="text/javascript" src="/js/sidebar.js?v=1.1.32" defer></script><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.32" defer></script></body></html>
+})();</script></div><div id="footer"><span data-i18n="footerCopyright" data-year="2026">版权所有 © 2026</span> <a href="/." rel="nofollow">云起迎风燕.</a> <span data-i18n="poweredBy"> 基于</span> <a rel="nofollow" target="_blank" href="https://hexo.io">Hexo.</a> <a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo">Maupassant</a> <span data-i18n="theme">主题</span></div></main></div><div class="docs-backdrop" id="docs-backdrop" aria-hidden="true"></div></div><script type="text/javascript" src="/js/ui-preferences.js?v=1.1.33" defer></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.33"><script type="text/javascript" src="/js/search.js?v=1.1.33" defer></script><script type="text/javascript" src="/js/sidebar.js?v=1.1.33" defer></script><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.33" defer></script></body></html>

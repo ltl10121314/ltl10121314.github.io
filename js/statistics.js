@@ -66,10 +66,14 @@
     status.classList.toggle('is-error', Boolean(isError));
   }
 
+  function clearElement(element) {
+    while (element.firstChild) element.removeChild(element.firstChild);
+  }
+
   function renderChart(days) {
     var chart = document.getElementById('traffic-chart');
     if (!chart) return;
-    chart.replaceChildren();
+    clearElement(chart);
 
     var maxViews = Math.max.apply(null, [1].concat((days || []).map(function(day) {
       return Number(day.views) || 0;
@@ -106,7 +110,7 @@
   function renderTopPages(pages) {
     var list = document.getElementById('popular-pages');
     if (!list) return;
-    list.replaceChildren();
+    clearElement(list);
 
     if (!pages || !pages.length) {
       var empty = document.createElement('li');
@@ -214,6 +218,49 @@
     });
   }
 
+  function requestStatsJsonp() {
+    return new Promise(function(resolve, reject) {
+      var callbackName = '__liutianlongStats' + Date.now() + Math.floor(Math.random() * 100000);
+      var script = document.createElement('script');
+      var cacheBucket = Math.floor(Date.now() / 15000);
+      var finished = false;
+      var timer = window.setTimeout(function() {
+        finish(new Error('stats_timeout'));
+      }, requestTimeout);
+
+      function finish(error, data) {
+        if (finished) return;
+        finished = true;
+        window.clearTimeout(timer);
+        if (script.parentNode) script.parentNode.removeChild(script);
+        try {
+          delete window[callbackName];
+        } catch (cleanupError) {
+          window[callbackName] = undefined;
+        }
+        if (error) {
+          reject(error);
+        } else {
+          resolve(data);
+        }
+      }
+
+      window[callbackName] = function(data) {
+        if (!data || !data.ok) {
+          finish(new Error('stats_unavailable'));
+          return;
+        }
+        finish(null, data);
+      };
+      script.async = true;
+      script.onerror = function() {
+        finish(new Error('stats_unavailable'));
+      };
+      script.src = endpoint + '/api/stats?callback=' + callbackName + '&cache=' + cacheBucket;
+      (document.head || document.documentElement).appendChild(script);
+    });
+  }
+
   function requestStats(attempt) {
     var cacheBucket = Math.floor(Date.now() / 15000);
     var controller = typeof AbortController === 'function' ? new AbortController() : null;
@@ -240,7 +287,11 @@
       })
       .catch(function(error) {
         if (timer) window.clearTimeout(timer);
-        if (attempt >= maxRetries) throw error;
+        if (attempt >= maxRetries) {
+          return requestStatsJsonp().catch(function() {
+            throw error;
+          });
+        }
         return wait(500 * (attempt + 1)).then(function() {
           return requestStats(attempt + 1);
         });
@@ -264,6 +315,7 @@
         }
         cacheSnapshot(data);
         render(data, 'fresh');
+        loading = false;
       })
       .catch(function() {
         var snapshot = readSnapshot();
@@ -279,8 +331,6 @@
             load();
           }, 15000);
         }
-      })
-      .finally(function() {
         loading = false;
       });
   }
