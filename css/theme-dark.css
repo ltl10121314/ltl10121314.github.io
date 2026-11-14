@@ -759,6 +759,24 @@ html[data-theme="dark"] .guestbook-comments #tcomment {
     color: #e1ebf2;
 }
 
+html[data-theme="dark"] .guestbook-comments #tcomment .twikoo-connection-status {
+    border-color: var(--dark-border);
+    background: rgba(32, 45, 55, .82);
+    color: var(--dark-muted);
+}
+
+html[data-theme="dark"] .guestbook-comments #tcomment .twikoo-reconnect {
+    border-color: var(--dark-border);
+    background: #263943;
+    color: #9bd4c5;
+}
+
+html[data-theme="dark"] .guestbook-comments #tcomment .twikoo-reconnect:hover,
+html[data-theme="dark"] .guestbook-comments #tcomment .twikoo-reconnect:focus-visible {
+    border-color: #4a756c;
+    background: #2d464a;
+}
+
 html[data-theme="dark"] .guestbook-comments #tcomment .tk-submit {
     border-color: var(--dark-border);
     background: var(--card-surface);

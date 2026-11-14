@@ -19,7 +19,7 @@
   root.style.colorScheme = theme;
   root.classList.toggle('is-safari', isSafari);
   root.classList.toggle('is-chrome', isChrome);
-})();</script><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.28"><link rel="stylesheet" type="text/css" href="/css/theme-dark.css?v=1.1.28"><link rel="stylesheet" type="text/css" href="/vendor/normalize/normalize.min.css?v=1.1.28"><link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css?v=1.1.28"><script type="text/javascript" src="/js/analytics.js?v=1.1.28" defer data-endpoint="https://liutianlong-analytics.vercel.app" data-site-id="liutianlong.top"></script><link rel="icon" href="data:,"><meta name="generator" content="Hexo 5.4.0"></head><body class="docs-post" data-current-category=""><script>(function() {
+})();</script><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.29"><link rel="stylesheet" type="text/css" href="/css/theme-dark.css?v=1.1.29"><link rel="stylesheet" type="text/css" href="/vendor/normalize/normalize.min.css?v=1.1.29"><link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css?v=1.1.29"><link rel="preconnect" href="https://twikoo-backend-tau.vercel.app" crossorigin="anonymous"><link rel="preconnect" href="https://liutianlong-analytics.vercel.app" crossorigin="anonymous"><script type="text/javascript" src="/js/analytics.js?v=1.1.29" defer data-endpoint="https://liutianlong-analytics.vercel.app" data-site-id="liutianlong.top"></script><link rel="icon" href="data:,"><meta name="generator" content="Hexo 5.4.0"></head><body class="docs-post" data-current-category=""><script>(function() {
   var body = document.body;
   var mobile = window.innerWidth < 1180;
   var hasCategory = Boolean(body.getAttribute('data-current-category'));
@@ -38,9 +38,130 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1、 统计当前文件夹下文件的个数</span><br><span class="line">　　ls -l |grep &quot;^-&quot;|wc -l</span><br><span class="line">2、 统计当前文件夹下目录的个数</span><br><span class="line">　　ls -l |grep &quot;^d&quot;|wc -l</span><br><span class="line">3、统计当前文件夹下文件的个数，包括子文件夹里的</span><br><span class="line">　　ls -lR|grep &quot;^-&quot;|wc -l</span><br><span class="line">4、统计文件夹下目录的个数，包括子文件夹里的</span><br><span class="line">　　ls -lR|grep &quot;^d&quot;|wc -l</span><br><span class="line">grep &quot;^-&quot;</span><br><span class="line">　　这里将长列表输出信息过滤一部分，只保留一般文件，如果只保留目录就是 ^d</span><br><span class="line">wc -l</span><br><span class="line">　　统计输出信息的行数，因为已经过滤得只剩一般文件了，所以统计结果就是一般文件信息的行数，又由于一行信息对应一个文件，所以也就是文件的个数。</span><br></pre></td></tr></table></figure>
 
 <h2 id="批量校验脚本"><a href="#批量校验脚本" class="headerlink" title="批量校验脚本"></a>批量校验脚本</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#! /bin/sh</span><br><span class="line">num=$1</span><br><span class="line">DR=`ls`</span><br><span class="line">for dir in $DR</span><br><span class="line">do</span><br><span class="line">        if [ -d &quot;$dir&quot; ]; then</span><br><span class="line">                cd &quot;$dir&quot;</span><br><span class="line">                fileNum=`ls -l |grep &quot;^-&quot;|wc -l`</span><br><span class="line">                if [ &quot;$num&quot; -ne &quot;$fileNum&quot; ];then</span><br><span class="line">                        echo `pwd` &gt;&gt; ../error.txt</span><br><span class="line">                fi</span><br><span class="line">                cd -</span><br><span class="line">        fi</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-</div><div class="post-nav"><a class="pre" href="/Scala%E5%85%A5%E9%97%A8/">Scala 入门</a><a class="next" href="/Spark%E5%85%A5%E9%97%A8/">Spark 入门</a></div><div id="tcomment"></div><script src="/vendor/twikoo/twikoo.min.js?v=2.0.17"></script><script>twikoo.init({
-  envId: 'https://twikoo-backend-tau.vercel.app',
-  el: '#tcomment',
-  path: window.location.pathname,
-  lang: document.documentElement.getAttribute('data-lang') === 'en' ? 'en-US' : 'zh-CN'
-})</script><script type="text/javascript" src="/js/article.js?v=1.1.28" defer></script></div></div><div id="footer"><span data-i18n="footerCopyright" data-year="2026">版权所有 © 2026</span> <a href="/." rel="nofollow">云起迎风燕.</a> <span data-i18n="poweredBy"> 基于</span> <a rel="nofollow" target="_blank" href="https://hexo.io">Hexo.</a> <a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo">Maupassant</a> <span data-i18n="theme">主题</span></div></main><aside class="docs-toc-panel" id="article-toc" data-i18n-aria="toc"><div class="docs-panel-header"><span><i class="fa fa-list-ul" aria-hidden="true"></i><span data-i18n="toc">文章目录</span></span><button class="docs-panel-close" id="docs-toc-close" type="button" data-i18n-aria="closeToc"><i class="fa fa-chevron-right" aria-hidden="true"></i></button></div><div class="docs-toc-content" id="toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%9F%E8%AE%A1%E5%91%BD%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">统计命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%B9%E9%87%8F%E6%A0%A1%E9%AA%8C%E8%84%9A%E6%9C%AC"><span class="toc-number">2.</span> <span class="toc-text">批量校验脚本</span></a></li></ol></div></aside></div><div class="docs-backdrop" id="docs-backdrop" aria-hidden="true"></div></div><script type="text/javascript" src="/js/ui-preferences.js?v=1.1.28" defer></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.28"><script type="text/javascript" src="/js/search.js?v=1.1.28" defer></script><script type="text/javascript" src="/js/copycode.js?v=1.1.28" data-success-text="复制成功!" defer></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/sidebar.js?v=1.1.28" defer></script><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.28" defer></script></body></html>
+</div><div class="post-nav"><a class="pre" href="/Scala%E5%85%A5%E9%97%A8/">Scala 入门</a><a class="next" href="/Spark%E5%85%A5%E9%97%A8/">Spark 入门</a></div><div id="tcomment"></div><script src="/vendor/twikoo/twikoo.min.js?v=2.0.17"></script><script>(function() {
+  var container = document.getElementById('tcomment');
+  if (!container || typeof twikoo === 'undefined') return;
+
+  var endpoint = 'https://twikoo-backend-tau.vercel.app';
+  var language = document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'zh';
+  var labels = language === 'en'
+    ? {
+        retrying: 'The comment service is taking longer than expected. Reconnecting…',
+        failed: 'The comment service is temporarily unavailable.',
+        retry: 'Reconnect'
+      }
+    : {
+        retrying: '留言服务响应较慢，正在自动重新连接…',
+        failed: '留言服务暂时不可用。',
+        retry: '重新连接'
+      };
+  var options = {
+    envId: endpoint,
+    el: '#tcomment',
+    path: window.location.pathname,
+    lang: language === 'en' ? 'en-US' : 'zh-CN'
+  };
+  var attempts = 0;
+  var maxAttempts = 3;
+  var retryTimer = null;
+  var fatalShown = false;
+  var observer = null;
+
+  function statusNode() {
+    var node = container.querySelector('.twikoo-connection-status');
+    if (node) return node;
+    node = document.createElement('div');
+    node.className = 'twikoo-connection-status';
+    node.setAttribute('role', 'status');
+    node.setAttribute('aria-live', 'polite');
+    container.prepend(node);
+    return node;
+  }
+
+  function showStatus(message, canRetry) {
+    var node = statusNode();
+    node.replaceChildren();
+    node.appendChild(document.createTextNode(message));
+    container.setAttribute('aria-busy', 'true');
+
+    if (canRetry) {
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'twikoo-reconnect';
+      button.textContent = labels.retry;
+      button.addEventListener('click', function() {
+        attempts = 0;
+        fatalShown = false;
+        retryCommentService();
+      });
+      node.appendChild(button);
+    }
+  }
+
+  function clearStatus() {
+    var node = container.querySelector('.twikoo-connection-status');
+    if (node) node.remove();
+    container.removeAttribute('aria-busy');
+  }
+
+  function hasTimeoutMessage() {
+    return /请求超时|request timed out|request timeout|timeout/i.test(container.textContent || '');
+  }
+
+  function warmBackend() {
+    if (typeof window.fetch !== 'function') return;
+    fetch(endpoint + '/?warm=' + Date.now(), {
+      mode: 'no-cors',
+      cache: 'no-store',
+      credentials: 'omit',
+      keepalive: true
+    }).catch(function() {});
+  }
+
+  function retryCommentService() {
+    if (retryTimer) return;
+    if (attempts >= maxAttempts) {
+      if (!fatalShown) {
+        fatalShown = true;
+        showStatus(labels.failed, true);
+      }
+      return;
+    }
+
+    attempts += 1;
+    showStatus(labels.retrying, false);
+    retryTimer = window.setTimeout(function() {
+      retryTimer = null;
+      container.replaceChildren();
+      showStatus(labels.retrying, false);
+      mountComments();
+    }, attempts * 1000);
+  }
+
+  function mountComments() {
+    warmBackend();
+    var result = twikoo.init(options);
+    if (result && typeof result.catch === 'function') {
+      result.catch(retryCommentService);
+    }
+  }
+
+  observer = new MutationObserver(function() {
+    if (hasTimeoutMessage()) {
+      retryCommentService();
+      return;
+    }
+    if (container.querySelector('.tk-comment, .tk-comments-container')) {
+      attempts = 0;
+      fatalShown = false;
+      clearStatus();
+    }
+  });
+  observer.observe(container, {
+    childList: true,
+    subtree: true,
+    characterData: true
+  });
+
+  mountComments();
+})();</script><script type="text/javascript" src="/js/article.js?v=1.1.29" defer></script></div></div><div id="footer"><span data-i18n="footerCopyright" data-year="2026">版权所有 © 2026</span> <a href="/." rel="nofollow">云起迎风燕.</a> <span data-i18n="poweredBy"> 基于</span> <a rel="nofollow" target="_blank" href="https://hexo.io">Hexo.</a> <a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo">Maupassant</a> <span data-i18n="theme">主题</span></div></main><aside class="docs-toc-panel" id="article-toc" data-i18n-aria="toc"><div class="docs-panel-header"><span><i class="fa fa-list-ul" aria-hidden="true"></i><span data-i18n="toc">文章目录</span></span><button class="docs-panel-close" id="docs-toc-close" type="button" data-i18n-aria="closeToc"><i class="fa fa-chevron-right" aria-hidden="true"></i></button></div><div class="docs-toc-content" id="toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%9F%E8%AE%A1%E5%91%BD%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">统计命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%B9%E9%87%8F%E6%A0%A1%E9%AA%8C%E8%84%9A%E6%9C%AC"><span class="toc-number">2.</span> <span class="toc-text">批量校验脚本</span></a></li></ol></div></aside></div><div class="docs-backdrop" id="docs-backdrop" aria-hidden="true"></div></div><script type="text/javascript" src="/js/ui-preferences.js?v=1.1.29" defer></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.29"><script type="text/javascript" src="/js/search.js?v=1.1.29" defer></script><script type="text/javascript" src="/js/copycode.js?v=1.1.29" data-success-text="复制成功!" defer></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/sidebar.js?v=1.1.29" defer></script><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.29" defer></script></body></html>

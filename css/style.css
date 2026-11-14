@@ -2368,6 +2368,39 @@ body .body_container {
   color: #35495a;
 }
 
+.guestbook-comments #tcomment .twikoo-connection-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 16px 0;
+  padding: 12px 14px;
+  border: 1px solid #e2e8ed;
+  border-radius: 10px;
+  background: rgba(248, 251, 253, 0.78);
+  color: #71808d;
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.guestbook-comments #tcomment .twikoo-reconnect {
+  flex: 0 0 auto;
+  padding: 5px 10px;
+  border: 1px solid #cbded8;
+  border-radius: 7px;
+  background: #f1f8f6;
+  color: #327765;
+  cursor: pointer;
+  font: inherit;
+}
+
+.guestbook-comments #tcomment .twikoo-reconnect:hover,
+.guestbook-comments #tcomment .twikoo-reconnect:focus-visible {
+  border-color: #8fc1b4;
+  background: #e7f4f0;
+}
+
 .guestbook-comments #tcomment .tk-comments {
   margin-top: 0;
 }

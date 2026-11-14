@@ -4,6 +4,12 @@
   var script = document.currentScript;
   var endpoint = script && String(script.dataset.endpoint || '').replace(/\/+$/, '');
   var state = null;
+  var statusMode = 'idle';
+  var statusSavedAt = null;
+  var loading = false;
+  var snapshotKey = 'liutianlong-analytics-snapshot-v1';
+  var requestTimeout = 8000;
+  var maxRetries = 2;
 
   function currentLanguage() {
     return document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'zh';
@@ -15,6 +21,7 @@
           loading: 'Loading traffic data…',
           noData: 'No traffic data yet',
           unavailable: 'Traffic statistics are temporarily unavailable',
+          cached: 'Network issue. Showing the last successful update from {time}.',
           views: 'views',
           visitors: 'visitors',
           since: 'Tracking since {date}'
@@ -23,6 +30,7 @@
           loading: '正在加载访问数据…',
           noData: '暂时没有访问数据',
           unavailable: '访问数据暂不可用',
+          cached: '网络连接波动，当前显示 {time} 获取的最近统计数据。',
           views: '次',
           visitors: '人',
           since: '统计起始于 {date}'
@@ -148,8 +156,39 @@
     element.textContent = copy().since.replace('{date}', formatted);
   }
 
-  function render(data) {
+  function cacheSnapshot(data) {
+    try {
+      localStorage.setItem(snapshotKey, JSON.stringify({
+        savedAt: Date.now(),
+        data: data
+      }));
+    } catch (error) {}
+  }
+
+  function readSnapshot() {
+    try {
+      var snapshot = JSON.parse(localStorage.getItem(snapshotKey) || 'null');
+      if (!snapshot || !snapshot.data || !snapshot.data.ok) return null;
+      if (!snapshot.data.totals || !Array.isArray(snapshot.data.days)) return null;
+      if (Date.now() - Number(snapshot.savedAt) > 24 * 60 * 60 * 1000) return null;
+      return snapshot;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function formatCachedTime(timestamp) {
+    return new Intl.DateTimeFormat(currentLanguage() === 'en' ? 'en-US' : 'zh-CN', {
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'Asia/Shanghai'
+    }).format(new Date(timestamp));
+  }
+
+  function render(data, mode, savedAt) {
     state = data;
+    statusMode = mode || 'fresh';
+    statusSavedAt = savedAt || null;
     setMetric('stat-total-views', data.totals.views, copy().views);
     setMetric('stat-total-visitors', data.totals.visitors, copy().visitors);
     setMetric('stat-today-views', data.today.views, copy().views);
@@ -157,38 +196,85 @@
     renderChart(data.days);
     renderTopPages(data.topPages);
     renderTrackingSince(data.trackingSince);
-    setStatus(data.totals.views ? '' : copy().noData, false);
+    if (statusMode === 'cached') {
+      setStatus(copy().cached.replace('{time}', formatCachedTime(statusSavedAt)), false);
+    } else {
+      setStatus(data.totals.views ? '' : copy().noData, false);
+    }
   }
 
   function renderCurrentLanguage() {
-    if (state) render(state);
+    if (state) render(state, statusMode, statusSavedAt);
   }
 
-  function load() {
-    if (!endpoint) {
-      setStatus(copy().unavailable, true);
-      return;
-    }
-    setStatus(copy().loading, false);
+  function wait(delay) {
+    return new Promise(function(resolve) {
+      window.setTimeout(resolve, delay);
+    });
+  }
+
+  function requestStats(attempt) {
     var cacheBucket = Math.floor(Date.now() / 15000);
-    fetch(endpoint + '/api/stats?cache=' + cacheBucket, {
+    var controller = typeof AbortController === 'function' ? new AbortController() : null;
+    var timer = controller
+      ? window.setTimeout(function() {
+          controller.abort();
+        }, requestTimeout)
+      : null;
+
+    return fetch(endpoint + '/api/stats?cache=' + cacheBucket, {
       headers: { Accept: 'application/json' },
       credentials: 'omit',
-      referrerPolicy: 'no-referrer'
+      referrerPolicy: 'no-referrer',
+      signal: controller ? controller.signal : undefined
     })
       .then(function(response) {
         if (!response.ok) throw new Error('stats_unavailable');
         return response.json();
       })
       .then(function(data) {
+        if (timer) window.clearTimeout(timer);
         if (!data || !data.ok) throw new Error('stats_unavailable');
-        render(data);
+        return data;
+      })
+      .catch(function(error) {
+        if (timer) window.clearTimeout(timer);
+        if (attempt >= maxRetries) throw error;
+        return wait(500 * (attempt + 1)).then(function() {
+          return requestStats(attempt + 1);
+        });
+      });
+  }
+
+  function load() {
+    if (loading) return;
+    if (!endpoint) {
+      statusMode = 'unavailable';
+      setStatus(copy().unavailable, true);
+      return;
+    }
+    loading = true;
+    setStatus(copy().loading, false);
+    requestStats(0)
+      .then(function(data) {
+        cacheSnapshot(data);
+        render(data, 'fresh');
       })
       .catch(function() {
-        setStatus(copy().unavailable, true);
+        var snapshot = readSnapshot();
+        if (snapshot) {
+          render(snapshot.data, 'cached', snapshot.savedAt);
+        } else {
+          statusMode = 'unavailable';
+          setStatus(copy().unavailable, true);
+        }
+      })
+      .finally(function() {
+        loading = false;
       });
   }
 
   window.addEventListener('site-language-change', renderCurrentLanguage);
+  window.addEventListener('online', load);
   load();
 })();

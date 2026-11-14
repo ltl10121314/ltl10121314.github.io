@@ -19,7 +19,7 @@
   root.style.colorScheme = theme;
   root.classList.toggle('is-safari', isSafari);
   root.classList.toggle('is-chrome', isChrome);
-})();</script><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.28"><link rel="stylesheet" type="text/css" href="/css/theme-dark.css?v=1.1.28"><link rel="stylesheet" type="text/css" href="/vendor/normalize/normalize.min.css?v=1.1.28"><link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css?v=1.1.28"><script type="text/javascript" src="/js/analytics.js?v=1.1.28" defer data-endpoint="https://liutianlong-analytics.vercel.app" data-site-id="liutianlong.top"></script><link rel="icon" href="data:,"><meta name="generator" content="Hexo 5.4.0"></head><body class="docs-post" data-current-category=""><script>(function() {
+})();</script><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.29"><link rel="stylesheet" type="text/css" href="/css/theme-dark.css?v=1.1.29"><link rel="stylesheet" type="text/css" href="/vendor/normalize/normalize.min.css?v=1.1.29"><link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css?v=1.1.29"><link rel="preconnect" href="https://twikoo-backend-tau.vercel.app" crossorigin="anonymous"><link rel="preconnect" href="https://liutianlong-analytics.vercel.app" crossorigin="anonymous"><script type="text/javascript" src="/js/analytics.js?v=1.1.29" defer data-endpoint="https://liutianlong-analytics.vercel.app" data-site-id="liutianlong.top"></script><link rel="icon" href="data:,"><meta name="generator" content="Hexo 5.4.0"></head><body class="docs-post" data-current-category=""><script>(function() {
   var body = document.body;
   var mobile = window.innerWidth < 1180;
   var hasCategory = Boolean(body.getAttribute('data-current-category'));
@@ -253,9 +253,130 @@
 </ul>
 <p>代码演示说明</p>
 <h3 id="文件随机读取"><a href="#文件随机读取" class="headerlink" title="文件随机读取"></a>文件随机读取</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RandomFileTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        RandomAccessFile randomAccessFile = <span class="keyword">new</span> RandomAccessFile(<span class="string">&quot;test.txt&quot;</span>, <span class="string">&quot;r&quot;</span>);</span><br><span class="line">        randomAccessFile.seek(<span class="number">3</span>);</span><br><span class="line">        <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>((len = randomAccessFile.read()) != -<span class="number">1</span>) &#123;</span><br><span class="line">            System.out.println((<span class="keyword">char</span>)len);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</div><div class="post-nav"><a class="pre" href="/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">Java 集合框架</a><a class="next" href="/JavaWeb%E8%BF%9B%E9%98%B6/">JavaWeb 进阶</a></div><div id="tcomment"></div><script src="/vendor/twikoo/twikoo.min.js?v=2.0.17"></script><script>twikoo.init({
-  envId: 'https://twikoo-backend-tau.vercel.app',
-  el: '#tcomment',
-  path: window.location.pathname,
-  lang: document.documentElement.getAttribute('data-lang') === 'en' ? 'en-US' : 'zh-CN'
-})</script><script type="text/javascript" src="/js/article.js?v=1.1.28" defer></script></div></div><div id="footer"><span data-i18n="footerCopyright" data-year="2026">版权所有 © 2026</span> <a href="/." rel="nofollow">云起迎风燕.</a> <span data-i18n="poweredBy"> 基于</span> <a rel="nofollow" target="_blank" href="https://hexo.io">Hexo.</a> <a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo">Maupassant</a> <span data-i18n="theme">主题</span></div></main><aside class="docs-toc-panel" id="article-toc" data-i18n-aria="toc"><div class="docs-panel-header"><span><i class="fa fa-list-ul" aria-hidden="true"></i><span data-i18n="toc">文章目录</span></span><button class="docs-panel-close" id="docs-toc-close" type="button" data-i18n-aria="closeToc"><i class="fa fa-chevron-right" aria-hidden="true"></i></button></div><div class="docs-toc-content" id="toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#File%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">File概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#File%E7%B1%BB%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">File类的构造方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#File%E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F"><span class="toc-number">1.3.</span> <span class="toc-text">File类的静态成员变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF%E8%8E%B7%E5%8F%96"><span class="toc-number">1.4.</span> <span class="toc-text">文件信息获取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E5%88%A4%E6%96%AD"><span class="toc-number">1.5.</span> <span class="toc-text">文件属性判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%88%A0%E9%99%A4"><span class="toc-number">1.6.</span> <span class="toc-text">文件创建与删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86"><span class="toc-number">1.7.</span> <span class="toc-text">文件目录遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">1.8.</span> <span class="toc-text">文件过滤器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I-O%E6%B5%81"><span class="toc-number">2.</span> <span class="toc-text">I&#x2F;O流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IO%E6%A6%82%E8%BF%B0"><span class="toc-number">2.1.</span> <span class="toc-text">IO概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IO%E6%B5%81%E9%A1%B6%E7%BA%A7%E7%88%B6%E7%B1%BB"><span class="toc-number">2.2.</span> <span class="toc-text">IO流顶级父类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E8%BE%93%E5%87%BA%E6%B5%81"><span class="toc-number">2.3.</span> <span class="toc-text">字节输出流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E8%BE%93%E5%85%A5%E6%B5%81"><span class="toc-number">2.4.</span> <span class="toc-text">字节输入流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E6%B5%81%E8%AF%BB%E5%8F%96%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98"><span class="toc-number">2.5.</span> <span class="toc-text">字节流读取中文乱码问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E8%BE%93%E5%85%A5%E6%B5%81"><span class="toc-number">2.6.</span> <span class="toc-text">字符输入流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E8%BE%93%E5%87%BA%E6%B5%81"><span class="toc-number">2.7.</span> <span class="toc-text">字符输出流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%86%B2%E6%B5%81"><span class="toc-number">2.8.</span> <span class="toc-text">缓冲流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E7%BC%93%E5%86%B2%E6%B5%81"><span class="toc-number">2.9.</span> <span class="toc-text">字节缓冲流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BufferedInputStream"><span class="toc-number">2.10.</span> <span class="toc-text">BufferedInputStream</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BufferedOutStream"><span class="toc-number">2.11.</span> <span class="toc-text">BufferedOutStream</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E7%BC%93%E5%86%B2%E6%B5%81"><span class="toc-number">2.12.</span> <span class="toc-text">字符缓冲流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BufferedReader"><span class="toc-number">2.13.</span> <span class="toc-text">BufferedReader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BufferedWriter"><span class="toc-number">2.14.</span> <span class="toc-text">BufferedWriter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%B5%81"><span class="toc-number">2.15.</span> <span class="toc-text">转换流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%B5%81%E5%88%86%E7%B1%BB"><span class="toc-number">2.16.</span> <span class="toc-text">转换流分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#InputStreamReader"><span class="toc-number">2.17.</span> <span class="toc-text">InputStreamReader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OutputStreamWriter"><span class="toc-number">2.18.</span> <span class="toc-text">OutputStreamWriter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99"><span class="toc-number">2.19.</span> <span class="toc-text">随机文件读写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E9%9A%8F%E6%9C%BA%E8%AF%BB%E5%8F%96"><span class="toc-number">2.20.</span> <span class="toc-text">文件随机读取</span></a></li></ol></li></ol></div></aside></div><div class="docs-backdrop" id="docs-backdrop" aria-hidden="true"></div></div><script type="text/javascript" src="/js/ui-preferences.js?v=1.1.28" defer></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.28"><script type="text/javascript" src="/js/search.js?v=1.1.28" defer></script><script type="text/javascript" src="/js/copycode.js?v=1.1.28" data-success-text="复制成功!" defer></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/sidebar.js?v=1.1.28" defer></script><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.28" defer></script></body></html>
+</div><div class="post-nav"><a class="pre" href="/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">Java 集合框架</a><a class="next" href="/JavaWeb%E8%BF%9B%E9%98%B6/">JavaWeb 进阶</a></div><div id="tcomment"></div><script src="/vendor/twikoo/twikoo.min.js?v=2.0.17"></script><script>(function() {
+  var container = document.getElementById('tcomment');
+  if (!container || typeof twikoo === 'undefined') return;
+
+  var endpoint = 'https://twikoo-backend-tau.vercel.app';
+  var language = document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'zh';
+  var labels = language === 'en'
+    ? {
+        retrying: 'The comment service is taking longer than expected. Reconnecting…',
+        failed: 'The comment service is temporarily unavailable.',
+        retry: 'Reconnect'
+      }
+    : {
+        retrying: '留言服务响应较慢，正在自动重新连接…',
+        failed: '留言服务暂时不可用。',
+        retry: '重新连接'
+      };
+  var options = {
+    envId: endpoint,
+    el: '#tcomment',
+    path: window.location.pathname,
+    lang: language === 'en' ? 'en-US' : 'zh-CN'
+  };
+  var attempts = 0;
+  var maxAttempts = 3;
+  var retryTimer = null;
+  var fatalShown = false;
+  var observer = null;
+
+  function statusNode() {
+    var node = container.querySelector('.twikoo-connection-status');
+    if (node) return node;
+    node = document.createElement('div');
+    node.className = 'twikoo-connection-status';
+    node.setAttribute('role', 'status');
+    node.setAttribute('aria-live', 'polite');
+    container.prepend(node);
+    return node;
+  }
+
+  function showStatus(message, canRetry) {
+    var node = statusNode();
+    node.replaceChildren();
+    node.appendChild(document.createTextNode(message));
+    container.setAttribute('aria-busy', 'true');
+
+    if (canRetry) {
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'twikoo-reconnect';
+      button.textContent = labels.retry;
+      button.addEventListener('click', function() {
+        attempts = 0;
+        fatalShown = false;
+        retryCommentService();
+      });
+      node.appendChild(button);
+    }
+  }
+
+  function clearStatus() {
+    var node = container.querySelector('.twikoo-connection-status');
+    if (node) node.remove();
+    container.removeAttribute('aria-busy');
+  }
+
+  function hasTimeoutMessage() {
+    return /请求超时|request timed out|request timeout|timeout/i.test(container.textContent || '');
+  }
+
+  function warmBackend() {
+    if (typeof window.fetch !== 'function') return;
+    fetch(endpoint + '/?warm=' + Date.now(), {
+      mode: 'no-cors',
+      cache: 'no-store',
+      credentials: 'omit',
+      keepalive: true
+    }).catch(function() {});
+  }
+
+  function retryCommentService() {
+    if (retryTimer) return;
+    if (attempts >= maxAttempts) {
+      if (!fatalShown) {
+        fatalShown = true;
+        showStatus(labels.failed, true);
+      }
+      return;
+    }
+
+    attempts += 1;
+    showStatus(labels.retrying, false);
+    retryTimer = window.setTimeout(function() {
+      retryTimer = null;
+      container.replaceChildren();
+      showStatus(labels.retrying, false);
+      mountComments();
+    }, attempts * 1000);
+  }
+
+  function mountComments() {
+    warmBackend();
+    var result = twikoo.init(options);
+    if (result && typeof result.catch === 'function') {
+      result.catch(retryCommentService);
+    }
+  }
+
+  observer = new MutationObserver(function() {
+    if (hasTimeoutMessage()) {
+      retryCommentService();
+      return;
+    }
+    if (container.querySelector('.tk-comment, .tk-comments-container')) {
+      attempts = 0;
+      fatalShown = false;
+      clearStatus();
+    }
+  });
+  observer.observe(container, {
+    childList: true,
+    subtree: true,
+    characterData: true
+  });
+
+  mountComments();
+})();</script><script type="text/javascript" src="/js/article.js?v=1.1.29" defer></script></div></div><div id="footer"><span data-i18n="footerCopyright" data-year="2026">版权所有 © 2026</span> <a href="/." rel="nofollow">云起迎风燕.</a> <span data-i18n="poweredBy"> 基于</span> <a rel="nofollow" target="_blank" href="https://hexo.io">Hexo.</a> <a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo">Maupassant</a> <span data-i18n="theme">主题</span></div></main><aside class="docs-toc-panel" id="article-toc" data-i18n-aria="toc"><div class="docs-panel-header"><span><i class="fa fa-list-ul" aria-hidden="true"></i><span data-i18n="toc">文章目录</span></span><button class="docs-panel-close" id="docs-toc-close" type="button" data-i18n-aria="closeToc"><i class="fa fa-chevron-right" aria-hidden="true"></i></button></div><div class="docs-toc-content" id="toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#File%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">File概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#File%E7%B1%BB%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">File类的构造方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#File%E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F"><span class="toc-number">1.3.</span> <span class="toc-text">File类的静态成员变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF%E8%8E%B7%E5%8F%96"><span class="toc-number">1.4.</span> <span class="toc-text">文件信息获取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E5%88%A4%E6%96%AD"><span class="toc-number">1.5.</span> <span class="toc-text">文件属性判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%88%A0%E9%99%A4"><span class="toc-number">1.6.</span> <span class="toc-text">文件创建与删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86"><span class="toc-number">1.7.</span> <span class="toc-text">文件目录遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">1.8.</span> <span class="toc-text">文件过滤器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I-O%E6%B5%81"><span class="toc-number">2.</span> <span class="toc-text">I&#x2F;O流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IO%E6%A6%82%E8%BF%B0"><span class="toc-number">2.1.</span> <span class="toc-text">IO概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IO%E6%B5%81%E9%A1%B6%E7%BA%A7%E7%88%B6%E7%B1%BB"><span class="toc-number">2.2.</span> <span class="toc-text">IO流顶级父类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E8%BE%93%E5%87%BA%E6%B5%81"><span class="toc-number">2.3.</span> <span class="toc-text">字节输出流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E8%BE%93%E5%85%A5%E6%B5%81"><span class="toc-number">2.4.</span> <span class="toc-text">字节输入流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E6%B5%81%E8%AF%BB%E5%8F%96%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98"><span class="toc-number">2.5.</span> <span class="toc-text">字节流读取中文乱码问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E8%BE%93%E5%85%A5%E6%B5%81"><span class="toc-number">2.6.</span> <span class="toc-text">字符输入流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E8%BE%93%E5%87%BA%E6%B5%81"><span class="toc-number">2.7.</span> <span class="toc-text">字符输出流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%86%B2%E6%B5%81"><span class="toc-number">2.8.</span> <span class="toc-text">缓冲流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E7%BC%93%E5%86%B2%E6%B5%81"><span class="toc-number">2.9.</span> <span class="toc-text">字节缓冲流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BufferedInputStream"><span class="toc-number">2.10.</span> <span class="toc-text">BufferedInputStream</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BufferedOutStream"><span class="toc-number">2.11.</span> <span class="toc-text">BufferedOutStream</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E7%BC%93%E5%86%B2%E6%B5%81"><span class="toc-number">2.12.</span> <span class="toc-text">字符缓冲流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BufferedReader"><span class="toc-number">2.13.</span> <span class="toc-text">BufferedReader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BufferedWriter"><span class="toc-number">2.14.</span> <span class="toc-text">BufferedWriter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%B5%81"><span class="toc-number">2.15.</span> <span class="toc-text">转换流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%B5%81%E5%88%86%E7%B1%BB"><span class="toc-number">2.16.</span> <span class="toc-text">转换流分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#InputStreamReader"><span class="toc-number">2.17.</span> <span class="toc-text">InputStreamReader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OutputStreamWriter"><span class="toc-number">2.18.</span> <span class="toc-text">OutputStreamWriter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99"><span class="toc-number">2.19.</span> <span class="toc-text">随机文件读写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E9%9A%8F%E6%9C%BA%E8%AF%BB%E5%8F%96"><span class="toc-number">2.20.</span> <span class="toc-text">文件随机读取</span></a></li></ol></li></ol></div></aside></div><div class="docs-backdrop" id="docs-backdrop" aria-hidden="true"></div></div><script type="text/javascript" src="/js/ui-preferences.js?v=1.1.29" defer></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.29"><script type="text/javascript" src="/js/search.js?v=1.1.29" defer></script><script type="text/javascript" src="/js/copycode.js?v=1.1.29" data-success-text="复制成功!" defer></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/sidebar.js?v=1.1.29" defer></script><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.29" defer></script></body></html>
