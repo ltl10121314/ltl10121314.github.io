@@ -14,6 +14,9 @@
   var tocKey = 'maupassant-docs-toc-open';
   var wasMobile = window.innerWidth < breakpoint;
   var sidebarScrolls = document.querySelectorAll('.docs-sidebar-scroll');
+  var categoryRevealTimer = 0;
+  var categoryRevealDeadline = 0;
+  var categoryListObserver = null;
 
   function readPreference(key) {
     try {
@@ -125,22 +128,40 @@
     var target = Math.max(0, Math.min(maxScroll, currentCenter - container.clientHeight * 0.38));
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (container.scrollTo) {
-      container.scrollTo({
-        top: target,
-        behavior: animate && !reduceMotion ? 'smooth' : 'auto'
-      });
+    if (animate && !reduceMotion && container.scrollTo) {
+      try {
+        container.scrollTo({
+          top: target,
+          behavior: 'smooth'
+        });
+      } catch (error) {
+        container.scrollTop = target;
+      }
     } else {
       container.scrollTop = target;
     }
   }
 
   function scheduleCurrentCategoryReveal(animate) {
-    window.requestAnimationFrame(function() {
-      window.requestAnimationFrame(function() {
-        revealCurrentCategory(animate);
-      });
-    });
+    var now = window.performance.now();
+    categoryRevealDeadline = Math.max(categoryRevealDeadline, now + 2600);
+    if (categoryRevealTimer) return;
+
+    var useAnimation = animate;
+    function run() {
+      categoryRevealTimer = 0;
+      revealCurrentCategory(useAnimation);
+      useAnimation = false;
+      updateScrollHint();
+
+      if (window.performance.now() < categoryRevealDeadline) {
+        categoryRevealTimer = window.setTimeout(run, 180);
+      } else {
+        categoryRevealDeadline = 0;
+      }
+    }
+
+    categoryRevealTimer = window.setTimeout(run, 0);
   }
 
   function applyInitialState() {
@@ -276,11 +297,33 @@
   fitSidePanel(nav);
   fitSidePanel(toc);
   updateScrollHint();
-  revealCurrentCategory(false);
+  scheduleCurrentCategoryReveal(false);
   initPageTransitions();
   sidebarScrolls.forEach(function(container) {
     container.addEventListener('scroll', updateScrollHint, { passive: true });
   });
+
+  if (nav) {
+    nav.addEventListener('transitionend', function(event) {
+      if (event.target === nav && event.propertyName === 'width' && isPanelOpen('docs-nav')) {
+        scheduleCurrentCategoryReveal(false);
+      }
+    });
+  }
+
+  var categoryList = document.getElementById('category-list');
+  if (categoryList && window.ResizeObserver) {
+    categoryListObserver = new window.ResizeObserver(function() {
+      scheduleCurrentCategoryReveal(false);
+    });
+    categoryListObserver.observe(categoryList);
+  }
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function() {
+      scheduleCurrentCategoryReveal(false);
+    });
+  }
 
   if (backdrop) {
     backdrop.addEventListener('click', function() {
@@ -311,6 +354,12 @@
       setPanelOpen('docs-nav', initialPreference(navKey), false);
       if (toc) setPanelOpen('docs-toc', initialPreference(tocKey), false);
     }
+    scheduleCurrentCategoryReveal(false);
+  });
+  window.addEventListener('load', function() {
+    scheduleCurrentCategoryReveal(false);
+  });
+  window.addEventListener('pageshow', function() {
     scheduleCurrentCategoryReveal(false);
   });
   window.addEventListener('scroll', scheduleStickyState, { passive: true });

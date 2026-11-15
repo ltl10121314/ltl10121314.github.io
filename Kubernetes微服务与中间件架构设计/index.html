@@ -1,0 +1,492 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="color-scheme" content="light dark"><meta name="description"><title>Kubernetes 微服务与中间件架构设计 | 云起迎风燕</title><link rel="preload" href="/fonts/title-zhi-mang-xing.woff2" as="font" type="font/woff2" crossorigin="anonymous" fetchpriority="high"><link rel="preload" href="/vendor/font-awesome/fonts/fontawesome-webfont.woff2?v=4.7.0" as="font" type="font/woff2" crossorigin="anonymous" fetchpriority="high"><script>(function() {
+  var root = document.documentElement;
+  var theme = 'light';
+  var language = 'zh';
+  var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  var isChrome = /Chrome\//.test(navigator.userAgent) && !/Edg\//.test(navigator.userAgent);
+  try {
+    var storedTheme = localStorage.getItem('liutianlong-theme');
+    var storedLanguage = localStorage.getItem('liutianlong-language');
+    var systemLanguage = (navigator.language || (navigator.languages && navigator.languages[0]) || 'zh').toLowerCase();
+    theme = storedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    language = storedLanguage === 'en' || storedLanguage === 'zh'
+      ? storedLanguage
+      : (systemLanguage.indexOf('zh') === 0 ? 'zh' : 'en');
+  } catch (error) {}
+  root.setAttribute('data-theme', theme);
+  root.setAttribute('data-lang', language);
+  root.setAttribute('lang', language === 'en' ? 'en' : 'zh-CN');
+  root.style.colorScheme = theme;
+  root.classList.toggle('is-safari', isSafari);
+  root.classList.toggle('is-chrome', isChrome);
+})();</script><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.44"><link rel="stylesheet" type="text/css" href="/css/theme-dark.css?v=1.1.44"><link rel="stylesheet" type="text/css" href="/vendor/normalize/normalize.min.css?v=1.1.44"><link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css?v=1.1.44"><link rel="preconnect" href="https://twikoo.liutianlong.top" crossorigin="anonymous"><link rel="preconnect" href="https://api.liutianlong.top" crossorigin="anonymous"><script type="text/javascript" src="/js/analytics.js?v=1.1.44" defer data-endpoint="https://api.liutianlong.top" data-site-id="liutianlong.top"></script><link rel="icon" href="data:,"><meta name="generator" content="Hexo 5.4.0"></head><body class="docs-post" data-current-category="Kubernetes"><script>(function() {
+  var body = document.body;
+  var mobile = window.innerWidth < 1180;
+  var hasCategory = Boolean(body.getAttribute('data-current-category'));
+  var navPreference = null;
+  var tocPreference = null;
+  try {
+    navPreference = localStorage.getItem('maupassant-docs-nav-open');
+    tocPreference = localStorage.getItem('maupassant-docs-toc-open');
+  } catch (error) {}
+  body.classList.toggle('docs-nav-collapsed', mobile || (!hasCategory && navPreference === 'false'));
+  body.classList.toggle('docs-toc-collapsed', mobile || tocPreference === 'false');
+})();</script><div id="reading-progress" role="progressbar" data-i18n-aria="readingProgress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="reading-progress-fill"></span></div><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Kubernetes 微服务与中间件架构设计</h1><a id="logo" href="/.">云起迎风燕</a><p class="description"></p></div><div class="header-actions"><div id="nav-menu"><a href="/."><i class="fa fa-home"></i><span data-i18n="home"> 首页</span></a><a href="/archives/"><i class="fa fa-archive"></i><span data-i18n="archiveShort"> 归档</span></a><a href="/profile/"><i class="fa fa-user"></i><span data-i18n="profile"> 关于</span></a><a href="/gallery/"><i class="fa fa-camera"></i><span data-i18n="photoWall"> 照片墙</span></a><a href="/guestbook/"><i class="fa fa-comment"></i><span data-i18n="guestbook"> 留言</span></a><a href="/statistics/"><i class="fa fa-bar-chart"></i><span data-i18n="statistics"> 统计</span></a></div><div class="ui-controls" data-i18n-aria="displaySettings"><button class="ui-toggle" id="language-toggle" type="button" data-i18n-aria="languageToggle" data-i18n-title="languageToggle"><span id="language-toggle-label">EN</span></button><button class="ui-toggle" id="theme-toggle" type="button" data-i18n-aria="themeToDark" data-i18n-title="themeToDark"><i class="fa fa-moon-o" id="theme-toggle-icon" aria-hidden="true"></i></button></div></div><nav class="docs-breadcrumb" data-i18n-aria="breadcrumb"><a href="/." data-i18n="home">首页</a><span class="docs-breadcrumb-separator">/</span><a href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/">系统与中间件</a><span class="docs-breadcrumb-separator">/</span><a href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Kubernetes/">Kubernetes</a><span class="docs-breadcrumb-separator">/</span><span class="docs-breadcrumb-current">Kubernetes 微服务与中间件架构设计</span></nav></div><button class="docs-edge-tab docs-edge-tab-left" id="docs-nav-open" type="button" aria-controls="sidebar" aria-expanded="false"><i class="fa fa-folder-o" aria-hidden="true"></i><span data-i18n="navigation">导航</span></button><button class="docs-edge-tab docs-edge-tab-right" id="docs-toc-open" type="button" aria-controls="article-toc" aria-expanded="false"><i class="fa fa-list-ul" aria-hidden="true"></i><span data-i18n="toc">目录</span></button><div class="docs-layout with-toc" id="layout"><aside class="docs-sidebar" id="sidebar" data-i18n-aria="siteNav"><div class="docs-panel-header"><span><i class="fa fa-compass" aria-hidden="true"></i><span data-i18n="contentNav">内容导航</span></span><button class="docs-panel-close" id="docs-nav-close" type="button" data-i18n-aria="closeNav"><i class="fa fa-chevron-left" aria-hidden="true"></i></button></div><div class="docs-sidebar-scroll"><div class="widget search-widget"><div class="search-form"><input id="local-search-input" placeholder="搜索文章" data-i18n-placeholder="search" type="text" name="q" results="0" autocomplete="off" data-search-url="/search.xml"/><div id="local-search-result" role="status" aria-live="polite"></div></div></div><nav class="docs-quick-nav" data-i18n-aria="siteNav"><a href="/."><i class="fa fa-home" aria-hidden="true"></i><span data-i18n="home">首页</span></a><a href="/archives/"><i class="fa fa-archive" aria-hidden="true"></i><span data-i18n="archiveShort">归档</span></a><a href="/profile/"><i class="fa fa-user" aria-hidden="true"></i><span data-i18n="profile">关于</span></a><a href="/gallery/"><i class="fa fa-camera" aria-hidden="true"></i><span data-i18n="photoWall">照片墙</span></a><a href="/guestbook/"><i class="fa fa-comment-o" aria-hidden="true"></i><span data-i18n="guestbook">留言</span></a><a href="/statistics/"><i class="fa fa-bar-chart" aria-hidden="true"></i><span data-i18n="statistics">统计</span></a></nav><div class="widget category-widget" id="category-widget"><div class="widget-title"><span class="category-title-mark" aria-hidden="true"></span><span data-i18n="categories"> 分类</span></div><div class="category-widget-content" id="category-list"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/JVM/">JVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/MyBatis/">MyBatis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/">项目实践</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/">Spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Maven/">Maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/SVN/">SVN</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/">数据与存储</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/FastDFS/">FastDFS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/Redis/">Redis</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/">系统与中间件</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka/">Kafka</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Kubernetes/">Kubernetes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul></li></ul></div></div></div></aside><main class="docs-main" id="docs-main"><div class="content_container"><div class="post"><h1 class="post-title">Kubernetes 微服务与中间件架构设计</h1><div class="post-meta"><span class="category"><a href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/">系统与中间件</a><span class="category-separator"> / </span><a href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Kubernetes/">Kubernetes</a></span><span class="reading-time"><i class="fa fa-clock-o"></i><span data-i18n="readingTime" data-minutes="24"> 阅读约 24 分钟</span></span><span class="post-views"><i class="fa fa-eye" aria-hidden="true"></i><span data-i18n="pageViews">访问量</span><strong class="page-view-count" id="page-view-count" data-path="/Kubernetes%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">—</strong><span data-i18n="viewsSuffix">次</span></span></div><div class="post-content"><h2 id="整体架构设计"><a href="#整体架构设计" class="headerlink" title="整体架构设计"></a>整体架构设计</h2><p>在 Linux 服务器上，使用<br>Kubernetes（K8s）管理业务微服务、数据库、缓存和消息中间件，建议采用：</p>
+<p><strong>Kubernetes 统一编排 + 微服务分层部署 + StatefulSet 管理有状态服务 +<br>持久化存储 + Ingress 统一流量入口。</strong></p>
+<p>核心原则：业务微服务和基础设施中间件可以统一由 K8s<br>管理，但部署方式、存储方式和扩缩容策略不能完全一样。</p>
+<hr>
+<p>  组件                    推荐部署方式                 重点</p>
+<hr>
+<p>  Spring Boot 微服务      Deployment                   多副本、滚动升级、健康检查</p>
+<p>  MySQL                   StatefulSet 或               持久化、备份、主从复制、故障切换<br>                          Operator；也可部署在集群外   </p>
+<p>  Redis                   StatefulSet 或 Operator      按单机、主从、Sentinel、Cluster<br>                                                       选择</p>
+<p>  Kafka                   StatefulSet / Operator       Broker 身份、独立磁盘、数据可靠性</p>
+<p>  RocketMQ                StatefulSet / Operator       Broker 持久化、复制和主从切换</p>
+<p>  Nacos                   Deployment 或 StatefulSet    按部署模式及持久化需求选择</p>
+<h2 id="Elasticsearch-StatefulSet-Operator-节点角色、磁盘、JVM、分片和快照"><a href="#Elasticsearch-StatefulSet-Operator-节点角色、磁盘、JVM、分片和快照" class="headerlink" title="  Elasticsearch           StatefulSet / Operator       节点角色、磁盘、JVM、分片和快照"></a>  Elasticsearch           StatefulSet / Operator       节点角色、磁盘、JVM、分片和快照</h2><h3 id="示例业务系统"><a href="#示例业务系统" class="headerlink" title="示例业务系统"></a>示例业务系统</h3><p>业务微服务：</p>
+<ul>
+<li>  <code>auth-service</code>：认证中心</li>
+<li>  <code>user-service</code>：用户服务</li>
+<li>  <code>order-service</code>：订单服务</li>
+<li>  <code>product-service</code>：商品服务</li>
+<li>  <code>payment-service</code>：支付服务</li>
+</ul>
+<p>基础设施：</p>
+<ul>
+<li>  MySQL</li>
+<li>  Redis</li>
+<li>  Kafka</li>
+<li>  RocketMQ</li>
+<li>  Elasticsearch</li>
+<li>  Nacos</li>
+</ul>
+<h3 id="整体请求和数据流"><a href="#整体请求和数据流" class="headerlink" title="整体请求和数据流"></a>整体请求和数据流</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">                 用户 / 浏览器</span><br><span class="line">                      |</span><br><span class="line">                   DNS / HTTPS</span><br><span class="line">                      |</span><br><span class="line">             LoadBalancer / NodePort</span><br><span class="line">                      |</span><br><span class="line">             Ingress Controller</span><br><span class="line">                  (Nginx)</span><br><span class="line">                      |</span><br><span class="line">       +--------------+--------------+</span><br><span class="line">       |              |              |</span><br><span class="line">       v              v              v</span><br><span class="line">  auth-service   user-service   order-service</span><br><span class="line">       |              |              |</span><br><span class="line">       +--------------+--------------+</span><br><span class="line">                      |</span><br><span class="line">             Kubernetes Service</span><br><span class="line">                      |</span><br><span class="line">      +---------------+----------------+</span><br><span class="line">      |               |                |</span><br><span class="line">      v               v                v</span><br><span class="line">    MySQL           Redis             Kafka</span><br><span class="line"> StatefulSet     StatefulSet       StatefulSet</span><br><span class="line">      |               |                |</span><br><span class="line">      v               v                v</span><br><span class="line">     PVC             PVC              PVC</span><br><span class="line">      |               |                |</span><br><span class="line">      +---------------+----------------+</span><br><span class="line">                      |</span><br><span class="line">                StorageClass</span><br><span class="line">                      |</span><br><span class="line">                  持久化存储</span><br><span class="line"></span><br><span class="line">其他基础设施：Nacos / RocketMQ / Elasticsearch</span><br><span class="line"></span><br><span class="line">运维监控：Prometheus / Grafana / Loki</span><br></pre></td></tr></table></figure>
+
+<h3 id="架构分层"><a href="#架构分层" class="headerlink" title="架构分层"></a>架构分层</h3><p>  层级         组件                        主要职责</p>
+<hr>
+<p>  接入层       Nginx Ingress / Gateway     外部流量入口、路由<br>  应用层       Spring Boot                 业务微服务<br>  服务治理层   Nacos（按需）               服务注册发现、配置管理<br>  数据层       MySQL、Redis、MongoDB       数据存储和缓存<br>  消息层       Kafka、RocketMQ             异步通信、事件驱动<br>  搜索层       Elasticsearch               检索和分析<br>  运维层       Prometheus、Grafana、Loki   监控、告警和日志</p>
+<hr>
+<h2 id="Linux-服务器如何部署-Kubernetes"><a href="#Linux-服务器如何部署-Kubernetes" class="headerlink" title="Linux 服务器如何部署 Kubernetes"></a>Linux 服务器如何部署 Kubernetes</h2><p>Kubernetes 不是一个 Docker<br>容器，而是一套容器编排系统。生产环境需要规划控制面、工作节点、网络、存储和高可用。</p>
+<h3 id="Linux-集群节点规划"><a href="#Linux-集群节点规划" class="headerlink" title="Linux 集群节点规划"></a>Linux 集群节点规划</h3><p>示例：三个控制面节点和四个工作节点。</p>
+<hr>
+<p>  服务器                  角色                    部署内容</p>
+<hr>
+<p>  <code>k8s-master-01</code>         Control Plane           API<br>                                                  Server、Scheduler、Controller<br>                                                  Manager、etcd</p>
+<p>  <code>k8s-master-02</code>         Control Plane           高可用控制面</p>
+<p>  <code>k8s-master-03</code>         Control Plane           高可用控制面</p>
+<p>  <code>k8s-worker-01</code>         Worker                  Spring Boot 微服务</p>
+<p>  <code>k8s-worker-02</code>         Worker                  Spring Boot 微服务</p>
+<p>  <code>k8s-worker-03</code>         Worker                  数据库、消息中间件</p>
+<h2 id="k8s-worker-04-Worker-数据库、消息中间件"><a href="#k8s-worker-04-Worker-数据库、消息中间件" class="headerlink" title="  k8s-worker-04         Worker                  数据库、消息中间件"></a>  <code>k8s-worker-04</code>         Worker                  数据库、消息中间件</h2><p>这是逻辑规划。实际部署可以通过节点标签、污点（Taint）和容忍度（Toleration）控制<br>Pod 的调度位置。也可以根据资源规模混合部署应用和中间件。</p>
+<h3 id="Kubernetes-核心组件"><a href="#Kubernetes-核心组件" class="headerlink" title="Kubernetes 核心组件"></a>Kubernetes 核心组件</h3><hr>
+<p>  组件                                作用</p>
+<hr>
+<p>  <code>kube-apiserver</code>                    集群 API 入口，所有控制操作通过 API<br>                                      Server 进行</p>
+<p>  <code>etcd</code>                              保存 Kubernetes 集群状态数据</p>
+<p>  <code>kube-scheduler</code>                    为待调度 Pod 选择节点</p>
+<p>  <code>kube-controller-manager</code>           运行控制器，持续协调实际状态与期望状态</p>
+<p>  <code>kubelet</code>                           管理节点上的 Pod 和容器</p>
+<p>  <code>kube-proxy</code>                        在常见网络方案中实现 Service<br>                                      网络转发；部分 CNI 可替代其数据面功能</p>
+<p>  <code>containerd</code>                        容器运行时</p>
+<h2 id="CoreDNS-集群内部-DNS-服务发现"><a href="#CoreDNS-集群内部-DNS-服务发现" class="headerlink" title="  CoreDNS                             集群内部 DNS 服务发现"></a>  CoreDNS                             集群内部 DNS 服务发现</h2><p>生产环境要考虑控制面高可用、etcd 备份、节点资源规划和集群升级策略。</p>
+<h3 id="Namespace-命名空间规划"><a href="#Namespace-命名空间规划" class="headerlink" title="Namespace 命名空间规划"></a>Namespace 命名空间规划</h3><p>不要把所有业务和中间件都放在 <code>default</code> 命名空间。可以按环境和职责划分：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">Kubernetes Cluster</span><br><span class="line">|</span><br><span class="line">+-- kube-system</span><br><span class="line">|   +-- CoreDNS</span><br><span class="line">|   +-- kube-proxy（如使用）</span><br><span class="line">|   +-- CNI</span><br><span class="line">|</span><br><span class="line">+-- ingress-nginx</span><br><span class="line">|   +-- Nginx Ingress Controller</span><br><span class="line">|</span><br><span class="line">+-- dev</span><br><span class="line">|   +-- user-service</span><br><span class="line">|   +-- order-service</span><br><span class="line">|   +-- product-service</span><br><span class="line">|</span><br><span class="line">+-- test</span><br><span class="line">|   +-- user-service</span><br><span class="line">|   +-- order-service</span><br><span class="line">|   +-- product-service</span><br><span class="line">|</span><br><span class="line">+-- prod</span><br><span class="line">|   +-- auth-service</span><br><span class="line">|   +-- user-service</span><br><span class="line">|   +-- order-service</span><br><span class="line">|   +-- product-service</span><br><span class="line">|   +-- payment-service</span><br><span class="line">|</span><br><span class="line">+-- middleware</span><br><span class="line">|   +-- nacos</span><br><span class="line">|   +-- redis</span><br><span class="line">|   +-- kafka</span><br><span class="line">|   +-- rocketmq</span><br><span class="line">|   +-- elasticsearch</span><br><span class="line">|</span><br><span class="line">+-- database</span><br><span class="line">|   +-- mysql</span><br><span class="line">|   +-- mongodb</span><br><span class="line">|</span><br><span class="line">+-- monitoring</span><br><span class="line">    +-- prometheus</span><br><span class="line">    +-- grafana</span><br><span class="line">    +-- loki</span><br></pre></td></tr></table></figure>
+
+<p>Namespace 的价值：</p>
+<ol>
+<li> 逻辑隔离 dev、test、prod 环境。</li>
+<li> 分开管理业务服务和数据库权限。</li>
+<li> 可以按 Namespace 设置 ResourceQuota 和 LimitRange。</li>
+<li> 可以通过 NetworkPolicy 限制网络访问（前提是网络插件支持）。</li>
+<li> 可以分别管理应用和中间件的发布周期。</li>
+</ol>
+<p><strong>注意：Namespace<br>是逻辑隔离，不等于物理隔离，也不会自动形成完整的安全边界。</strong></p>
+<hr>
+<h2 id="Spring-Boot-微服务部署"><a href="#Spring-Boot-微服务部署" class="headerlink" title="Spring Boot 微服务部署"></a>Spring Boot 微服务部署</h2><p>对于 Spring Boot 项目，常用资源组合是：</p>
+<p><strong>Deployment + Service + ConfigMap + Secret + HPA</strong></p>
+<h3 id="微服务部署结构"><a href="#微服务部署结构" class="headerlink" title="微服务部署结构"></a>微服务部署结构</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">user-service</span><br><span class="line">|</span><br><span class="line">+-- Deployment</span><br><span class="line">|   +-- Pod-1</span><br><span class="line">|   |   +-- Spring Boot</span><br><span class="line">|   +-- Pod-2</span><br><span class="line">|   |   +-- Spring Boot</span><br><span class="line">|   +-- Pod-3</span><br><span class="line">|       +-- Spring Boot</span><br><span class="line">|</span><br><span class="line">+-- Service</span><br><span class="line">|   +-- user-service:8080</span><br><span class="line">|</span><br><span class="line">+-- ConfigMap</span><br><span class="line">|   +-- 非敏感 application 配置</span><br><span class="line">|</span><br><span class="line">+-- Secret</span><br><span class="line">|   +-- 数据库密码等敏感信息</span><br><span class="line">|</span><br><span class="line">+-- HPA</span><br><span class="line">    +-- 根据指标自动调整副本数</span><br></pre></td></tr></table></figure>
+
+<h3 id="Deployment-示例"><a href="#Deployment-示例" class="headerlink" title="Deployment 示例"></a>Deployment 示例</h3><p>下面是一个简化的 <code>user-service</code><br>Deployment。镜像地址、探针路径和资源值应根据实际项目调整。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">user-service</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">prod</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">user-service</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">user-service</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">user-service</span></span><br><span class="line">          <span class="attr">image:</span> <span class="string">registry.example.com/user-service:1.0.0</span></span><br><span class="line">          <span class="attr">ports:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br><span class="line"></span><br><span class="line">          <span class="attr">resources:</span></span><br><span class="line">            <span class="attr">requests:</span></span><br><span class="line">              <span class="attr">cpu:</span> <span class="string">&quot;500m&quot;</span></span><br><span class="line">              <span class="attr">memory:</span> <span class="string">&quot;512Mi&quot;</span></span><br><span class="line">            <span class="attr">limits:</span></span><br><span class="line">              <span class="attr">cpu:</span> <span class="string">&quot;2&quot;</span></span><br><span class="line">              <span class="attr">memory:</span> <span class="string">&quot;1Gi&quot;</span></span><br><span class="line"></span><br><span class="line">          <span class="attr">readinessProbe:</span></span><br><span class="line">            <span class="attr">httpGet:</span></span><br><span class="line">              <span class="attr">path:</span> <span class="string">/actuator/health/readiness</span></span><br><span class="line">              <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">            <span class="attr">initialDelaySeconds:</span> <span class="number">20</span></span><br><span class="line">            <span class="attr">periodSeconds:</span> <span class="number">10</span></span><br><span class="line"></span><br><span class="line">          <span class="attr">livenessProbe:</span></span><br><span class="line">            <span class="attr">httpGet:</span></span><br><span class="line">              <span class="attr">path:</span> <span class="string">/actuator/health/liveness</span></span><br><span class="line">              <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">            <span class="attr">initialDelaySeconds:</span> <span class="number">40</span></span><br><span class="line">            <span class="attr">periodSeconds:</span> <span class="number">15</span></span><br></pre></td></tr></table></figure>
+
+<p>Spring Boot 应用需要启用并正确配置 Actuator<br>健康检查端点，探针路径才会有效。<code>readinessProbe</code><br>判断应用是否可以接收流量；<code>livenessProbe</code> 判断容器是否需要重启。</p>
+<h3 id="Service-示例"><a href="#Service-示例" class="headerlink" title="Service 示例"></a>Service 示例</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">user-service</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">prod</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ClusterIP</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">user-service</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">      <span class="attr">targetPort:</span> <span class="number">8080</span></span><br></pre></td></tr></table></figure>
+
+<p>部署和查看：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建或更新资源</span></span><br><span class="line">kubectl apply -f user-service.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 Deployment</span></span><br><span class="line">kubectl get deployment -n prod</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 Pod</span></span><br><span class="line">kubectl get pods -n prod</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 Service</span></span><br><span class="line">kubectl get svc -n prod</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看应用日志</span></span><br><span class="line">kubectl logs -f deployment/user-service -n prod</span><br><span class="line"></span><br><span class="line"><span class="comment"># 手动扩容到 5 个副本</span></span><br><span class="line">kubectl scale deployment user-service --replicas=5 -n prod</span><br></pre></td></tr></table></figure>
+
+<h3 id="微服务之间如何调用"><a href="#微服务之间如何调用" class="headerlink" title="微服务之间如何调用"></a>微服务之间如何调用</h3><p>Kubernetes Service 为一组 Pod 提供稳定的访问地址。业务服务不需要知道对方<br>Pod 的动态 IP。</p>
+<p>跨 Namespace 的完整 DNS 地址：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://user-service.prod.svc.cluster.local:8080</span><br></pre></td></tr></table></figure>
+
+<p>同一个 Namespace 内通常可以直接使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://user-service:8080</span><br></pre></td></tr></table></figure>
+
+<p>如果使用 Spring Cloud<br>OpenFeign，需要确保服务名解析方式与项目的服务发现配置一致。可以通过<br>Kubernetes DNS 访问 Service，也可以在适当的架构中继续使用 Nacos<br>服务发现。</p>
+<p>Deployment 负责应用副本、滚动更新和自愈；Service<br>负责稳定的服务访问入口。</p>
+<hr>
+<h2 id="数据库和消息中间件部署"><a href="#数据库和消息中间件部署" class="headerlink" title="数据库和消息中间件部署"></a>数据库和消息中间件部署</h2><p>这是整个架构中需要重点设计的部分。</p>
+<p>业务服务通常是无状态的，而数据库和消息中间件是有状态的：</p>
+<ul>
+<li>  Spring Boot Pod 删除后可以重新创建，业务数据不应因此丢失。</li>
+<li>  MySQL Pod 删除或重建后，数据库文件必须保留。</li>
+<li>  Kafka Broker 重启后，需要继续使用自己的数据目录和身份。</li>
+<li>  Redis 如果承担持久化任务，也需要考虑数据恢复。</li>
+</ul>
+<p>常用 Kubernetes 资源：</p>
+<ul>
+<li>  StatefulSet</li>
+<li>  Headless Service</li>
+<li>  PersistentVolume（PV）</li>
+<li>  PersistentVolumeClaim（PVC）</li>
+<li>  StorageClass</li>
+</ul>
+<h3 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h3><p>MySQL 可以使用 StatefulSet、Operator 或集群外的独立数据库服务。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">      MySQL Service</span><br><span class="line">            |</span><br><span class="line">            v</span><br><span class="line">     MySQL StatefulSet</span><br><span class="line">            |</span><br><span class="line">   +--------+--------+</span><br><span class="line">   |                 |</span><br><span class="line">   v                 v</span><br><span class="line">mysql-0           mysql-1</span><br><span class="line">   |                 |</span><br><span class="line">   v                 v</span><br><span class="line"> PVC-0             PVC-1</span><br><span class="line">   |                 |</span><br><span class="line">   v                 v</span><br><span class="line">  PV-0              PV-1</span><br><span class="line">   |                 |</span><br><span class="line">   v                 v</span><br><span class="line"> 数据盘            数据盘</span><br></pre></td></tr></table></figure>
+
+<p>上图仅表示实例与存储的关系，并不意味着 StatefulSet 自动实现了 MySQL<br>主从复制。</p>
+<p>MySQL 高可用还需要额外设计：</p>
+<ul>
+<li>  主从复制或其他复制方案。</li>
+<li>  故障检测和主从切换。</li>
+<li>  备份与恢复。</li>
+<li>  数据一致性和恢复点目标。</li>
+<li>  客户端连接入口管理。</li>
+</ul>
+<p>生产环境可以考虑 MySQL Operator，或者直接使用云数据库、独立数据库集群。</p>
+<p><strong>建议：生产环境优先评估独立数据库集群，不要为了使用 K8s<br>而强行把核心数据库放进 K8s。</strong> 数据库可以运行在独立 Linux<br>服务器、云数据库或专门的数据库集群中，业务 Pod 通过网络访问。</p>
+<h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h3><p>根据业务场景选择部署模式：</p>
+<p>  模式             适用场景</p>
+<hr>
+<p>  Standalone       开发、测试或非关键缓存<br>  Master-Replica   主从复制<br>  Sentinel         监控与自动故障转移<br>  Redis Cluster    分片和水平扩展</p>
+<p>可以采用 StatefulSet 或成熟的 Redis Operator。是否需要 PVC、AOF/RDB<br>持久化，应根据 Redis 承担的是缓存还是重要数据存储来决定。</p>
+<h3 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h3><p>三个 Broker 的示意：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Kafka Cluster</span><br><span class="line">|</span><br><span class="line">+-- kafka-0</span><br><span class="line">|   +-- PVC-0</span><br><span class="line">|</span><br><span class="line">+-- kafka-1</span><br><span class="line">|   +-- PVC-1</span><br><span class="line">|</span><br><span class="line">+-- kafka-2</span><br><span class="line">    +-- PVC-2</span><br></pre></td></tr></table></figure>
+
+<p>每个 Broker<br>都需要独立的数据存储，并规划副本因子、分区、副本放置、磁盘容量和故障恢复。</p>
+<p>建议使用 Strimzi Operator 管理 Kafka，而不是手工维护大量 StatefulSet<br>配置。Operator 仍然需要正确配置存储、资源、升级和备份策略。</p>
+<h3 id="RocketMQ"><a href="#RocketMQ" class="headerlink" title="RocketMQ"></a>RocketMQ</h3><p>RocketMQ 可以按 NameServer、Broker 等角色规划：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">RocketMQ Cluster</span><br><span class="line">|</span><br><span class="line">+-- NameServer</span><br><span class="line">|   +-- nameserver-0</span><br><span class="line">|   +-- nameserver-1</span><br><span class="line">|</span><br><span class="line">+-- Broker</span><br><span class="line">|   +-- broker-a-master</span><br><span class="line">|   +-- broker-a-replica</span><br><span class="line">|   +-- broker-b-master</span><br><span class="line">|   +-- broker-b-replica</span><br><span class="line">|</span><br><span class="line">+-- Storage</span><br><span class="line">    +-- PVC</span><br><span class="line">    +-- PVC</span><br><span class="line">    +-- PVC</span><br></pre></td></tr></table></figure>
+
+<p>Broker<br>需要重点考虑数据持久化、复制机制、主从切换、磁盘容量和消息保留策略。实际拓扑应结合所使用的<br>RocketMQ 版本及部署模式确定。</p>
+<h3 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h3><p>Elasticsearch 可以采用 StatefulSet 或相应 Operator<br>管理。生产部署需要规划：</p>
+<ul>
+<li>  Master 节点。</li>
+<li>  Data 节点及其他节点角色。</li>
+<li>  磁盘容量和 I/O 性能。</li>
+<li>  JVM Heap。</li>
+<li>  主分片和副本分片。</li>
+<li>  快照备份与恢复。</li>
+</ul>
+<p>不要简单地把所有 Elasticsearch 节点放在一个 Pod 中。</p>
+<hr>
+<h2 id="Nacos-与-Kubernetes-服务发现"><a href="#Nacos-与-Kubernetes-服务发现" class="headerlink" title="Nacos 与 Kubernetes 服务发现"></a>Nacos 与 Kubernetes 服务发现</h2><p>一个常见问题是：Kubernetes 已经有服务发现机制，为什么还需要 Nacos？</p>
+<p>Kubernetes 本身提供：</p>
+<ul>
+<li>  Service 服务发现。</li>
+<li>  CoreDNS 域名解析。</li>
+<li>  ConfigMap 配置管理。</li>
+<li>  Secret 敏感信息管理。</li>
+</ul>
+<p>Nacos 提供：</p>
+<ul>
+<li>  服务注册与发现。</li>
+<li>  动态配置管理。</li>
+<li>  服务健康状态管理。</li>
+<li>  Spring Cloud Alibaba 生态集成。</li>
+</ul>
+<p>两者有一定功能重叠，可以根据项目技术栈选择：</p>
+<p>  方案                   服务发现                      配置管理</p>
+<hr>
+<p>  纯 Kubernetes          Service + DNS                 ConfigMap + Secret<br>  Spring Cloud Alibaba   Nacos                         Nacos<br>  混合架构               Kubernetes Service 或 Nacos   Nacos + ConfigMap</p>
+<p>如果项目使用 Spring Boot + Spring Cloud Alibaba +<br>OpenFeign，可以继续保留 Nacos。</p>
+<p>如果是纯 Spring Boot 微服务，可以直接使用 Kubernetes Service +<br>CoreDNS，不一定需要 Nacos。</p>
+<p><strong>避免在没有明确需求的情况下，同时维护两套重复的服务注册发现体系。</strong></p>
+<hr>
+<h2 id="网络架构：外部请求如何进入微服务"><a href="#网络架构：外部请求如何进入微服务" class="headerlink" title="网络架构：外部请求如何进入微服务"></a>网络架构：外部请求如何进入微服务</h2><p>推荐采用：</p>
+<p><strong>Ingress Controller + Service + Pod</strong></p>
+<p>示例外部请求：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https://api.example.com/user/login</span><br><span class="line">https://api.example.com/order/list</span><br><span class="line">https://api.example.com/product/list</span><br></pre></td></tr></table></figure>
+
+<p>请求路径：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">浏览器</span><br><span class="line">  |</span><br><span class="line">  v</span><br><span class="line">DNS</span><br><span class="line">  |</span><br><span class="line">  v</span><br><span class="line">Linux 服务器公网 IP / 负载均衡器</span><br><span class="line">  |</span><br><span class="line">  v</span><br><span class="line">Nginx Ingress Controller</span><br><span class="line">  |</span><br><span class="line">  +--------------------------+</span><br><span class="line">  |             |            |</span><br><span class="line">  v             v            v</span><br><span class="line">/user         /order       /product</span><br><span class="line">  |             |            |</span><br><span class="line">  v             v            v</span><br><span class="line">user-service order-service product-service</span><br><span class="line">  |             |            |</span><br><span class="line">  v             v            v</span><br><span class="line"> Pod           Pod          Pod</span><br></pre></td></tr></table></figure>
+
+<p>Ingress 规则示例：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">networking.k8s.io/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Ingress</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">backend-ingress</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">prod</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">ingressClassName:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">rules:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">host:</span> <span class="string">api.example.com</span></span><br><span class="line">      <span class="attr">http:</span></span><br><span class="line">        <span class="attr">paths:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">path:</span> <span class="string">/user</span></span><br><span class="line">            <span class="attr">pathType:</span> <span class="string">Prefix</span></span><br><span class="line">            <span class="attr">backend:</span></span><br><span class="line">              <span class="attr">service:</span></span><br><span class="line">                <span class="attr">name:</span> <span class="string">user-service</span></span><br><span class="line">                <span class="attr">port:</span></span><br><span class="line">                  <span class="attr">number:</span> <span class="number">8080</span></span><br><span class="line"></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">path:</span> <span class="string">/order</span></span><br><span class="line">            <span class="attr">pathType:</span> <span class="string">Prefix</span></span><br><span class="line">            <span class="attr">backend:</span></span><br><span class="line">              <span class="attr">service:</span></span><br><span class="line">                <span class="attr">name:</span> <span class="string">order-service</span></span><br><span class="line">                <span class="attr">port:</span></span><br><span class="line">                  <span class="attr">number:</span> <span class="number">8080</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ol>
+<li> Ingress 资源本身不负责流量转发，需要安装对应的 Ingress Controller。</li>
+<li> 还需要配置 DNS、负载均衡器或节点端口，以及 TLS 证书。</li>
+<li>Ingress API 已进入维护状态，新项目也可以评估 Kubernetes Gateway<br> API。</li>
+</ol>
+<hr>
+<h2 id="存储架构：数据如何持久化"><a href="#存储架构：数据如何持久化" class="headerlink" title="存储架构：数据如何持久化"></a>存储架构：数据如何持久化</h2><p>Pod<br>可以被删除和重新创建，因此不能简单地把数据库文件只存储在容器可写层中。</p>
+<p>存储关系：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">MySQL Pod</span><br><span class="line">    |</span><br><span class="line">    v</span><br><span class="line">PVC（持久卷声明）</span><br><span class="line">    |</span><br><span class="line">    v</span><br><span class="line">PV（持久卷）</span><br><span class="line">    |</span><br><span class="line">    v</span><br><span class="line">StorageClass</span><br><span class="line">    |</span><br><span class="line">    v</span><br><span class="line">Linux 磁盘 / 云硬盘 / 分布式存储</span><br></pre></td></tr></table></figure>
+
+<p>常见存储方案：</p>
+<p>  存储方案                  适用场景</p>
+<hr>
+<p>  Local Persistent Volume   本地磁盘，性能较好，但与节点绑定<br>  NFS                       共享文件存储<br>  Ceph RBD                  分布式块存储<br>  Longhorn                  Kubernetes 分布式块存储<br>  云厂商 CSI                云硬盘及云存储服务</p>
+<p>注意事项：</p>
+<ul>
+<li>  Local PV 依赖节点，节点损坏可能影响数据访问。</li>
+<li>  NFS 不一定适合高 IOPS 数据库负载。</li>
+<li>  Ceph 和 Longhorn 需要额外运维。</li>
+<li>  PVC 不是数据库备份。</li>
+<li>  必须有独立备份、恢复和异地容灾方案。</li>
+<li>  MySQL、Kafka 等组件应使用满足其性能和一致性要求的存储。</li>
+</ul>
+<hr>
+<h2 id="监控和日志架构"><a href="#监控和日志架构" class="headerlink" title="监控和日志架构"></a>监控和日志架构</h2><p>生产环境不能只关注 Pod 是否处于 Running<br>状态，还要监控业务、数据库、消息队列和 Linux 节点。</p>
+<p>推荐技术栈：</p>
+<p>  组件                       作用</p>
+<hr>
+<p>  Prometheus                 指标采集和存储<br>  Grafana                    指标可视化<br>  Alertmanager               告警管理<br>  Loki                       日志存储和查询<br>  Promtail / Grafana Alloy   日志采集<br>  Node Exporter              Linux 主机监控<br>  kube-state-metrics         Kubernetes 资源对象状态指标</p>
+<p>重点监控：</p>
+<ul>
+<li>  CPU、内存、磁盘和网络。</li>
+<li>  Pod 重启次数及异常状态。</li>
+<li>  JVM Heap、GC。</li>
+<li>  HTTP 请求量、错误率和响应时间。</li>
+<li>  MySQL 连接数、慢 SQL、复制延迟。</li>
+<li>  Redis 内存、命中率和复制状态。</li>
+<li>  Kafka Consumer Lag、Broker 状态和磁盘。</li>
+<li>  RocketMQ 消息堆积和 Broker 状态。</li>
+<li>  Elasticsearch 集群健康、分片和磁盘。</li>
+</ul>
+<p>Java 项目可以结合 Spring Boot Actuator 和 Micrometer，将 JVM、HTTP<br>等指标暴露给 Prometheus。</p>
+<hr>
+<h2 id="推荐的项目目录结构"><a href="#推荐的项目目录结构" class="headerlink" title="推荐的项目目录结构"></a>推荐的项目目录结构</h2><p>建议把业务源码和部署配置分开维护：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">backend-platform/</span><br><span class="line">|</span><br><span class="line">+-- services/                       # Java 微服务源码</span><br><span class="line">|   +-- auth-service/</span><br><span class="line">|   +-- user-service/</span><br><span class="line">|   +-- order-service/</span><br><span class="line">|   +-- product-service/</span><br><span class="line">|   +-- payment-service/</span><br><span class="line">|</span><br><span class="line">+-- infrastructure/                 # 基础设施部署</span><br><span class="line">|   +-- mysql/</span><br><span class="line">|   |   +-- statefulset.yaml</span><br><span class="line">|   |   +-- service.yaml</span><br><span class="line">|   |   +-- pvc.yaml</span><br><span class="line">|   +-- redis/</span><br><span class="line">|   +-- kafka/</span><br><span class="line">|   +-- rocketmq/</span><br><span class="line">|   +-- elasticsearch/</span><br><span class="line">|   +-- nacos/</span><br><span class="line">|</span><br><span class="line">+-- kubernetes/</span><br><span class="line">|   +-- namespaces/</span><br><span class="line">|   |   +-- dev.yaml</span><br><span class="line">|   |   +-- test.yaml</span><br><span class="line">|   |   +-- prod.yaml</span><br><span class="line">|   +-- ingress/</span><br><span class="line">|   +-- configmaps/</span><br><span class="line">|   +-- secrets/</span><br><span class="line">|   +-- monitoring/</span><br><span class="line">|   +-- applications/</span><br><span class="line">|       +-- auth-service/</span><br><span class="line">|       +-- user-service/</span><br><span class="line">|       +-- order-service/</span><br><span class="line">|       +-- product-service/</span><br><span class="line">|</span><br><span class="line">+-- helm/                            # Helm Charts</span><br><span class="line">|</span><br><span class="line">+-- scripts/</span><br><span class="line">|   +-- build.sh</span><br><span class="line">|   +-- deploy.sh</span><br><span class="line">|   +-- rollback.sh</span><br><span class="line">|</span><br><span class="line">+-- README.md</span><br></pre></td></tr></table></figure>
+
+<p>建议进一步使用 Helm 管理应用部署配置，通过不同的 values 文件管理环境：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">helm/</span><br><span class="line">+-- user-service/</span><br><span class="line">    +-- Chart.yaml</span><br><span class="line">    +-- templates/</span><br><span class="line">    |   +-- deployment.yaml</span><br><span class="line">    |   +-- service.yaml</span><br><span class="line">    |   +-- ingress.yaml</span><br><span class="line">    |   +-- hpa.yaml</span><br><span class="line">    +-- values/</span><br><span class="line">        +-- dev.yaml</span><br><span class="line">        +-- test.yaml</span><br><span class="line">        +-- prod.yaml</span><br></pre></td></tr></table></figure>
+
+<p>这样可以减少不同环境之间重复维护 YAML<br>的工作量。敏感信息不要直接提交到普通 Git 仓库中的明文 values 文件。</p>
+<hr>
+<h2 id="CI-CD-自动化部署"><a href="#CI-CD-自动化部署" class="headerlink" title="CI/CD 自动化部署"></a>CI/CD 自动化部署</h2><p>实际企业项目中，Kubernetes 通常会配合 CI/CD。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">开发人员提交代码</span><br><span class="line">       |</span><br><span class="line">       v</span><br><span class="line">      Git</span><br><span class="line">       |</span><br><span class="line">       v</span><br><span class="line"> GitLab / GitHub</span><br><span class="line">       |</span><br><span class="line">       v</span><br><span class="line"> Jenkins / GitLab CI</span><br><span class="line">       |</span><br><span class="line">       v</span><br><span class="line"> Maven 编译打包</span><br><span class="line">       |</span><br><span class="line">       v</span><br><span class="line"> Docker Build</span><br><span class="line">       |</span><br><span class="line">       v</span><br><span class="line"> 镜像仓库（如 Harbor）</span><br><span class="line">       |</span><br><span class="line">       v</span><br><span class="line"> Helm Deploy / Argo CD</span><br><span class="line">       |</span><br><span class="line">       v</span><br><span class="line"> Kubernetes Cluster</span><br><span class="line">       |</span><br><span class="line">       v</span><br><span class="line"> Deployment</span><br><span class="line">       |</span><br><span class="line">       v</span><br><span class="line">      Pod</span><br><span class="line">       |</span><br><span class="line">       v</span><br><span class="line"> Kubernetes Service</span><br></pre></td></tr></table></figure>
+
+<p>可以选择：</p>
+<ul>
+<li>  GitLab CI：代码构建和流水线。</li>
+<li>  Jenkins：自动化构建和部署。</li>
+<li>  Harbor：私有容器镜像仓库。</li>
+<li>  Helm：应用发布和配置模板化。</li>
+<li>  Argo CD：GitOps 持续交付。</li>
+</ul>
+<p>生产环境建议使用不可变镜像版本，例如 Git Commit SHA<br>或明确的发布版本号，不要长期使用 <code>latest</code>。</p>
+<hr>
+<h2 id="最终推荐的技术选型"><a href="#最终推荐的技术选型" class="headerlink" title="最终推荐的技术选型"></a>最终推荐的技术选型</h2><p>  架构层                    推荐技术</p>
+<hr>
+<p>  Linux                     Ubuntu Server / Rocky Linux<br>  Kubernetes 安装发行方案   kubeadm / RKE2<br>  容器运行时                containerd<br>  CNI 网络                  Calico / Cilium<br>  入口网关                  Ingress Controller / Gateway API<br>  微服务                    Spring Boot<br>  服务治理                  Nacos（按需）<br>  应用部署                  Deployment<br>  有状态服务                StatefulSet / Operator<br>  配置管理                  ConfigMap / Secret<br>  存储                      CSI / StorageClass<br>  数据库                    MySQL / MongoDB<br>  缓存                      Redis<br>  消息队列                  Kafka / RocketMQ<br>  搜索                      Elasticsearch<br>  监控                      Prometheus + Grafana<br>  日志                      Loki<br>  镜像仓库                  Harbor<br>  部署工具                  Helm<br>  持续交付                  Jenkins / Argo CD</p>
+<hr>
+<h2 id="结合-Mac-Colima-环境的落地路线"><a href="#结合-Mac-Colima-环境的落地路线" class="headerlink" title="结合 Mac + Colima 环境的落地路线"></a>结合 Mac + Colima 环境的落地路线</h2><p>目前本地 Docker Compose 项目目录为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/docker/backend/</span><br></pre></td></tr></table></figure>
+
+<p>已经管理的组件包括：</p>
+<ul>
+<li>  Elasticsearch</li>
+<li>  Kafka</li>
+<li>  MySQL</li>
+<li>  Nacos</li>
+<li>  Redis</li>
+<li>  RocketMQ</li>
+<li>  MongoDB</li>
+</ul>
+<p>建议不要直接推翻现有 Compose 环境，而是分阶段迁移到 Kubernetes。</p>
+<h3 id="本地学习-Kubernetes"><a href="#本地学习-Kubernetes" class="headerlink" title="本地学习 Kubernetes"></a>本地学习 Kubernetes</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Mac</span><br><span class="line"> |</span><br><span class="line"> +-- Colima</span><br><span class="line">      |</span><br><span class="line">      +-- Kubernetes</span><br><span class="line">           +-- Deployment</span><br><span class="line">           +-- Service</span><br><span class="line">           +-- Ingress</span><br><span class="line">           +-- PVC</span><br></pre></td></tr></table></figure>
+
+<p>先掌握：</p>
+<ul>
+<li>  Pod</li>
+<li>  Deployment</li>
+<li>  Service</li>
+<li>  ConfigMap</li>
+<li>  Secret</li>
+<li>  Ingress</li>
+<li>  PV / PVC</li>
+</ul>
+<h3 id="迁移基础设施"><a href="#迁移基础设施" class="headerlink" title="迁移基础设施"></a>迁移基础设施</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Kubernetes</span><br><span class="line">|</span><br><span class="line">+-- Namespace: middleware</span><br><span class="line">|   +-- Redis</span><br><span class="line">|   +-- Nacos</span><br><span class="line">|   +-- Kafka</span><br><span class="line">|   +-- RocketMQ</span><br><span class="line">|   +-- Elasticsearch</span><br><span class="line">|</span><br><span class="line">+-- Namespace: database</span><br><span class="line">    +-- MySQL</span><br><span class="line">    +-- MongoDB</span><br></pre></td></tr></table></figure>
+
+<p>先迁移 Redis、Nacos<br>等相对简单的组件，再研究数据库和消息中间件的持久化、高可用和备份恢复。</p>
+<h3 id="部署-Spring-Boot-微服务"><a href="#部署-Spring-Boot-微服务" class="headerlink" title="部署 Spring Boot 微服务"></a>部署 Spring Boot 微服务</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Namespace: prod</span><br><span class="line">|</span><br><span class="line">+-- auth-service</span><br><span class="line">+-- user-service</span><br><span class="line">+-- order-service</span><br><span class="line">+-- product-service</span><br><span class="line">+-- payment-service</span><br></pre></td></tr></table></figure>
+
+<p>使用 Deployment、Service、HPA 和 Ingress。</p>
+<h3 id="企业级部署"><a href="#企业级部署" class="headerlink" title="企业级部署"></a>企业级部署</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Linux Kubernetes Cluster</span><br><span class="line">|</span><br><span class="line">+-- Control Plane × 3</span><br><span class="line">+-- Worker Nodes</span><br><span class="line">+-- Storage</span><br><span class="line">+-- Monitoring</span><br><span class="line">+-- CI/CD</span><br><span class="line">+-- GitOps</span><br></pre></td></tr></table></figure>
+
+<p>逐步引入高可用、监控告警、自动发布、备份恢复和安全策略。</p>
+<p><strong>提醒：</strong> Colima 适合本地学习和验证，不应当视为生产高可用集群。同时运行<br>Elasticsearch、Kafka、RocketMQ、MySQL 等服务会占用较多 Mac<br>内存，建议先迁移少量服务，不要一次全部启动。</p>
+<hr>
+<h2 id="Kubernetes-核心知识学习顺序"><a href="#Kubernetes-核心知识学习顺序" class="headerlink" title="Kubernetes 核心知识学习顺序"></a>Kubernetes 核心知识学习顺序</h2><p>  顺序   知识点               需要解决的问题</p>
+<hr>
+<p>  1      Pod                  容器如何运行<br>  2      Deployment           微服务如何部署、扩容<br>  3      Service              微服务如何互相访问<br>  4      Namespace            环境如何隔离<br>  5      ConfigMap / Secret   配置和密码如何管理<br>  6      Ingress              外部请求如何进入集群<br>  7      StatefulSet          数据库等有状态服务如何部署<br>  8      PV / PVC             数据如何持久化<br>  9      HPA                  微服务如何自动扩缩容<br>  10     Helm                 如何管理复杂部署<br>  11     Operator             如何自动化管理中间件<br>  12     Prometheus           如何监控整个集群<br>  13     CI/CD                如何实现自动构建和部署</p>
+<h2 id="总结与架构建议"><a href="#总结与架构建议" class="headerlink" title="总结与架构建议"></a>总结与架构建议</h2><p>不要把 Kubernetes 仅仅理解成 Docker Compose 的替代品。</p>
+<p>Docker Compose 主要解决容器编排和启动问题；Kubernetes 还要解决：</p>
+<ul>
+<li>  集群调度。</li>
+<li>  服务发现。</li>
+<li>  故障恢复。</li>
+<li>  自动扩缩容。</li>
+<li>  存储编排。</li>
+<li>  应用发布和回滚。</li>
+<li>  集群监控与安全治理。</li>
+</ul>
+<p>对于当前的本地环境，推荐从 <code>~/docker/backend/</code> 出发，搭建 Colima +<br>Kubernetes 实操环境，先部署 Nginx、Spring Boot、MySQL、Redis，再逐步加入<br>Kafka、RocketMQ 和 Elasticsearch。</p>
+<p>这样可以把 Docker、Spring Boot、微服务和 Kubernetes<br>串成一套完整的技术体系。</p>
+<h2 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h2><ul>
+<li>  <a target="_blank" rel="noopener" href="https://kubernetes.io/docs/">Kubernetes 官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/architecture/">Kubernetes<br>  集群架构</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/workloads/">Kubernetes<br>  工作负载</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/">StatefulSet</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/setup/production-environment/">Kubernetes<br>  生产环境部署</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://helm.sh/docs/">Helm 官方文档</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://strimzi.io/documentation/">Strimzi 官方文档</a></li>
+</ul>
+</div><div class="post-nav"><a class="pre" href="/Kafka%E6%90%AD%E5%BB%BA%E4%B8%8E%E5%9F%BA%E7%A1%80/">Kafka 搭建与基础</a><a class="next" href="/Linux%E6%9F%A5%E7%9C%8B%E5%B7%B2%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E4%B8%8E%E5%8D%B8%E8%BD%BD/">Linux 查看已安装软件与卸载</a></div><div id="tcomment"></div><script src="/vendor/twikoo/twikoo.min.js?v=2.0.17"></script><script>(function() {
+  var container = document.getElementById('tcomment');
+  if (!container || typeof twikoo === 'undefined') return;
+
+  var endpoint = 'https://twikoo.liutianlong.top';
+  var language = document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'zh';
+  var labels = language === 'en'
+    ? {
+        retrying: 'The comment service is taking longer than expected. Reconnecting…',
+        failed: 'The comment service is temporarily unavailable.',
+        retry: 'Reconnect'
+      }
+    : {
+        retrying: '留言服务响应较慢，正在自动重新连接…',
+        failed: '留言服务暂时不可用。',
+        retry: '重新连接'
+      };
+  var options = {
+    envId: endpoint,
+    el: '#tcomment',
+    path: window.location.pathname,
+    lang: language === 'en' ? 'en-US' : 'zh-CN'
+  };
+  var adminCrypt = '';
+  try {
+    adminCrypt = '\u4e91\u8d77\u8fce\u98ce\u71d5';
+  } catch (error) {}
+  var attempts = 0;
+  var maxAttempts = 3;
+  var retryTimer = null;
+  var fatalShown = false;
+  var observer = null;
+
+  function clearElement(element) {
+    while (element.firstChild) element.removeChild(element.firstChild);
+  }
+
+  function statusNode() {
+    var node = container.querySelector('.twikoo-connection-status');
+    if (node) return node;
+    node = document.createElement('div');
+    node.className = 'twikoo-connection-status';
+    node.setAttribute('role', 'status');
+    node.setAttribute('aria-live', 'polite');
+    container.insertBefore(node, container.firstChild);
+    return node;
+  }
+
+  function showStatus(message, canRetry) {
+    var node = statusNode();
+    node.textContent = '';
+    node.appendChild(document.createTextNode(message));
+    container.setAttribute('aria-busy', 'true');
+
+    if (canRetry) {
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'twikoo-reconnect';
+      button.textContent = labels.retry;
+      button.addEventListener('click', function() {
+        attempts = 0;
+        fatalShown = false;
+        retryCommentService();
+      });
+      node.appendChild(button);
+    }
+  }
+
+  function clearStatus() {
+    var node = container.querySelector('.twikoo-connection-status');
+    if (node && node.parentNode) node.parentNode.removeChild(node);
+    container.removeAttribute('aria-busy');
+  }
+
+  function updateAdminEntry() {
+    var nickname = container.querySelector('.tk-meta-input input');
+    var shouldShow = Boolean(adminCrypt && nickname && nickname.value.trim() === adminCrypt);
+    container.classList.toggle('admin-entry-visible', shouldShow);
+  }
+
+  function hasTimeoutMessage() {
+    var error = container.querySelector('.tk-error');
+    return Boolean(error) && /请求超时|request timed out|request timeout|timeout/i.test(error.textContent || '');
+  }
+
+  function warmBackend() {
+    if (typeof window.fetch !== 'function') return;
+    fetch(endpoint + '/?warm=' + Date.now(), {
+      mode: 'no-cors',
+      cache: 'no-store',
+      credentials: 'omit',
+      keepalive: true
+    }).catch(function() {});
+  }
+
+  function retryCommentService() {
+    if (retryTimer) return;
+    if (attempts >= maxAttempts) {
+      if (!fatalShown) {
+        fatalShown = true;
+        showStatus(labels.failed, true);
+      }
+      return;
+    }
+
+    attempts += 1;
+    showStatus(labels.retrying, false);
+    retryTimer = window.setTimeout(function() {
+      retryTimer = null;
+      container.classList.remove('admin-entry-visible');
+      clearElement(container);
+      showStatus(labels.retrying, false);
+      mountComments();
+    }, attempts * 1000);
+  }
+
+  function mountComments() {
+    warmBackend();
+    var result = twikoo.init(options);
+    if (result && typeof result.catch === 'function') {
+      result.catch(retryCommentService);
+    }
+  }
+
+  container.addEventListener('input', updateAdminEntry, true);
+  observer = new MutationObserver(function() {
+    if (hasTimeoutMessage()) {
+      retryCommentService();
+      return;
+    }
+    if (container.querySelector('.tk-comment, .tk-comments-container')) {
+      attempts = 0;
+      fatalShown = false;
+      clearStatus();
+      updateAdminEntry();
+    }
+  });
+  observer.observe(container, {
+    childList: true,
+    subtree: true,
+    characterData: true
+  });
+
+  mountComments();
+})();</script><script type="text/javascript" src="/js/article.js?v=1.1.44" defer></script><script type="text/javascript" src="/js/page-views.js?v=1.1.44" defer data-endpoint="https://api.liutianlong.top"></script></div></div><div id="footer"><span data-i18n="footerCopyright" data-year="2026">版权所有 © 2026</span> <a href="/." rel="nofollow">云起迎风燕.</a> <span data-i18n="poweredBy"> 基于</span> <a rel="nofollow" target="_blank" href="https://hexo.io">Hexo.</a> <a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo">Maupassant</a> <span data-i18n="theme">主题</span></div></main><aside class="docs-toc-panel" id="article-toc" data-i18n-aria="toc"><div class="docs-panel-header"><span><i class="fa fa-list-ul" aria-hidden="true"></i><span data-i18n="toc">文章目录</span></span><button class="docs-panel-close" id="docs-toc-close" type="button" data-i18n-aria="closeToc"><i class="fa fa-chevron-right" aria-hidden="true"></i></button></div><div class="docs-toc-content" id="toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.</span> <span class="toc-text">整体架构设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Elasticsearch-StatefulSet-Operator-%E8%8A%82%E7%82%B9%E8%A7%92%E8%89%B2%E3%80%81%E7%A3%81%E7%9B%98%E3%80%81JVM%E3%80%81%E5%88%86%E7%89%87%E5%92%8C%E5%BF%AB%E7%85%A7"><span class="toc-number">2.</span> <span class="toc-text">  Elasticsearch           StatefulSet &#x2F; Operator       节点角色、磁盘、JVM、分片和快照</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%B8%9A%E5%8A%A1%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.1.</span> <span class="toc-text">示例业务系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E8%AF%B7%E6%B1%82%E5%92%8C%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="toc-number">2.2.</span> <span class="toc-text">整体请求和数据流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82"><span class="toc-number">2.3.</span> <span class="toc-text">架构分层</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%A6%82%E4%BD%95%E9%83%A8%E7%BD%B2-Kubernetes"><span class="toc-number">3.</span> <span class="toc-text">Linux 服务器如何部署 Kubernetes</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-%E9%9B%86%E7%BE%A4%E8%8A%82%E7%82%B9%E8%A7%84%E5%88%92"><span class="toc-number">3.1.</span> <span class="toc-text">Linux 集群节点规划</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#k8s-worker-04-Worker-%E6%95%B0%E6%8D%AE%E5%BA%93%E3%80%81%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">  k8s-worker-04         Worker                  数据库、消息中间件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Kubernetes-%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6"><span class="toc-number">4.1.</span> <span class="toc-text">Kubernetes 核心组件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CoreDNS-%E9%9B%86%E7%BE%A4%E5%86%85%E9%83%A8-DNS-%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0"><span class="toc-number">5.</span> <span class="toc-text">  CoreDNS                             集群内部 DNS 服务发现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Namespace-%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E8%A7%84%E5%88%92"><span class="toc-number">5.1.</span> <span class="toc-text">Namespace 命名空间规划</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-Boot-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2"><span class="toc-number">6.</span> <span class="toc-text">Spring Boot 微服务部署</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2%E7%BB%93%E6%9E%84"><span class="toc-number">6.1.</span> <span class="toc-text">微服务部署结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deployment-%E7%A4%BA%E4%BE%8B"><span class="toc-number">6.2.</span> <span class="toc-text">Deployment 示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Service-%E7%A4%BA%E4%BE%8B"><span class="toc-number">6.3.</span> <span class="toc-text">Service 示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E9%97%B4%E5%A6%82%E4%BD%95%E8%B0%83%E7%94%A8"><span class="toc-number">6.4.</span> <span class="toc-text">微服务之间如何调用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%92%8C%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E9%83%A8%E7%BD%B2"><span class="toc-number">7.</span> <span class="toc-text">数据库和消息中间件部署</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL"><span class="toc-number">7.1.</span> <span class="toc-text">MySQL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis"><span class="toc-number">7.2.</span> <span class="toc-text">Redis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka"><span class="toc-number">7.3.</span> <span class="toc-text">Kafka</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RocketMQ"><span class="toc-number">7.4.</span> <span class="toc-text">RocketMQ</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Elasticsearch"><span class="toc-number">7.5.</span> <span class="toc-text">Elasticsearch</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nacos-%E4%B8%8E-Kubernetes-%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0"><span class="toc-number">8.</span> <span class="toc-text">Nacos 与 Kubernetes 服务发现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84%EF%BC%9A%E5%A4%96%E9%83%A8%E8%AF%B7%E6%B1%82%E5%A6%82%E4%BD%95%E8%BF%9B%E5%85%A5%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="toc-number">9.</span> <span class="toc-text">网络架构：外部请求如何进入微服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%A6%82%E4%BD%95%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">10.</span> <span class="toc-text">存储架构：数据如何持久化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%91%E6%8E%A7%E5%92%8C%E6%97%A5%E5%BF%97%E6%9E%B6%E6%9E%84"><span class="toc-number">11.</span> <span class="toc-text">监控和日志架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E7%9A%84%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">12.</span> <span class="toc-text">推荐的项目目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CI-CD-%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2"><span class="toc-number">13.</span> <span class="toc-text">CI&#x2F;CD 自动化部署</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E6%8E%A8%E8%8D%90%E7%9A%84%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B"><span class="toc-number">14.</span> <span class="toc-text">最终推荐的技术选型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E5%90%88-Mac-Colima-%E7%8E%AF%E5%A2%83%E7%9A%84%E8%90%BD%E5%9C%B0%E8%B7%AF%E7%BA%BF"><span class="toc-number">15.</span> <span class="toc-text">结合 Mac + Colima 环境的落地路线</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%AD%A6%E4%B9%A0-Kubernetes"><span class="toc-number">15.1.</span> <span class="toc-text">本地学习 Kubernetes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%81%E7%A7%BB%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD"><span class="toc-number">15.2.</span> <span class="toc-text">迁移基础设施</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2-Spring-Boot-%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="toc-number">15.3.</span> <span class="toc-text">部署 Spring Boot 微服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%81%E4%B8%9A%E7%BA%A7%E9%83%A8%E7%BD%B2"><span class="toc-number">15.4.</span> <span class="toc-text">企业级部署</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kubernetes-%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0%E9%A1%BA%E5%BA%8F"><span class="toc-number">16.</span> <span class="toc-text">Kubernetes 核心知识学习顺序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%8E%E6%9E%B6%E6%9E%84%E5%BB%BA%E8%AE%AE"><span class="toc-number">17.</span> <span class="toc-text">总结与架构建议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3"><span class="toc-number">18.</span> <span class="toc-text">官方文档</span></a></li></ol></div></aside></div><div class="docs-backdrop" id="docs-backdrop" aria-hidden="true"></div></div><script type="text/javascript" src="/js/ui-preferences.js?v=1.1.44" defer></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.44"><script type="text/javascript" src="/js/search.js?v=1.1.44" defer></script><script type="text/javascript" src="/js/copycode.js?v=1.1.44" data-success-text="复制成功!" defer></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/sidebar.js?v=1.1.44" defer></script><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.44" defer></script></body></html>

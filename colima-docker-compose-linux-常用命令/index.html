@@ -1,0 +1,444 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="color-scheme" content="light dark"><meta name="description"><title>Colima、Docker、Docker Compose、Linux 常用命令 | 云起迎风燕</title><link rel="preload" href="/fonts/title-zhi-mang-xing.woff2" as="font" type="font/woff2" crossorigin="anonymous" fetchpriority="high"><link rel="preload" href="/vendor/font-awesome/fonts/fontawesome-webfont.woff2?v=4.7.0" as="font" type="font/woff2" crossorigin="anonymous" fetchpriority="high"><script>(function() {
+  var root = document.documentElement;
+  var theme = 'light';
+  var language = 'zh';
+  var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  var isChrome = /Chrome\//.test(navigator.userAgent) && !/Edg\//.test(navigator.userAgent);
+  try {
+    var storedTheme = localStorage.getItem('liutianlong-theme');
+    var storedLanguage = localStorage.getItem('liutianlong-language');
+    var systemLanguage = (navigator.language || (navigator.languages && navigator.languages[0]) || 'zh').toLowerCase();
+    theme = storedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    language = storedLanguage === 'en' || storedLanguage === 'zh'
+      ? storedLanguage
+      : (systemLanguage.indexOf('zh') === 0 ? 'zh' : 'en');
+  } catch (error) {}
+  root.setAttribute('data-theme', theme);
+  root.setAttribute('data-lang', language);
+  root.setAttribute('lang', language === 'en' ? 'en' : 'zh-CN');
+  root.style.colorScheme = theme;
+  root.classList.toggle('is-safari', isSafari);
+  root.classList.toggle('is-chrome', isChrome);
+})();</script><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.44"><link rel="stylesheet" type="text/css" href="/css/theme-dark.css?v=1.1.44"><link rel="stylesheet" type="text/css" href="/vendor/normalize/normalize.min.css?v=1.1.44"><link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css?v=1.1.44"><link rel="preconnect" href="https://twikoo.liutianlong.top" crossorigin="anonymous"><link rel="preconnect" href="https://api.liutianlong.top" crossorigin="anonymous"><script type="text/javascript" src="/js/analytics.js?v=1.1.44" defer data-endpoint="https://api.liutianlong.top" data-site-id="liutianlong.top"></script><link rel="icon" href="data:,"><meta name="generator" content="Hexo 5.4.0"></head><body class="docs-post" data-current-category="Docker"><script>(function() {
+  var body = document.body;
+  var mobile = window.innerWidth < 1180;
+  var hasCategory = Boolean(body.getAttribute('data-current-category'));
+  var navPreference = null;
+  var tocPreference = null;
+  try {
+    navPreference = localStorage.getItem('maupassant-docs-nav-open');
+    tocPreference = localStorage.getItem('maupassant-docs-toc-open');
+  } catch (error) {}
+  body.classList.toggle('docs-nav-collapsed', mobile || (!hasCategory && navPreference === 'false'));
+  body.classList.toggle('docs-toc-collapsed', mobile || tocPreference === 'false');
+})();</script><div id="reading-progress" role="progressbar" data-i18n-aria="readingProgress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="reading-progress-fill"></span></div><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Colima、Docker、Docker Compose、Linux 常用命令</h1><a id="logo" href="/.">云起迎风燕</a><p class="description"></p></div><div class="header-actions"><div id="nav-menu"><a href="/."><i class="fa fa-home"></i><span data-i18n="home"> 首页</span></a><a href="/archives/"><i class="fa fa-archive"></i><span data-i18n="archiveShort"> 归档</span></a><a href="/profile/"><i class="fa fa-user"></i><span data-i18n="profile"> 关于</span></a><a href="/gallery/"><i class="fa fa-camera"></i><span data-i18n="photoWall"> 照片墙</span></a><a href="/guestbook/"><i class="fa fa-comment"></i><span data-i18n="guestbook"> 留言</span></a><a href="/statistics/"><i class="fa fa-bar-chart"></i><span data-i18n="statistics"> 统计</span></a></div><div class="ui-controls" data-i18n-aria="displaySettings"><button class="ui-toggle" id="language-toggle" type="button" data-i18n-aria="languageToggle" data-i18n-title="languageToggle"><span id="language-toggle-label">EN</span></button><button class="ui-toggle" id="theme-toggle" type="button" data-i18n-aria="themeToDark" data-i18n-title="themeToDark"><i class="fa fa-moon-o" id="theme-toggle-icon" aria-hidden="true"></i></button></div></div><nav class="docs-breadcrumb" data-i18n-aria="breadcrumb"><a href="/." data-i18n="home">首页</a><span class="docs-breadcrumb-separator">/</span><a href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/">系统与中间件</a><span class="docs-breadcrumb-separator">/</span><a href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Docker/">Docker</a><span class="docs-breadcrumb-separator">/</span><span class="docs-breadcrumb-current">Colima、Docker、Docker Compose、Linux 常用命令</span></nav></div><button class="docs-edge-tab docs-edge-tab-left" id="docs-nav-open" type="button" aria-controls="sidebar" aria-expanded="false"><i class="fa fa-folder-o" aria-hidden="true"></i><span data-i18n="navigation">导航</span></button><button class="docs-edge-tab docs-edge-tab-right" id="docs-toc-open" type="button" aria-controls="article-toc" aria-expanded="false"><i class="fa fa-list-ul" aria-hidden="true"></i><span data-i18n="toc">目录</span></button><div class="docs-layout with-toc" id="layout"><aside class="docs-sidebar" id="sidebar" data-i18n-aria="siteNav"><div class="docs-panel-header"><span><i class="fa fa-compass" aria-hidden="true"></i><span data-i18n="contentNav">内容导航</span></span><button class="docs-panel-close" id="docs-nav-close" type="button" data-i18n-aria="closeNav"><i class="fa fa-chevron-left" aria-hidden="true"></i></button></div><div class="docs-sidebar-scroll"><div class="widget search-widget"><div class="search-form"><input id="local-search-input" placeholder="搜索文章" data-i18n-placeholder="search" type="text" name="q" results="0" autocomplete="off" data-search-url="/search.xml"/><div id="local-search-result" role="status" aria-live="polite"></div></div></div><nav class="docs-quick-nav" data-i18n-aria="siteNav"><a href="/."><i class="fa fa-home" aria-hidden="true"></i><span data-i18n="home">首页</span></a><a href="/archives/"><i class="fa fa-archive" aria-hidden="true"></i><span data-i18n="archiveShort">归档</span></a><a href="/profile/"><i class="fa fa-user" aria-hidden="true"></i><span data-i18n="profile">关于</span></a><a href="/gallery/"><i class="fa fa-camera" aria-hidden="true"></i><span data-i18n="photoWall">照片墙</span></a><a href="/guestbook/"><i class="fa fa-comment-o" aria-hidden="true"></i><span data-i18n="guestbook">留言</span></a><a href="/statistics/"><i class="fa fa-bar-chart" aria-hidden="true"></i><span data-i18n="statistics">统计</span></a></nav><div class="widget category-widget" id="category-widget"><div class="widget-title"><span class="category-title-mark" aria-hidden="true"></span><span data-i18n="categories"> 分类</span></div><div class="category-widget-content" id="category-list"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/JVM/">JVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/MyBatis/">MyBatis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/">项目实践</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/">Spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Maven/">Maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/SVN/">SVN</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/">数据与存储</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/FastDFS/">FastDFS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%AD%98%E5%82%A8/Redis/">Redis</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/">系统与中间件</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka/">Kafka</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Kubernetes/">Kubernetes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul></li></ul></div></div></div></aside><main class="docs-main" id="docs-main"><div class="content_container"><div class="post"><h1 class="post-title">Colima、Docker、Docker Compose、Linux 常用命令</h1><div class="post-meta"><span class="category"><a href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/">系统与中间件</a><span class="category-separator"> / </span><a href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Docker/">Docker</a></span><span class="reading-time"><i class="fa fa-clock-o"></i><span data-i18n="readingTime" data-minutes="17"> 阅读约 17 分钟</span></span><span class="post-views"><i class="fa fa-eye" aria-hidden="true"></i><span data-i18n="pageViews">访问量</span><strong class="page-view-count" id="page-view-count" data-path="/colima-docker-compose-linux-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">—</strong><span data-i18n="viewsSuffix">次</span></span></div><div class="post-content"><p>在 Mac 上使用 <strong>Colima + Docker + Docker<br>Compose</strong>，建议把常用命令分成四个层次来学习：</p>
+<ol>
+<li> <strong>Colima</strong>：管理 Mac 上的 Linux 虚拟机。</li>
+<li> <strong>Docker</strong>：管理容器、镜像、网络、数据卷。</li>
+<li> <strong>Docker Compose</strong>：管理多个容器组成的应用。</li>
+<li> <strong>Linux</strong>：进入容器或虚拟机后，管理文件、进程、网络、权限和服务。</li>
+</ol>
+<hr>
+<h2 id="Colima-常用命令"><a href="#Colima-常用命令" class="headerlink" title="Colima 常用命令"></a>Colima 常用命令</h2><p>Colima 可以理解为：<strong>在 macOS 上启动一个轻量级 Linux 虚拟机，让 Docker<br>容器运行在 Linux 环境中。</strong></p>
+<p>  命令               作用</p>
+<hr>
+<p>  <code>colima start</code>     启动 Colima<br>  <code>colima stop</code>      停止 Colima<br>  <code>colima restart</code>   重启 Colima<br>  <code>colima status</code>    查看运行状态<br>  <code>colima list</code>      查看所有 Profile<br>  <code>colima delete</code>    删除 Colima 实例<br>  <code>colima ssh</code>       进入 Colima Linux 虚拟机<br>  <code>colima version</code>   查看版本</p>
+<h3 id="启动-Colima"><a href="#启动-Colima" class="headerlink" title="启动 Colima"></a>启动 Colima</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colima start</span><br></pre></td></tr></table></figure>
+
+<p>指定 CPU、内存、磁盘：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">colima start \\</span><br><span class="line">  --cpus 2 \\</span><br><span class="line">  --memory 4 \\</span><br><span class="line">  --disk 20</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看状态"><a href="#查看状态" class="headerlink" title="查看状态"></a>查看状态</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colima status</span><br></pre></td></tr></table></figure>
+
+<h3 id="进入-Linux-虚拟机"><a href="#进入-Linux-虚拟机" class="headerlink" title="进入 Linux 虚拟机"></a>进入 Linux 虚拟机</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colima ssh</span><br></pre></td></tr></table></figure>
+
+<p>进入之后可以使用 Linux 命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">uname -a</span><br><span class="line">df -h</span><br><span class="line">free -h</span><br><span class="line">ps aux</span><br></pre></td></tr></table></figure>
+
+<h3 id="停止和重启"><a href="#停止和重启" class="headerlink" title="停止和重启"></a>停止和重启</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">colima stop</span><br><span class="line">colima restart</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看-Docker-Context"><a href="#查看-Docker-Context" class="headerlink" title="查看 Docker Context"></a>查看 Docker Context</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker context ls</span><br></pre></td></tr></table></figure>
+
+<p>切换到 Colima：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker context use colima</span><br></pre></td></tr></table></figure>
+
+<p>查看当前 Context：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker context show</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Docker-常用命令"><a href="#Docker-常用命令" class="headerlink" title="Docker 常用命令"></a>Docker 常用命令</h2><p>Docker 主要管理四种资源：</p>
+<ul>
+<li>  <strong>Image</strong>：镜像，相当于容器的模板。</li>
+<li>  <strong>Container</strong>：容器，镜像运行后的实例。</li>
+<li>  <strong>Network</strong>：容器网络。</li>
+<li>  <strong>Volume</strong>：数据卷，持久化存储数据。</li>
+</ul>
+<h3 id="镜像管理"><a href="#镜像管理" class="headerlink" title="镜像管理"></a>镜像管理</h3><p>  命令                           作用</p>
+<hr>
+<p>  <code>docker images</code>                查看本地镜像<br>  <code>docker pull nginx</code>            下载镜像<br>  <code>docker push</code>                  上传镜像<br>  <code>docker rmi 镜像名</code>            删除镜像<br>  <code>docker image inspect nginx</code>   查看镜像详细信息<br>  <code>docker image prune</code>           清理无用镜像<br>  <code>docker image ls</code>              查看镜像列表</p>
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull apache/kafka:4.1.2</span><br><span class="line">docker images</span><br><span class="line">docker image inspect apache/kafka:4.1.2</span><br></pre></td></tr></table></figure>
+
+<h3 id="容器管理（最常用）"><a href="#容器管理（最常用）" class="headerlink" title="容器管理（最常用）"></a>容器管理（最常用）</h3><p>  命令               作用</p>
+<hr>
+<p>  <code>docker ps</code>        查看运行中的容器<br>  <code>docker ps -a</code>     查看所有容器<br>  <code>docker run</code>       创建并启动容器<br>  <code>docker start</code>     启动已存在的容器<br>  <code>docker stop</code>      停止容器<br>  <code>docker restart</code>   重启容器<br>  <code>docker rm</code>        删除容器<br>  <code>docker logs</code>      查看容器日志<br>  <code>docker inspect</code>   查看容器详情<br>  <code>docker exec</code>      进入运行中的容器<br>  <code>docker stats</code>     查看容器资源使用情况<br>  <code>docker top</code>       查看容器内部进程</p>
+<h4 id="创建容器"><a href="#创建容器" class="headerlink" title="创建容器"></a>创建容器</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \\</span><br><span class="line">  --name nginx \\</span><br><span class="line">  -p 8080:80 \\</span><br><span class="line">  nginx</span><br></pre></td></tr></table></figure>
+
+<p>参数解释：</p>
+<ul>
+<li>  <code>-d</code>：后台运行。</li>
+<li>  <code>--name</code>：容器名称。</li>
+<li>  <code>-p 8080:80</code>：Mac 的 8080 端口映射到容器 80 端口。</li>
+<li>  <code>nginx</code>：使用的镜像。</li>
+</ul>
+<h4 id="查看容器"><a href="#查看容器" class="headerlink" title="查看容器"></a>查看容器</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
+
+<h4 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker logs nginx</span><br><span class="line">docker logs -f nginx</span><br><span class="line">docker logs --tail 100 nginx</span><br><span class="line">docker logs -f --tail 100 nginx</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>  <code>-f</code>：持续跟踪日志。</li>
+<li>  <code>--tail 100</code>：只看最后 100 行。</li>
+</ul>
+<h4 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it nginx bash</span><br></pre></td></tr></table></figure>
+
+<p>如果没有 bash：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it nginx sh</span><br></pre></td></tr></table></figure>
+
+<h4 id="停止、启动、删除"><a href="#停止、启动、删除" class="headerlink" title="停止、启动、删除"></a>停止、启动、删除</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker stop nginx</span><br><span class="line">docker start nginx</span><br><span class="line">docker restart nginx</span><br><span class="line">docker rm -f nginx</span><br></pre></td></tr></table></figure>
+
+<h4 id="查看容器资源"><a href="#查看容器资源" class="headerlink" title="查看容器资源"></a>查看容器资源</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker stats</span><br><span class="line">docker stats nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="Docker-网络管理"><a href="#Docker-网络管理" class="headerlink" title="Docker 网络管理"></a>Docker 网络管理</h3><p>  命令                              作用</p>
+<hr>
+<p>  <code>docker network ls</code>               查看网络<br>  <code>docker network create my-net</code>    创建网络<br>  <code>docker network inspect my-net</code>   查看网络详情<br>  <code>docker network connect</code>          将容器接入网络<br>  <code>docker network disconnect</code>       将容器移出网络<br>  <code>docker network rm</code>               删除网络</p>
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker network create my-net</span><br><span class="line">docker network ls</span><br><span class="line">docker network inspect my-net</span><br></pre></td></tr></table></figure>
+
+<h3 id="Docker-Volume-数据卷管理"><a href="#Docker-Volume-数据卷管理" class="headerlink" title="Docker Volume 数据卷管理"></a>Docker Volume 数据卷管理</h3><p>  命令                      作用</p>
+<hr>
+<p>  <code>docker volume ls</code>        查看数据卷<br>  <code>docker volume create</code>    创建数据卷<br>  <code>docker volume inspect</code>   查看数据卷详情<br>  <code>docker volume rm</code>        删除数据卷<br>  <code>docker volume prune</code>     清理未使用的数据卷</p>
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker volume create mysql-data</span><br><span class="line">docker volume ls</span><br><span class="line">docker volume inspect mysql-data</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 删除 Volume<br>可能导致持久化数据丢失，执行前先确认数据是否还需要。</p>
+<hr>
+<h2 id="Docker-Compose-常用命令"><a href="#Docker-Compose-常用命令" class="headerlink" title="Docker Compose 常用命令"></a>Docker Compose 常用命令</h2><p>Docker Compose 主要解决一个问题：</p>
+<p><strong>一个项目可能需要同时启动 MySQL、Redis、Kafka、Nacos、Spring<br>Boot，如何一次性管理它们？</strong></p>
+<p>通过 <code>docker-compose.yml</code> 文件描述所有服务。</p>
+<p>现在推荐使用 Docker Compose V2，也就是 <code>docker compose</code>（中间有空格）。</p>
+<h3 id="项目启动和停止"><a href="#项目启动和停止" class="headerlink" title="项目启动和停止"></a>项目启动和停止</h3><p>  命令                       作用</p>
+<hr>
+<p>  <code>docker compose up</code>        创建并启动服务<br>  <code>docker compose up -d</code>     后台启动<br>  <code>docker compose down</code>      停止并删除容器、网络<br>  <code>docker compose stop</code>      停止服务，不删除容器<br>  <code>docker compose start</code>     启动已经存在的服务<br>  <code>docker compose restart</code>   重启服务<br>  <code>docker compose pause</code>     暂停服务<br>  <code>docker compose unpause</code>   恢复服务</p>
+<p>常用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 后台启动全部服务</span></span><br><span class="line">docker compose up -d</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动指定服务</span></span><br><span class="line">docker compose up -d kafka</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止全部服务</span></span><br><span class="line">docker compose stop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启 Kafka</span></span><br><span class="line">docker compose restart kafka</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止并删除容器、网络</span></span><br><span class="line">docker compose down</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看服务状态"><a href="#查看服务状态" class="headerlink" title="查看服务状态"></a>查看服务状态</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看所有服务</span></span><br><span class="line">docker compose ps</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看服务日志</span></span><br><span class="line">docker compose logs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 持续查看日志</span></span><br><span class="line">docker compose logs -f</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 Kafka 日志</span></span><br><span class="line">docker compose logs -f kafka</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看最近 100 行</span></span><br><span class="line">docker compose logs --tail 100 kafka</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看配置解析后的最终内容</span></span><br><span class="line">docker compose config</span><br></pre></td></tr></table></figure>
+
+<h3 id="构建和更新"><a href="#构建和更新" class="headerlink" title="构建和更新"></a>构建和更新</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 构建镜像</span></span><br><span class="line">docker compose build</span><br><span class="line"></span><br><span class="line"><span class="comment"># 强制重新构建</span></span><br><span class="line">docker compose build --no-cache</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拉取镜像</span></span><br><span class="line">docker compose pull</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拉取并启动</span></span><br><span class="line">docker compose up -d --pull always</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重新创建容器</span></span><br><span class="line">docker compose up -d --force-recreate</span><br></pre></td></tr></table></figure>
+
+<h3 id="进入-Compose-服务"><a href="#进入-Compose-服务" class="headerlink" title="进入 Compose 服务"></a>进入 Compose 服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose <span class="built_in">exec</span> kafka bash</span><br></pre></td></tr></table></figure>
+
+<p>如果容器没有 bash：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose <span class="built_in">exec</span> kafka sh</span><br></pre></td></tr></table></figure>
+
+<p>执行容器内的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker compose <span class="built_in">exec</span> kafka \\</span><br><span class="line">  /opt/kafka/bin/kafka-topics.sh \\</span><br><span class="line">  --bootstrap-server localhost:9092 \\</span><br><span class="line">  --list</span><br></pre></td></tr></table></figure>
+
+<h3 id="指定-Compose-文件"><a href="#指定-Compose-文件" class="headerlink" title="指定 Compose 文件"></a>指定 Compose 文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose -f docker-compose.yml up -d</span><br></pre></td></tr></table></figure>
+
+<p>多个配置文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker compose \\</span><br><span class="line">  -f docker-compose.yml \\</span><br><span class="line">  -f docker-compose-dev.yml \\</span><br><span class="line">  up -d</span><br></pre></td></tr></table></figure>
+
+<p>指定项目名称：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose -p my-project up -d</span><br></pre></td></tr></table></figure>
+
+<h3 id="Docker-Compose-实战目录"><a href="#Docker-Compose-实战目录" class="headerlink" title="Docker Compose 实战目录"></a>Docker Compose 实战目录</h3><p>假设有一个 Kafka 项目：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">~/docker/kafka/</span><br><span class="line">├── docker-compose.yml</span><br><span class="line">├── config/</span><br><span class="line">└── data/</span><br></pre></td></tr></table></figure>
+
+<p>进入目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/docker/kafka</span><br></pre></td></tr></table></figure>
+
+<p>常用操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动 Kafka</span></span><br><span class="line">docker compose up -d</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看状态</span></span><br><span class="line">docker compose ps</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看日志</span></span><br><span class="line">docker compose logs -f kafka</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入 Kafka</span></span><br><span class="line">docker compose <span class="built_in">exec</span> kafka bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止</span></span><br><span class="line">docker compose stop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启</span></span><br><span class="line">docker compose restart kafka</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除容器和网络</span></span><br><span class="line">docker compose down</span><br></pre></td></tr></table></figure>
+
+<p><strong>一个非常重要的区别：</strong></p>
+<p>  命令                       是否删除容器   是否删除 Volume</p>
+<hr>
+<p>  <code>docker compose stop</code>      否             否<br>  <code>docker compose down</code>      是             否<br>  <code>docker compose down -v</code>   是             是</p>
+<p><code>down -v</code> 可能删除数据库持久化数据，谨慎使用。</p>
+<hr>
+<h2 id="Linux-常用命令"><a href="#Linux-常用命令" class="headerlink" title="Linux 常用命令"></a>Linux 常用命令</h2><p>Linux 命令是使用 Docker 时最需要掌握的部分。进入容器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it kafka bash</span><br></pre></td></tr></table></figure>
+
+<p>实际上就是进入了容器内部的 Linux 环境。</p>
+<h3 id="文件和目录管理"><a href="#文件和目录管理" class="headerlink" title="文件和目录管理"></a>文件和目录管理</h3><p>  命令         作用</p>
+<hr>
+<p>  <code>pwd</code>        查看当前目录<br>  <code>ls</code>         查看文件<br>  <code>ls -l</code>      详细查看文件<br>  <code>ls -la</code>     查看所有文件，包括隐藏文件<br>  <code>cd</code>         切换目录<br>  <code>mkdir</code>      创建目录<br>  <code>mkdir -p</code>   递归创建目录<br>  <code>touch</code>      创建文件<br>  <code>cp</code>         复制文件<br>  <code>mv</code>         移动或重命名<br>  <code>rm</code>         删除文件<br>  <code>rm -rf</code>     强制递归删除<br>  <code>find</code>       查找文件<br>  <code>tree</code>       树形查看目录</p>
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">pwd</span></span><br><span class="line">ls -lah</span><br><span class="line">mkdir -p /data/kafka/logs</span><br><span class="line">touch app.log</span><br><span class="line">cp app.log app-backup.log</span><br><span class="line">mv app.log kafka.log</span><br><span class="line">find /data -name <span class="string">&quot;*.log&quot;</span></span><br><span class="line">tree /data</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> <code>rm -rf</code> 是高风险命令，执行前确认路径。</p>
+<h3 id="文件内容查看"><a href="#文件内容查看" class="headerlink" title="文件内容查看"></a>文件内容查看</h3><p>  命令           作用</p>
+<hr>
+<p>  <code>cat</code>          查看文件全部内容<br>  <code>less</code>         分页查看<br>  <code>more</code>         分页查看<br>  <code>head</code>         查看前几行<br>  <code>tail</code>         查看最后几行<br>  <code>tail -f</code>      实时查看日志<br>  <code>grep</code>         搜索文本<br>  <code>wc -l</code>        统计行数<br>  <code>vi</code> / <code>vim</code>   编辑文件</p>
+<p>常用排查：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看日志</span></span><br><span class="line">cat app.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看前 20 行</span></span><br><span class="line">head -n 20 app.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看最后 100 行</span></span><br><span class="line">tail -n 100 app.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># 实时跟踪日志</span></span><br><span class="line">tail -f app.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># 搜索 ERROR</span></span><br><span class="line">grep <span class="string">&quot;ERROR&quot;</span> app.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># 忽略大小写搜索</span></span><br><span class="line">grep -i <span class="string">&quot;error&quot;</span> app.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示行号</span></span><br><span class="line">grep -n <span class="string">&quot;ERROR&quot;</span> app.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># 统计 ERROR 数量</span></span><br><span class="line">grep -c <span class="string">&quot;ERROR&quot;</span> app.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># 递归搜索目录</span></span><br><span class="line">grep -rn <span class="string">&quot;Exception&quot;</span> /var/<span class="built_in">log</span>/</span><br></pre></td></tr></table></figure>
+
+<p>特别推荐：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f app.log | grep --line-buffered ERROR</span><br></pre></td></tr></table></figure>
+
+<p>实时查看日志中的 ERROR。</p>
+<h3 id="Linux-进程管理"><a href="#Linux-进程管理" class="headerlink" title="Linux 进程管理"></a>Linux 进程管理</h3><p>  命令        作用</p>
+<hr>
+<p>  <code>ps aux</code>    查看所有进程<br>  <code>ps -ef</code>    查看进程详细信息<br>  <code>top</code>       实时查看进程<br>  <code>kill</code>      发送信号<br>  <code>kill -9</code>   强制终止进程<br>  <code>pgrep</code>     根据名称查找进程<br>  <code>pstree</code>    查看进程树<br>  <code>nohup</code>     让进程不依赖终端退出</p>
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看所有进程</span></span><br><span class="line">ps aux</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找 Java 进程</span></span><br><span class="line">ps aux | grep java</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据进程名称查询 PID</span></span><br><span class="line">pgrep -af java</span><br><span class="line"></span><br><span class="line"><span class="comment"># 终止进程</span></span><br><span class="line"><span class="built_in">kill</span> 1234</span><br><span class="line"></span><br><span class="line"><span class="comment"># 强制终止</span></span><br><span class="line"><span class="built_in">kill</span> -9 1234</span><br><span class="line"></span><br><span class="line"><span class="comment"># 实时查看资源</span></span><br><span class="line">top</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ul>
+<li>  <code>kill PID</code> 默认发送 SIGTERM，给进程机会正常退出。</li>
+<li>  <code>kill -9 PID</code> 发送 SIGKILL，无法执行正常清理逻辑。</li>
+</ul>
+<h3 id="Linux-网络管理"><a href="#Linux-网络管理" class="headerlink" title="Linux 网络管理"></a>Linux 网络管理</h3><p>这是后端开发和排查 Docker 网络问题时最重要的一组命令。</p>
+<p>  命令               作用</p>
+<hr>
+<p>  <code>ip addr</code>          查看 IP 地址<br>  <code>ip route</code>         查看路由<br>  <code>ip link</code>          查看网络接口<br>  <code>ping</code>             测试网络连通性<br>  <code>curl</code>             发送 HTTP 请求<br>  <code>wget</code>             下载文件<br>  <code>ss -tunlp</code>        查看网络连接和监听端口<br>  <code>netstat -tunlp</code>   查看端口（需要安装）<br>  <code>nslookup</code>         DNS 查询<br>  <code>dig</code>              DNS 查询<br>  <code>traceroute</code>       路由追踪</p>
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看 IP</span></span><br><span class="line">ip addr</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看路由</span></span><br><span class="line">ip route</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试网络</span></span><br><span class="line">ping 8.8.8.8</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试 DNS</span></span><br><span class="line">nslookup registry-1.docker.io</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看监听端口</span></span><br><span class="line">ss -tunlp</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 9092 端口</span></span><br><span class="line">ss -tunlp | grep 9092</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试 Kafka 端口</span></span><br><span class="line">nc -zv localhost 9092</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试 HTTP 接口</span></span><br><span class="line">curl -v http://localhost:8080</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只查看 HTTP 响应头</span></span><br><span class="line">curl -I http://localhost:8080</span><br></pre></td></tr></table></figure>
+
+<p>特别理解一下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ss -tunlp</span><br></pre></td></tr></table></figure>
+
+<p>参数含义：</p>
+<ul>
+<li>  <code>-t</code>：TCP。</li>
+<li>  <code>-u</code>：UDP。</li>
+<li>  <code>-n</code>：数字显示，不解析名称。</li>
+<li>  <code>-l</code>：只显示监听状态。</li>
+<li>  <code>-p</code>：显示对应进程。</li>
+</ul>
+<h3 id="Linux-磁盘和内存"><a href="#Linux-磁盘和内存" class="headerlink" title="Linux 磁盘和内存"></a>Linux 磁盘和内存</h3><p>  命令        作用</p>
+<hr>
+<p>  <code>df -h</code>     查看磁盘使用情况<br>  <code>du -sh</code>    查看目录大小<br>  <code>du -h</code>     查看文件大小<br>  <code>free -h</code>   查看内存<br>  <code>lsblk</code>     查看块设备<br>  <code>mount</code>     查看挂载<br>  <code>uptime</code>    查看系统运行时间</p>
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 磁盘使用率</span></span><br><span class="line">df -h</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看当前目录大小</span></span><br><span class="line">du -sh .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 Docker 数据目录大小</span></span><br><span class="line">du -sh /var/lib/docker</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看内存</span></span><br><span class="line">free -h</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看系统运行时间</span></span><br><span class="line">uptime</span><br></pre></td></tr></table></figure>
+
+<h3 id="Linux-用户和权限"><a href="#Linux-用户和权限" class="headerlink" title="Linux 用户和权限"></a>Linux 用户和权限</h3><p>  命令       作用</p>
+<hr>
+<p>  <code>whoami</code>   当前用户<br>  <code>id</code>       用户身份信息<br>  <code>sudo</code>     使用管理员权限<br>  <code>su</code>       切换用户<br>  <code>chmod</code>    修改权限<br>  <code>chown</code>    修改所有者<br>  <code>groups</code>   查看用户组</p>
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看当前用户</span></span><br><span class="line">whoami</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看权限</span></span><br><span class="line">ls -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改文件权限</span></span><br><span class="line">chmod 755 startup.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改文件所有者</span></span><br><span class="line">chown root:root startup.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 管理员执行</span></span><br><span class="line">sudo systemctl status nginx</span><br></pre></td></tr></table></figure>
+
+<p>权限 <code>755</code> 的含义：</p>
+<p>  对象         数值 权限</p>
+<hr>
+<p>  所有者          7 rwx<br>  所属组          5 r-x<br>  其他用户        5 r-x</p>
+<h3 id="Linux-服务管理"><a href="#Linux-服务管理" class="headerlink" title="Linux 服务管理"></a>Linux 服务管理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看服务状态</span></span><br><span class="line">systemctl status nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动服务</span></span><br><span class="line">systemctl start nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止服务</span></span><br><span class="line">systemctl stop nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启服务</span></span><br><span class="line">systemctl restart nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开机自启</span></span><br><span class="line">systemctl <span class="built_in">enable</span> nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看系统日志</span></span><br><span class="line">journalctl -u nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 实时查看服务日志</span></span><br><span class="line">journalctl -u nginx -f</span><br></pre></td></tr></table></figure>
+
+<p>注意：并不是所有 Docker 容器都运行 systemd。很多容器只有一个主进程，没有<br><code>systemctl</code>。在这种情况下，应通过 Docker 管理容器生命周期。</p>
+<hr>
+<h2 id="macOS-与-Linux-命令的区别"><a href="#macOS-与-Linux-命令的区别" class="headerlink" title="macOS 与 Linux 命令的区别"></a>macOS 与 Linux 命令的区别</h2><p>你是在 Mac 上运行 Colima，所以要区分三个环境：</p>
+<h3 id="macOS-本机终端"><a href="#macOS-本机终端" class="headerlink" title="macOS 本机终端"></a>macOS 本机终端</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">brew install colima docker docker-compose</span><br><span class="line">colima start</span><br><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+
+<p>管理 Colima 和 Docker 客户端。</p>
+<h3 id="Colima-Linux-虚拟机"><a href="#Colima-Linux-虚拟机" class="headerlink" title="Colima Linux 虚拟机"></a>Colima Linux 虚拟机</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">colima ssh</span><br><span class="line">uname -a</span><br><span class="line">df -h</span><br></pre></td></tr></table></figure>
+
+<p>管理 Docker 运行环境。</p>
+<h3 id="Docker-容器内部"><a href="#Docker-容器内部" class="headerlink" title="Docker 容器内部"></a>Docker 容器内部</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it kafka bash</span><br><span class="line">ps aux</span><br><span class="line">ls -lah</span><br></pre></td></tr></table></figure>
+
+<p>管理具体应用运行环境。</p>
+<p>几个容易混淆的地方：</p>
+<p>  命令       macOS         Linux</p>
+<hr>
+<p>  查看 IP    <code>ifconfig</code>    <code>ip addr</code><br>  查看进程   <code>ps aux</code>      <code>ps aux</code><br>  查看端口   <code>lsof -i</code>     <code>ss -tunlp</code><br>  查看内存   <code>vm_stat</code>     <code>free -h</code><br>  查看磁盘   <code>df -h</code>       <code>df -h</code><br>  包管理     <code>brew</code>        <code>apt</code> / <code>yum</code><br>  服务管理   <code>launchctl</code>   <code>systemctl</code>（适用时）</p>
+<hr>
+<h2 id="Docker-常见故障排查命令"><a href="#Docker-常见故障排查命令" class="headerlink" title="Docker 常见故障排查命令"></a>Docker 常见故障排查命令</h2><p>这部分建议重点掌握。</p>
+<h3 id="Docker-无法连接"><a href="#Docker-无法连接" class="headerlink" title="Docker 无法连接"></a>Docker 无法连接</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">colima status</span><br><span class="line">docker context ls</span><br><span class="line">docker context show</span><br><span class="line">docker version</span><br><span class="line">docker info</span><br></pre></td></tr></table></figure>
+
+<p>如果 Docker 无法连接：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">colima start</span><br><span class="line">docker context use colima</span><br><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+
+<h3 id="容器启动失败"><a href="#容器启动失败" class="headerlink" title="容器启动失败"></a>容器启动失败</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a</span><br><span class="line">docker logs 容器名称</span><br><span class="line">docker inspect 容器名称</span><br><span class="line">docker stats</span><br></pre></td></tr></table></figure>
+
+<h3 id="端口冲突"><a href="#端口冲突" class="headerlink" title="端口冲突"></a>端口冲突</h3><p>例如 Kafka 的 9092 端口无法启动：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Mac 上检查端口</span></span><br><span class="line">lsof -i :9092</span><br><span class="line"></span><br><span class="line"><span class="comment"># Linux 中检查端口</span></span><br><span class="line">ss -tunlp | grep 9092</span><br></pre></td></tr></table></figure>
+
+<h3 id="Docker-DNS-解析失败"><a href="#Docker-DNS-解析失败" class="headerlink" title="Docker DNS 解析失败"></a>Docker DNS 解析失败</h3><p>可以分层排查：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Mac 本机</span></span><br><span class="line">nslookup registry-1.docker.io</span><br><span class="line"></span><br><span class="line"><span class="comment"># Colima 虚拟机</span></span><br><span class="line">colima ssh -- nslookup registry-1.docker.io</span><br><span class="line"></span><br><span class="line"><span class="comment"># 容器内部</span></span><br><span class="line">docker <span class="built_in">exec</span> -it kafka sh</span><br><span class="line">nslookup registry-1.docker.io</span><br></pre></td></tr></table></figure>
+
+<p>这样可以区分是 Mac、Colima 虚拟机，还是容器内部的 DNS 问题。</p>
+<h3 id="Docker-清理磁盘"><a href="#Docker-清理磁盘" class="headerlink" title="Docker 清理磁盘"></a>Docker 清理磁盘</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看 Docker 磁盘使用</span></span><br><span class="line">docker system df</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理无用容器</span></span><br><span class="line">docker container prune</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理无用镜像</span></span><br><span class="line">docker image prune</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理无用网络</span></span><br><span class="line">docker network prune</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理未使用的构建缓存</span></span><br><span class="line">docker builder prune</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理未使用的资源</span></span><br><span class="line">docker system prune</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 不要随意执行<br><code>docker system prune -a --volumes</code>，它可能删除你还需要的镜像和数据卷。</p>
+<hr>
+<h2 id="日常开发最值得记住的命令清单"><a href="#日常开发最值得记住的命令清单" class="headerlink" title="日常开发最值得记住的命令清单"></a>日常开发最值得记住的命令清单</h2><h3 id="Colima"><a href="#Colima" class="headerlink" title="Colima"></a>Colima</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">colima start</span><br><span class="line">colima stop</span><br><span class="line">colima restart</span><br><span class="line">colima status</span><br><span class="line">colima ssh</span><br></pre></td></tr></table></figure>
+
+<h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a</span><br><span class="line">docker images</span><br><span class="line">docker pull nginx</span><br><span class="line">docker logs -f kafka</span><br><span class="line">docker <span class="built_in">exec</span> -it kafka bash</span><br><span class="line">docker restart kafka</span><br><span class="line">docker stats</span><br><span class="line">docker inspect kafka</span><br></pre></td></tr></table></figure>
+
+<h3 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker compose up -d</span><br><span class="line">docker compose down</span><br><span class="line">docker compose ps</span><br><span class="line">docker compose logs -f</span><br><span class="line">docker compose restart kafka</span><br><span class="line">docker compose <span class="built_in">exec</span> kafka bash</span><br></pre></td></tr></table></figure>
+
+<h3 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">pwd</span></span><br><span class="line">ls -lah</span><br><span class="line"><span class="built_in">cd</span></span><br><span class="line">mkdir -p</span><br><span class="line">cp</span><br><span class="line">mv</span><br><span class="line">rm</span><br><span class="line">cat</span><br><span class="line">tail -f</span><br><span class="line">grep -rn</span><br><span class="line">ps aux</span><br><span class="line">top</span><br><span class="line">df -h</span><br><span class="line">du -sh</span><br><span class="line">ip addr</span><br><span class="line">ss -tunlp</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="建议的学习顺序"><a href="#建议的学习顺序" class="headerlink" title="建议的学习顺序"></a>建议的学习顺序</h2><p>结合 Kafka、Nacos、Spring Boot 技术栈，建议按下面顺序学习：</p>
+<ol>
+<li> <strong>Colima</strong>：理解 Mac 如何运行 Linux 虚拟机。</li>
+<li> <strong>Docker</strong>：理解镜像、容器、网络、数据卷。</li>
+<li> <strong>Docker Compose</strong>：学会部署 Kafka、Redis、MySQL、Nacos。</li>
+<li> <strong>Linux</strong>：理解进程、端口、网络、文件权限、日志。</li>
+<li> <strong>Docker 网络</strong>：理解容器之间如何通过服务名通信。</li>
+<li> <strong>Linux 排错</strong>：掌握 DNS、端口占用、磁盘、内存和进程排查。</li>
+</ol>
+<p><strong>核心区别：</strong></p>
+<ul>
+<li>  Colima 管理本机 Linux 虚拟机。</li>
+<li>  Docker 管理容器和镜像等资源。</li>
+<li>  Docker Compose 管理一组有关联的容器服务。</li>
+<li>  Linux 命令用于管理虚拟机或容器内部的操作系统环境。</li>
+</ul>
+<p>下一步可以基于现有的 <code>~/docker/backend/</code>，从 Mac 终端启动 Colima，使用<br>Docker Compose 部署 Kafka、Redis、MySQL，再进入 Linux<br>容器排查端口、DNS、日志、进程和磁盘问题。这样能把四类命令串成一套完整的后端开发运维技能。</p>
+</div><div class="post-nav"><a class="pre" href="/%E4%BA%91%E5%AD%98%E5%82%A8%E9%A1%B9%E7%9B%AE/">云存储项目</a><a class="next" href="/Docker%E5%85%A5%E9%97%A8/">Docker 入门</a></div><div id="tcomment"></div><script src="/vendor/twikoo/twikoo.min.js?v=2.0.17"></script><script>(function() {
+  var container = document.getElementById('tcomment');
+  if (!container || typeof twikoo === 'undefined') return;
+
+  var endpoint = 'https://twikoo.liutianlong.top';
+  var language = document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'zh';
+  var labels = language === 'en'
+    ? {
+        retrying: 'The comment service is taking longer than expected. Reconnecting…',
+        failed: 'The comment service is temporarily unavailable.',
+        retry: 'Reconnect'
+      }
+    : {
+        retrying: '留言服务响应较慢，正在自动重新连接…',
+        failed: '留言服务暂时不可用。',
+        retry: '重新连接'
+      };
+  var options = {
+    envId: endpoint,
+    el: '#tcomment',
+    path: window.location.pathname,
+    lang: language === 'en' ? 'en-US' : 'zh-CN'
+  };
+  var adminCrypt = '';
+  try {
+    adminCrypt = '\u4e91\u8d77\u8fce\u98ce\u71d5';
+  } catch (error) {}
+  var attempts = 0;
+  var maxAttempts = 3;
+  var retryTimer = null;
+  var fatalShown = false;
+  var observer = null;
+
+  function clearElement(element) {
+    while (element.firstChild) element.removeChild(element.firstChild);
+  }
+
+  function statusNode() {
+    var node = container.querySelector('.twikoo-connection-status');
+    if (node) return node;
+    node = document.createElement('div');
+    node.className = 'twikoo-connection-status';
+    node.setAttribute('role', 'status');
+    node.setAttribute('aria-live', 'polite');
+    container.insertBefore(node, container.firstChild);
+    return node;
+  }
+
+  function showStatus(message, canRetry) {
+    var node = statusNode();
+    node.textContent = '';
+    node.appendChild(document.createTextNode(message));
+    container.setAttribute('aria-busy', 'true');
+
+    if (canRetry) {
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'twikoo-reconnect';
+      button.textContent = labels.retry;
+      button.addEventListener('click', function() {
+        attempts = 0;
+        fatalShown = false;
+        retryCommentService();
+      });
+      node.appendChild(button);
+    }
+  }
+
+  function clearStatus() {
+    var node = container.querySelector('.twikoo-connection-status');
+    if (node && node.parentNode) node.parentNode.removeChild(node);
+    container.removeAttribute('aria-busy');
+  }
+
+  function updateAdminEntry() {
+    var nickname = container.querySelector('.tk-meta-input input');
+    var shouldShow = Boolean(adminCrypt && nickname && nickname.value.trim() === adminCrypt);
+    container.classList.toggle('admin-entry-visible', shouldShow);
+  }
+
+  function hasTimeoutMessage() {
+    var error = container.querySelector('.tk-error');
+    return Boolean(error) && /请求超时|request timed out|request timeout|timeout/i.test(error.textContent || '');
+  }
+
+  function warmBackend() {
+    if (typeof window.fetch !== 'function') return;
+    fetch(endpoint + '/?warm=' + Date.now(), {
+      mode: 'no-cors',
+      cache: 'no-store',
+      credentials: 'omit',
+      keepalive: true
+    }).catch(function() {});
+  }
+
+  function retryCommentService() {
+    if (retryTimer) return;
+    if (attempts >= maxAttempts) {
+      if (!fatalShown) {
+        fatalShown = true;
+        showStatus(labels.failed, true);
+      }
+      return;
+    }
+
+    attempts += 1;
+    showStatus(labels.retrying, false);
+    retryTimer = window.setTimeout(function() {
+      retryTimer = null;
+      container.classList.remove('admin-entry-visible');
+      clearElement(container);
+      showStatus(labels.retrying, false);
+      mountComments();
+    }, attempts * 1000);
+  }
+
+  function mountComments() {
+    warmBackend();
+    var result = twikoo.init(options);
+    if (result && typeof result.catch === 'function') {
+      result.catch(retryCommentService);
+    }
+  }
+
+  container.addEventListener('input', updateAdminEntry, true);
+  observer = new MutationObserver(function() {
+    if (hasTimeoutMessage()) {
+      retryCommentService();
+      return;
+    }
+    if (container.querySelector('.tk-comment, .tk-comments-container')) {
+      attempts = 0;
+      fatalShown = false;
+      clearStatus();
+      updateAdminEntry();
+    }
+  });
+  observer.observe(container, {
+    childList: true,
+    subtree: true,
+    characterData: true
+  });
+
+  mountComments();
+})();</script><script type="text/javascript" src="/js/article.js?v=1.1.44" defer></script><script type="text/javascript" src="/js/page-views.js?v=1.1.44" defer data-endpoint="https://api.liutianlong.top"></script></div></div><div id="footer"><span data-i18n="footerCopyright" data-year="2026">版权所有 © 2026</span> <a href="/." rel="nofollow">云起迎风燕.</a> <span data-i18n="poweredBy"> 基于</span> <a rel="nofollow" target="_blank" href="https://hexo.io">Hexo.</a> <a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo">Maupassant</a> <span data-i18n="theme">主题</span></div></main><aside class="docs-toc-panel" id="article-toc" data-i18n-aria="toc"><div class="docs-panel-header"><span><i class="fa fa-list-ul" aria-hidden="true"></i><span data-i18n="toc">文章目录</span></span><button class="docs-panel-close" id="docs-toc-close" type="button" data-i18n-aria="closeToc"><i class="fa fa-chevron-right" aria-hidden="true"></i></button></div><div class="docs-toc-content" id="toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Colima-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">Colima 常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8-Colima"><span class="toc-number">1.1.</span> <span class="toc-text">启动 Colima</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%8A%B6%E6%80%81"><span class="toc-number">1.2.</span> <span class="toc-text">查看状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5-Linux-%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">1.3.</span> <span class="toc-text">进入 Linux 虚拟机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2%E5%92%8C%E9%87%8D%E5%90%AF"><span class="toc-number">1.4.</span> <span class="toc-text">停止和重启</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B-Docker-Context"><span class="toc-number">1.5.</span> <span class="toc-text">查看 Docker Context</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">2.</span> <span class="toc-text">Docker 常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%95%9C%E5%83%8F%E7%AE%A1%E7%90%86"><span class="toc-number">2.1.</span> <span class="toc-text">镜像管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%EF%BC%88%E6%9C%80%E5%B8%B8%E7%94%A8%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">容器管理（最常用）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86"><span class="toc-number">2.3.</span> <span class="toc-text">Docker 网络管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-Volume-%E6%95%B0%E6%8D%AE%E5%8D%B7%E7%AE%A1%E7%90%86"><span class="toc-number">2.4.</span> <span class="toc-text">Docker Volume 数据卷管理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-Compose-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">Docker Compose 常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E5%92%8C%E5%81%9C%E6%AD%A2"><span class="toc-number">3.1.</span> <span class="toc-text">项目启动和停止</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%9C%8D%E5%8A%A1%E7%8A%B6%E6%80%81"><span class="toc-number">3.2.</span> <span class="toc-text">查看服务状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E5%92%8C%E6%9B%B4%E6%96%B0"><span class="toc-number">3.3.</span> <span class="toc-text">构建和更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5-Compose-%E6%9C%8D%E5%8A%A1"><span class="toc-number">3.4.</span> <span class="toc-text">进入 Compose 服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A-Compose-%E6%96%87%E4%BB%B6"><span class="toc-number">3.5.</span> <span class="toc-text">指定 Compose 文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-Compose-%E5%AE%9E%E6%88%98%E7%9B%AE%E5%BD%95"><span class="toc-number">3.6.</span> <span class="toc-text">Docker Compose 实战目录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">4.</span> <span class="toc-text">Linux 常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86"><span class="toc-number">4.1.</span> <span class="toc-text">文件和目录管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B"><span class="toc-number">4.2.</span> <span class="toc-text">文件内容查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="toc-number">4.3.</span> <span class="toc-text">Linux 进程管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86"><span class="toc-number">4.4.</span> <span class="toc-text">Linux 网络管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-%E7%A3%81%E7%9B%98%E5%92%8C%E5%86%85%E5%AD%98"><span class="toc-number">4.5.</span> <span class="toc-text">Linux 磁盘和内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-%E7%94%A8%E6%88%B7%E5%92%8C%E6%9D%83%E9%99%90"><span class="toc-number">4.6.</span> <span class="toc-text">Linux 用户和权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86"><span class="toc-number">4.7.</span> <span class="toc-text">Linux 服务管理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#macOS-%E4%B8%8E-Linux-%E5%91%BD%E4%BB%A4%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">5.</span> <span class="toc-text">macOS 与 Linux 命令的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#macOS-%E6%9C%AC%E6%9C%BA%E7%BB%88%E7%AB%AF"><span class="toc-number">5.1.</span> <span class="toc-text">macOS 本机终端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Colima-Linux-%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">5.2.</span> <span class="toc-text">Colima Linux 虚拟机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-%E5%AE%B9%E5%99%A8%E5%86%85%E9%83%A8"><span class="toc-number">5.3.</span> <span class="toc-text">Docker 容器内部</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-%E5%B8%B8%E8%A7%81%E6%95%85%E9%9A%9C%E6%8E%92%E6%9F%A5%E5%91%BD%E4%BB%A4"><span class="toc-number">6.</span> <span class="toc-text">Docker 常见故障排查命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5"><span class="toc-number">6.1.</span> <span class="toc-text">Docker 无法连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5"><span class="toc-number">6.2.</span> <span class="toc-text">容器启动失败</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E5%86%B2%E7%AA%81"><span class="toc-number">6.3.</span> <span class="toc-text">端口冲突</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-DNS-%E8%A7%A3%E6%9E%90%E5%A4%B1%E8%B4%A5"><span class="toc-number">6.4.</span> <span class="toc-text">Docker DNS 解析失败</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-%E6%B8%85%E7%90%86%E7%A3%81%E7%9B%98"><span class="toc-number">6.5.</span> <span class="toc-text">Docker 清理磁盘</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A5%E5%B8%B8%E5%BC%80%E5%8F%91%E6%9C%80%E5%80%BC%E5%BE%97%E8%AE%B0%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4%E6%B8%85%E5%8D%95"><span class="toc-number">7.</span> <span class="toc-text">日常开发最值得记住的命令清单</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Colima"><span class="toc-number">7.1.</span> <span class="toc-text">Colima</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker"><span class="toc-number">7.2.</span> <span class="toc-text">Docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-Compose"><span class="toc-number">7.3.</span> <span class="toc-text">Docker Compose</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux"><span class="toc-number">7.4.</span> <span class="toc-text">Linux</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%BA%E8%AE%AE%E7%9A%84%E5%AD%A6%E4%B9%A0%E9%A1%BA%E5%BA%8F"><span class="toc-number">8.</span> <span class="toc-text">建议的学习顺序</span></a></li></ol></div></aside></div><div class="docs-backdrop" id="docs-backdrop" aria-hidden="true"></div></div><script type="text/javascript" src="/js/ui-preferences.js?v=1.1.44" defer></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.44"><script type="text/javascript" src="/js/search.js?v=1.1.44" defer></script><script type="text/javascript" src="/js/copycode.js?v=1.1.44" data-success-text="复制成功!" defer></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/sidebar.js?v=1.1.44" defer></script><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.44" defer></script></body></html>
